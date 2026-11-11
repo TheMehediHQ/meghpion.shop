@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary: 2 132 199;
+    --color-bg: 255 255 255;
+    --color-surface: 240 249 255;
+    --color-text: 15 23 42;
+    --color-muted: 100 116 139;
+    --color-border: 226 232 240;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    /* Respect user preference: no animations or unnecessary motion */
+    transition-property: none !important;
+    animation: none !important;
+    scroll-behavior: auto !important;
+  }
+
+  html {
+    color: rgb(var(--color-text));
+    background-color: rgb(var(--color-bg));
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-5 py-2.5 bg-sky-600 hover:bg-sky-700 text-white text-sm font-medium rounded-md shadow-sm;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center px-5 py-2.5 border border-sky-600 text-sky-700 hover:bg-sky-50 text-sm font-medium rounded-md;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 text-sm font-medium rounded-md;
+  }
+
+  .input-field {
+    @apply w-full px-3.5 py-2 text-sm bg-white border border-slate-300 rounded-md focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600 text-slate-900 placeholder:text-slate-400;
+  }
+}

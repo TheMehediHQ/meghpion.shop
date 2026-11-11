@@ -1,0 +1,21 @@
+{
+  "name": "meghpiyon",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently -n \"web,api\" -c \"sky,cyan\" \"bun run dev:web\" \"bun run dev:api\"",
+    "dev:web": "bun --filter @meghpiyon/web dev",
+    "dev:api": "bun --filter @meghpiyon/api dev",
+    "build": "bun --filter @meghpiyon/shared build && bun --filter @meghpiyon/api build && bun --filter @meghpiyon/web build",
+    "lint": "bun --filter @meghpiyon/shared lint && bun --filter @meghpiyon/api lint && bun --filter @meghpiyon/web lint",
+    "typecheck": "bun --filter @meghpiyon/shared typecheck && bun --filter @meghpiyon/api typecheck && bun --filter @meghpiyon/web typecheck"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "typescript": "^5.7.3"
+  }
+}

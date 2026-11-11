@@ -1,0 +1,121 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import { BRAND } from '@meghpiyon/shared';
+
+// Demo sample cart item
+const sampleCartItem = {
+  id: 'item-1',
+  name: 'Shonar Bangla Artisan Gift Box',
+  nameBn: 'সোনার বাংলা উপহার বক্স',
+  price: 2200,
+  quantity: 1,
+  giftWrap: true,
+  image: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=200&auto=format&fit=crop&q=80',
+};
+
+const subtotal = sampleCartItem.price * sampleCartItem.quantity;
+const giftWrapFee = sampleCartItem.giftWrap ? 100 : 0;
+const deliveryFee = 80; // Dhaka delivery standard
+const total = subtotal + giftWrapFee + deliveryFee;
+---
+
+<BaseLayout
+  title={`Shopping Cart | ${BRAND.name}`}
+  description="Review your selected gift items, add personalized notes, and proceed to checkout."
+>
+  <div class="py-12 bg-white">
+    <Container size="lg">
+      <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight mb-8">
+        Your Gift Cart
+      </h1>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <!-- Cart Items List -->
+        <div class="lg:col-span-2 space-y-6">
+          <div class="border border-slate-200 rounded-xl overflow-hidden divide-y divide-slate-100">
+            <div class="p-4 sm:p-6 flex flex-col sm:flex-row gap-4 sm:items-center">
+              <img
+                src={sampleCartItem.image}
+                alt={sampleCartItem.name}
+                class="w-20 h-20 object-cover rounded-lg bg-slate-100 border border-slate-200"
+              />
+
+              <div class="flex-1 space-y-1">
+                <h2 class="text-base font-semibold text-slate-900">
+                  {sampleCartItem.name}
+                </h2>
+                <p class="text-xs text-sky-600 font-bengali">
+                  {sampleCartItem.nameBn}
+                </p>
+                <p class="text-xs text-slate-500">
+                  Premium Satin Ribbon & Gift Packaging Included
+                </p>
+              </div>
+
+              <div class="flex sm:flex-col items-center sm:items-end justify-between gap-2">
+                <span class="text-base font-bold text-slate-900">
+                  {BRAND.currencySymbol}{sampleCartItem.price}
+                </span>
+                <span class="text-xs text-slate-500">Qty: {sampleCartItem.quantity}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Handwritten Note Reminder -->
+          <div class="p-4 bg-sky-50 border border-sky-100 rounded-lg flex items-start gap-3">
+            <span class="text-sky-600 text-lg">✉️</span>
+            <div class="text-xs text-slate-700">
+              <p class="font-semibold text-slate-900">Complimentary Hand-Written Card</p>
+              <p class="mt-0.5">
+                You can write your personalized message on the next step during checkout.
+              </p>
+            </div>
+          </div>
+
+          <a href="/shop" class="inline-flex items-center text-xs font-semibold text-sky-600 hover:text-sky-700">
+            &larr; Continue shopping for more gifts
+          </a>
+        </div>
+
+        <!-- Order Summary Card -->
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-6 h-fit space-y-6">
+          <h2 class="text-lg font-bold text-slate-900 pb-3 border-b border-slate-200">
+            Order Summary
+          </h2>
+
+          <div class="space-y-3 text-sm">
+            <div class="flex justify-between text-slate-600">
+              <span>Subtotal</span>
+              <span class="font-medium text-slate-900">{BRAND.currencySymbol}{subtotal}</span>
+            </div>
+            <div class="flex justify-between text-slate-600">
+              <span>Gift Wrapping</span>
+              <span class="font-medium text-slate-900">{BRAND.currencySymbol}{giftWrapFee}</span>
+            </div>
+            <div class="flex justify-between text-slate-600">
+              <span>Estimated Delivery (Dhaka)</span>
+              <span class="font-medium text-slate-900">{BRAND.currencySymbol}{deliveryFee}</span>
+            </div>
+            <div class="pt-3 border-t border-slate-200 flex justify-between text-base font-bold text-slate-900">
+              <span>Total Amount</span>
+              <span class="text-sky-700">{BRAND.currencySymbol}{total}</span>
+            </div>
+          </div>
+
+          <a
+            href="/checkout"
+            class="btn-primary w-full py-3 text-sm justify-center shadow"
+          >
+            Proceed to Checkout
+          </a>
+
+          <div class="space-y-2 pt-2 text-[11px] text-slate-500 border-t border-slate-200">
+            <p>✓ Secured checkout with bKash, Nagad, or COD</p>
+            <p>✓ All parcels delivered in protective rigid boxes</p>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </div>
+</BaseLayout>

@@ -1,0 +1,184 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/ui/Container.astro';
+import Badge from '../../components/ui/Badge.astro';
+import { BRAND } from '@meghpiyon/shared';
+
+export function getStaticPaths() {
+  const items = [
+    {
+      slug: 'shonar-bangla-artisan-gift-box',
+      name: 'Shonar Bangla Artisan Gift Box',
+      nameBn: 'সোনার বাংলা উপহার বক্স',
+      price: 2450,
+      discountPrice: 2200,
+      category: 'Curated Gift Box',
+      description: 'An elegant wooden keepsake chest containing hand-poured jasmine wax candle, a premium notebook with leatherette binding, brass bookmark, and gourmet Bangladeshi cashew brittle.',
+      image: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=800&auto=format&fit=crop&q=80',
+      stock: 15,
+      features: [
+        'Reusable pinewood presentation box with brass latch',
+        'Custom calligraphy handwritten note in Bengali or English',
+        'Satin sky blue ribbon wrapping',
+        'Fragile item protection packing',
+      ],
+    },
+    {
+      slug: 'nakshi-kantha-diary-pen',
+      name: 'Nakshi Kantha Embroidered Diary & Pen',
+      nameBn: 'নকশিকাঁথা ডায়েরি ও কলম',
+      price: 1250,
+      category: 'Handicrafts',
+      description: 'Traditional Nakshi Kantha hand-embroidered fabric bound journal accompanied by a handcrafted rosewood pen in a matching pouch.',
+      image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=800&auto=format&fit=crop&q=80',
+      stock: 22,
+      features: [
+        'Authentic hand embroidery by rural women artisans',
+        'Acid-free 120gsm unlined recycled paper',
+        'Includes refillable natural wood pen',
+      ],
+    },
+    {
+      slug: 'artisanal-chocolates-dry-fruits',
+      name: 'Artisanal Chocolates & Dry Fruits Hamper',
+      nameBn: 'চকলেট ও ড্রাই ফ্রুটস হ্যাম্পার',
+      price: 1850,
+      category: 'Chocolates & Treats',
+      description: 'A curated selection of 12 handcrafted Belgian-style dark & milk truffles paired with roasted pistachios, almonds, and dried apricots.',
+      image: 'https://images.unsplash.com/photo-1511381939415-e44015466834?w=800&auto=format&fit=crop&q=80',
+      stock: 8,
+      features: [
+        'Handmade small-batch confections',
+        'Sealed with food-grade foil insulation for fresh delivery',
+        'Complimentary chiller packaging for summer transit',
+      ],
+    },
+  ];
+
+  return items.map((product) => ({
+    params: { slug: product.slug },
+    props: { product },
+  }));
+}
+
+const { product } = Astro.props;
+---
+
+<BaseLayout
+  title={`${product.name} | ${BRAND.name}`}
+  description={product.description}
+>
+  <div class="py-12 bg-white">
+    <Container size="lg">
+      <!-- Breadcrumb -->
+      <nav class="flex items-center gap-2 text-xs text-slate-500 mb-8">
+        <a href="/" class="hover:text-sky-600">Home</a>
+        <span>/</span>
+        <a href="/shop" class="hover:text-sky-600">Shop</a>
+        <span>/</span>
+        <span class="text-slate-900 font-medium">{product.name}</span>
+      </nav>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <!-- Image Gallery Mockup -->
+        <div class="space-y-4">
+          <div class="aspect-square bg-slate-100 rounded-xl overflow-hidden border border-slate-200">
+            <img
+              src={product.image}
+              alt={product.name}
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <p class="text-xs text-center text-slate-500">
+            Complimentary gift box presentation included with every order.
+          </p>
+        </div>
+
+        <!-- Product Details -->
+        <div class="space-y-6">
+          <div>
+            <Badge variant="sky">{product.category}</Badge>
+            <h1 class="text-2xl md:text-3xl font-extrabold text-slate-900 mt-2">
+              {product.name}
+            </h1>
+            <p class="text-sm font-bengali text-sky-600 mt-1">
+              {product.nameBn}
+            </p>
+          </div>
+
+          <!-- Price Display -->
+          <div class="flex items-baseline gap-3">
+            <span class="text-3xl font-extrabold text-slate-900">
+              {BRAND.currencySymbol}{product.discountPrice ?? product.price}
+            </span>
+            {product.discountPrice && (
+              <span class="text-base text-slate-400 line-through">
+                {BRAND.currencySymbol}{product.price}
+              </span>
+            )}
+            <span class="text-xs text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-semibold">
+              In Stock ({product.stock} available)
+            </span>
+          </div>
+
+          <!-- Description -->
+          <p class="text-sm text-slate-600 leading-relaxed">
+            {product.description}
+          </p>
+
+          <!-- Highlights -->
+          <div class="border-t border-b border-slate-200 py-4 space-y-2">
+            <h3 class="text-xs font-semibold text-slate-900 uppercase tracking-wider">
+              Gift Features
+            </h3>
+            <ul class="text-xs text-slate-600 space-y-1.5 list-disc pl-4">
+              {product.features.map((feature: string) => (
+                <li>{feature}</li>
+              ))}
+            </ul>
+          </div>
+
+          <!-- Custom Gift Message Option -->
+          <div class="space-y-2">
+            <label for="giftMessage" class="block text-xs font-semibold text-slate-800">
+              Complimentary Handwritten Note (Bengali or English)
+            </label>
+            <textarea
+              id="giftMessage"
+              rows="3"
+              class="input-field"
+              placeholder="e.g. প্রিয়জনকে জন্মদিনের অনেক অনেক শুভকামনা!..."
+            ></textarea>
+            <p class="text-[11px] text-slate-500">
+              Our calligrapher will handwrite this on a premium linen card.
+            </p>
+          </div>
+
+          <!-- Actions -->
+          <div class="flex flex-col sm:flex-row gap-3 pt-2">
+            <a
+              href="/cart"
+              class="btn-primary flex-1 py-3 text-sm justify-center"
+            >
+              Add to Gift Cart
+            </a>
+            <a
+              href="/checkout"
+              class="btn-outline flex-1 py-3 text-sm justify-center"
+            >
+              Buy Now
+            </a>
+          </div>
+
+          <!-- Delivery Note -->
+          <div class="bg-sky-50 border border-sky-100 rounded-lg p-4 text-xs text-slate-600 space-y-1">
+            <p class="font-semibold text-slate-800">Delivery Information:</p>
+            <p>• Inside Dhaka: Delivered within 24–48 hours (Express same-day available upon request)</p>
+            <p>• Outside Dhaka: Delivered via trusted courier within 3–5 working days</p>
+            <p>• Pay securely via bKash, Nagad, or Cash on Delivery (COD)</p>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </div>
+</BaseLayout>

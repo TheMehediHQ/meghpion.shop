@@ -1,0 +1,199 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import { BRAND, BD_DIVISIONS } from '@meghpiyon/shared';
+---
+
+<BaseLayout
+  title={`Checkout | ${BRAND.name}`}
+  description="Complete your gift order with delivery details and payment preferences."
+>
+  <div class="py-12 bg-white">
+    <Container size="lg">
+      <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight mb-8">
+        Checkout & Delivery
+      </h1>
+
+      <form class="grid grid-cols-1 lg:grid-cols-3 gap-12" action="/track-order" method="GET">
+        <!-- Delivery and Recipient Information -->
+        <div class="lg:col-span-2 space-y-8">
+          <!-- Step 1: Recipient Address -->
+          <div class="border border-slate-200 rounded-xl p-6 space-y-5">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-sky-600 text-white text-xs flex items-center justify-center font-bold">1</span>
+              <h2 class="text-lg font-bold text-slate-900">Recipient & Delivery Address</h2>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="space-y-1">
+                <label for="fullName" class="block text-xs font-semibold text-slate-700">
+                  Recipient's Full Name *
+                </label>
+                <input
+                  type="text"
+                  id="fullName"
+                  name="fullName"
+                  required
+                  placeholder="e.g. Tanvir Ahmed"
+                  class="input-field"
+                />
+              </div>
+
+              <div class="space-y-1">
+                <label for="phone" class="block text-xs font-semibold text-slate-700">
+                  Contact Phone Number *
+                </label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  required
+                  placeholder="01700000000"
+                  class="input-field"
+                />
+              </div>
+
+              <div class="space-y-1">
+                <label for="division" class="block text-xs font-semibold text-slate-700">
+                  Division *
+                </label>
+                <select id="division" name="division" required class="input-field">
+                  <option value="">Select Division</option>
+                  {BD_DIVISIONS.map((division) => (
+                    <option value={division}>{division}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div class="space-y-1">
+                <label for="district" class="block text-xs font-semibold text-slate-700">
+                  District / Area *
+                </label>
+                <input
+                  type="text"
+                  id="district"
+                  name="district"
+                  required
+                  placeholder="e.g. Dhaka (Dhanmondi)"
+                  class="input-field"
+                />
+              </div>
+
+              <div class="sm:col-span-2 space-y-1">
+                <label for="addressLine" class="block text-xs font-semibold text-slate-700">
+                  Full Street Address *
+                </label>
+                <input
+                  type="text"
+                  id="addressLine"
+                  name="addressLine"
+                  required
+                  placeholder="House #, Road #, Sector / Area details"
+                  class="input-field"
+                />
+              </div>
+
+              <div class="sm:col-span-2 space-y-1">
+                <label for="deliveryNotes" class="block text-xs font-semibold text-slate-700">
+                  Delivery Notes / Preferred Delivery Date
+                </label>
+                <input
+                  type="text"
+                  id="deliveryNotes"
+                  name="deliveryNotes"
+                  placeholder="e.g. Please deliver on Friday afternoon, or call before arriving"
+                  class="input-field"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2: Handwritten Gift Card Note -->
+          <div class="border border-slate-200 rounded-xl p-6 space-y-4">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-sky-600 text-white text-xs flex items-center justify-center font-bold">2</span>
+              <h2 class="text-lg font-bold text-slate-900">Personalized Message Card (Free)</h2>
+            </div>
+
+            <p class="text-xs text-slate-500">
+              Our calligrapher will handwrite this on a premium textured note card sealed with our brand wax stamp.
+            </p>
+
+            <textarea
+              id="giftNote"
+              name="giftNote"
+              rows="3"
+              class="input-field"
+              placeholder="আপনার মনের সুন্দর বার্তাটি এখানে লিখুন... (Write in Bengali or English)"
+            ></textarea>
+          </div>
+
+          <!-- Step 3: Payment Method -->
+          <div class="border border-slate-200 rounded-xl p-6 space-y-4">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-sky-600 text-white text-xs flex items-center justify-center font-bold">3</span>
+              <h2 class="text-lg font-bold text-slate-900">Payment Option</h2>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <label class="border border-sky-300 bg-sky-50/50 p-4 rounded-lg cursor-pointer flex flex-col items-start gap-1">
+                <input type="radio" name="paymentMethod" value="cod" checked class="text-sky-600" />
+                <span class="text-sm font-bold text-slate-900 mt-2">Cash on Delivery</span>
+                <span class="text-[11px] text-slate-500">Pay cash upon receiving</span>
+              </label>
+
+              <label class="border border-slate-200 p-4 rounded-lg cursor-pointer flex flex-col items-start gap-1 hover:border-sky-300">
+                <input type="radio" name="paymentMethod" value="bkash" class="text-sky-600" />
+                <span class="text-sm font-bold text-pink-600 mt-2">bKash</span>
+                <span class="text-[11px] text-slate-500">Pay via bKash gateway</span>
+              </label>
+
+              <label class="border border-slate-200 p-4 rounded-lg cursor-pointer flex flex-col items-start gap-1 hover:border-sky-300">
+                <input type="radio" name="paymentMethod" value="nagad" class="text-sky-600" />
+                <span class="text-sm font-bold text-orange-600 mt-2">Nagad</span>
+                <span class="text-[11px] text-slate-500">Pay via Nagad gateway</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Summary Sidebar -->
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-6 h-fit space-y-6">
+          <h3 class="text-lg font-bold text-slate-900 pb-3 border-b border-slate-200">
+            Order Review
+          </h3>
+
+          <div class="space-y-3 text-sm">
+            <div class="flex justify-between text-slate-600">
+              <span>Items (1 item)</span>
+              <span class="font-medium text-slate-900">{BRAND.currencySymbol}2200</span>
+            </div>
+            <div class="flex justify-between text-slate-600">
+              <span>Luxury Gift Box Packaging</span>
+              <span class="font-medium text-slate-900">{BRAND.currencySymbol}100</span>
+            </div>
+            <div class="flex justify-between text-slate-600">
+              <span>Delivery Fee (Standard)</span>
+              <span class="font-medium text-slate-900">{BRAND.currencySymbol}80</span>
+            </div>
+            <div class="pt-3 border-t border-slate-200 flex justify-between text-base font-bold text-slate-900">
+              <span>Payable Total</span>
+              <span class="text-sky-700">{BRAND.currencySymbol}2380</span>
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            class="btn-primary w-full py-3 text-sm justify-center shadow"
+          >
+            Confirm & Place Gift Order
+          </button>
+
+          <p class="text-[11px] text-slate-500 text-center leading-relaxed">
+            By placing your order, you agree to {BRAND.name}'s terms of service and delivery policy.
+          </p>
+        </div>
+      </form>
+    </Container>
+  </div>
+</BaseLayout>

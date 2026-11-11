@@ -1,0 +1,155 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Badge from '../components/ui/Badge.astro';
+import { BRAND, PRODUCT_CATEGORIES } from '@meghpiyon/shared';
+
+// Sample preview categories
+const categories = PRODUCT_CATEGORIES;
+---
+
+<BaseLayout>
+  <!-- Hero Section -->
+  <section class="bg-gradient-to-b from-sky-50 via-white to-white py-16 md:py-24 border-b border-slate-100">
+    <Container size="lg">
+      <div class="max-w-3xl mx-auto text-center space-y-6">
+        <Badge variant="sky">
+          Bangladeshi Artisanal & Curated Gifts
+        </Badge>
+
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight">
+          {BRAND.name} <span class="text-sky-600 block text-2xl md:text-3xl font-bengali font-semibold mt-3">{BRAND.tagline}</span>
+        </h1>
+
+        <p class="text-base md:text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">
+          Thoughtfully crafted gift hampers, personalized memories, traditional Bangladeshi handicrafts, and blooming floral bouquets delivered with utmost care across all 64 districts.
+        </p>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+          <a href="/shop" class="btn-primary w-full sm:w-auto px-8 py-3 text-base">
+            Explore Gift Collection
+          </a>
+          <a href="/track-order" class="btn-outline w-full sm:w-auto px-8 py-3 text-base">
+            Track Delivery
+          </a>
+        </div>
+
+        <!-- Trust Badges -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-10 border-t border-slate-200 text-left">
+          <div class="p-3 bg-white border border-slate-200 rounded-lg">
+            <p class="text-xs font-semibold text-slate-900">Custom Handwritten Note</p>
+            <p class="text-[11px] text-slate-500 mt-0.5">Complimentary with every gift</p>
+          </div>
+          <div class="p-3 bg-white border border-slate-200 rounded-lg">
+            <p class="text-xs font-semibold text-slate-900">Nationwide Delivery</p>
+            <p class="text-[11px] text-slate-500 mt-0.5">Safe delivery in 64 districts</p>
+          </div>
+          <div class="p-3 bg-white border border-slate-200 rounded-lg">
+            <p class="text-xs font-semibold text-slate-900">bKash & Nagad</p>
+            <p class="text-[11px] text-slate-500 mt-0.5">Plus Cash on Delivery</p>
+          </div>
+          <div class="p-3 bg-white border border-slate-200 rounded-lg">
+            <p class="text-xs font-semibold text-slate-900">Artisan Crafted</p>
+            <p class="text-[11px] text-slate-500 mt-0.5">Authentic local creators</p>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Categories Section -->
+  <section class="py-16 bg-white">
+    <Container size="lg">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-8">
+        <div>
+          <Badge variant="sky">Categories</Badge>
+          <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mt-2">
+            Curated For Every Occasion
+          </h2>
+        </div>
+        <a href="/shop" class="text-sm font-medium text-sky-600 hover:text-sky-700 mt-2 md:mt-0">
+          View all categories &rarr;
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {categories.map((cat) => (
+          <a
+            href={`/shop?category=${cat.id}`}
+            class="group p-6 bg-slate-50 hover:bg-sky-50 border border-slate-200 hover:border-sky-300 rounded-xl block transition-none"
+          >
+            <div class="w-12 h-12 bg-sky-100 rounded-lg flex items-center justify-center text-sky-700 font-bold mb-4">
+              🎁
+            </div>
+            <h3 class="text-base font-semibold text-slate-900 group-hover:text-sky-700">
+              {cat.nameEn}
+            </h3>
+            <p class="text-xs text-sky-600 font-bengali mt-0.5">
+              {cat.nameBn}
+            </p>
+            <p class="text-xs text-slate-500 mt-2">
+              Carefully wrapped with optional customized greetings and keepsake packaging.
+            </p>
+          </a>
+        ))}
+      </div>
+    </Container>
+  </section>
+
+  <!-- Why Meghpiyon Section -->
+  <section class="py-16 bg-sky-50 border-y border-sky-100">
+    <Container size="lg">
+      <div class="max-w-2xl mx-auto text-center mb-12">
+        <Badge variant="sky">The Meghpiyon Touch</Badge>
+        <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mt-2">
+          Gifts that convey true warmth
+        </h2>
+        <p class="text-sm text-slate-600 mt-2">
+          Every parcel sent through Meghpiyon is handled like a delicate letter of love.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="p-6 bg-white border border-slate-200 rounded-xl">
+          <div class="w-10 h-10 bg-sky-100 rounded-md flex items-center justify-center text-sky-700 font-bold mb-4">
+            01
+          </div>
+          <h3 class="text-lg font-semibold text-slate-900">Customized Presentation</h3>
+          <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+            Choose custom ribbon colors, calligraphed cards, and bespoke Bengali greetings printed on premium paper.
+          </p>
+        </div>
+
+        <div class="p-6 bg-white border border-slate-200 rounded-xl">
+          <div class="w-10 h-10 bg-sky-100 rounded-md flex items-center justify-center text-sky-700 font-bold mb-4">
+            02
+          </div>
+          <h3 class="text-lg font-semibold text-slate-900">Reliable Bangladeshi Logistics</h3>
+          <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+            Swift dispatch within Dhaka and guaranteed doorstep delivery across all divisions, tracked from hub to recipient.
+          </p>
+        </div>
+
+        <div class="p-6 bg-white border border-slate-200 rounded-xl">
+          <div class="w-10 h-10 bg-sky-100 rounded-md flex items-center justify-center text-sky-700 font-bold mb-4">
+            03
+          </div>
+          <h3 class="text-lg font-semibold text-slate-900">Supporting Local Crafts</h3>
+          <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+            Our products collaborate directly with rural artisans, potters, weavers, and small-batch chocolate makers.
+          </p>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Bengali Quote Banner -->
+  <section class="py-12 bg-white text-center">
+    <Container size="md">
+      <blockquote class="text-xl md:text-2xl font-bengali font-medium text-slate-800 italic">
+        "দূরে থেকেও কাছের অনুভূতি, মেঘপিয়নের মাধ্যমে ভালোবাসার উপহার পৌঁছে যাক প্রিয়জনের ঠিকানায়।"
+      </blockquote>
+      <p class="text-xs text-slate-500 mt-3 uppercase tracking-wider">— মেঘপিয়ন টিম</p>
+    </Container>
+  </section>
+</BaseLayout>

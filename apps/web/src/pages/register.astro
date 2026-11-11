@@ -1,0 +1,113 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import { BRAND } from '@meghpiyon/shared';
+---
+
+<BaseLayout
+  title={`Create an Account | ${BRAND.name}`}
+  description="Register for a Meghpiyon account to save delivery addresses and send meaningful gifts easily."
+>
+  <div class="py-16 bg-sky-50/40 min-h-[70vh] flex items-center">
+    <Container size="sm">
+      <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-10 shadow-sm max-w-md mx-auto space-y-6">
+        <div class="text-center space-y-2">
+          <div class="w-10 h-10 rounded-xl bg-sky-600 text-white flex items-center justify-center font-bold text-lg mx-auto shadow-sm">
+            ম
+          </div>
+          <h1 class="text-2xl font-bold text-slate-900 tracking-tight">
+            Create Your Account
+          </h1>
+          <p class="text-xs text-slate-500 font-bengali">
+            {BRAND.nameBn} এ আপনাকে স্বাগতম
+          </p>
+        </div>
+
+        <form class="space-y-4" action="/login" method="GET">
+          <div class="space-y-1">
+            <label for="name" class="block text-xs font-semibold text-slate-700">
+              Full Name *
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              required
+              placeholder="e.g. Farhana Yasmin"
+              class="input-field"
+            />
+          </div>
+
+          <div class="space-y-1">
+            <label for="email" class="block text-xs font-semibold text-slate-700">
+              Email Address *
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              placeholder="name@example.com"
+              class="input-field"
+            />
+          </div>
+
+          <div class="space-y-1">
+            <label for="phone" class="block text-xs font-semibold text-slate-700">
+              Bangladeshi Mobile Number *
+            </label>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              required
+              placeholder="01700000000"
+              class="input-field"
+            />
+          </div>
+
+          <div class="space-y-1">
+            <label for="password" class="block text-xs font-semibold text-slate-700">
+              Password (min. 6 characters) *
+            </label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              required
+              minlength="6"
+              placeholder="••••••••"
+              class="input-field"
+            />
+          </div>
+
+          <div class="space-y-1">
+            <label for="confirmPassword" class="block text-xs font-semibold text-slate-700">
+              Confirm Password *
+            </label>
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              required
+              minlength="6"
+              placeholder="••••••••"
+              class="input-field"
+            />
+          </div>
+
+          <button type="submit" class="btn-primary w-full py-2.5 text-sm justify-center shadow">
+            Create Account
+          </button>
+        </form>
+
+        <div class="border-t border-slate-100 pt-4 text-center text-xs text-slate-600">
+          Already have an account?{' '}
+          <a href="/login" class="text-sky-600 font-semibold hover:underline">
+            Sign In here
+          </a>
+        </div>
+      </div>
+    </Container>
+  </div>
+</BaseLayout>

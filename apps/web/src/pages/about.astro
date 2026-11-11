@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/ui/Container.astro';
+import Badge from '../components/ui/Badge.astro';
+import { BRAND } from '@meghpiyon/shared';
+---
+
+<BaseLayout
+  title={`Our Story | ${BRAND.name}`}
+  description="Learn about Meghpiyon, our mission to revive traditional gifting with modern elegance across Bangladesh."
+>
+  <div class="py-16 bg-white">
+    <Container size="md">
+      <div class="space-y-10">
+        <!-- Hero Header -->
+        <div class="text-center space-y-4">
+          <Badge variant="sky">The Story Behind The Name</Badge>
+          <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight">
+            {BRAND.name} — <span class="text-sky-600 font-bengali font-semibold">{BRAND.nameBn}</span>
+          </h1>
+          <p class="text-xl text-sky-700 font-bengali font-medium">
+            "{BRAND.tagline}"
+          </p>
+        </div>
+
+        <!-- Story Content -->
+        <div class="prose prose-slate max-w-none text-sm text-slate-700 space-y-6 leading-relaxed">
+          <p>
+            In Bengali poetry and folklore, <strong>Meghpiyon (মেঘপিয়ন)</strong> represents the celestial cloud postman—the tender messenger who carries heartfelt letters, unspoken affection, and prayers across vast horizons without losing an ounce of grace.
+          </p>
+
+          <p>
+            Founded with that exact spirit, <strong>{BRAND.name}</strong> was born out of a desire to redefine gifting in Bangladesh. In a fast-paced digital world, genuine human connection often gets lost in mass-produced commodities. We wanted to build something different: a gifting platform where every box feels like a handwritten poem, curated with intentionality, craftsmanship, and profound aesthetic beauty.
+          </p>
+
+          <div class="bg-sky-50 border border-sky-100 rounded-xl p-6 my-8">
+            <h2 class="text-base font-bold text-slate-900 mb-2">Our Core Commitments</h2>
+            <ul class="space-y-2 text-xs text-slate-700 list-disc pl-5">
+              <li><strong>Local Artisan Collaboration:</strong> We partner directly with Bangladeshi potters, Nakshi Kantha embroiderers, weavers, and local confectioners to bring authentic craftsmanship into every hamper.</li>
+              <li><strong>Complimentary Calligraphy:</strong> We believe words hold irreplaceable power. Every order includes a complimentary handwritten card in Bengali or English.</li>
+              <li><strong>Eco-conscious Packaging:</strong> Reusable wooden boxes, handmade paper ribbons, and recyclable fillers replace single-use plastics wherever possible.</li>
+              <li><strong>Nationwide Reliability:</strong> Whether sending a birthday surprise within Gulshan, Dhaka, or an anniversary token to Sylhet, our logistics team treats every package as precious.</li>
+            </ul>
+          </div>
+
+          <h2 class="text-xl font-bold text-slate-900 pt-4">Gifting As An Art Form</h2>
+          <p>
+            From corporate appreciation hampers to deeply intimate wedding presents, festival tokens (Eid, Puja, Pohela Boishakh), and spontaneous expressions of friendship, Meghpiyon ensures that your emotion reaches the recipient with pure warmth and dignity.
+          </p>
+        </div>
+
+        <!-- Team CTA -->
+        <div class="pt-8 border-t border-slate-200 text-center">
+          <p class="text-xs text-slate-500 mb-4">Have an inquiry or custom bulk gifting requirement?</p>
+          <a href="/contact" class="btn-primary">
+            Speak With Our Gift Concierge
+          </a>
+        </div>
+      </div>
+    </Container>
+  </div>
+</BaseLayout>

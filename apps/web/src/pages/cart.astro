@@ -118,4 +118,21 @@ const total = subtotal + giftWrapFee + deliveryFee;
       </div>
     </Container>
   </div>
+
+  <script is:inline define:vars={{
+    checkoutData: {
+      value: total,
+      currency: 'BDT',
+      num_items: sampleCartItem.quantity
+    }
+  }}>
+    const checkoutBtn = document.querySelector('a[href="/checkout"]');
+    if (checkoutBtn) {
+      checkoutBtn.addEventListener('click', () => {
+        if (typeof window !== 'undefined' && typeof window.fbq === 'function') {
+          window.fbq('track', 'InitiateCheckout', checkoutData);
+        }
+      });
+    }
+  </script>
 </BaseLayout>

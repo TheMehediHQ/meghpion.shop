@@ -50,7 +50,8 @@ meghpiyon/
 │   │   │   │   ├── contact.astro   # /contact — Support & concierge
 │   │   │   │   ├── login.astro     # /login — Customer sign in
 │   │   │   │   ├── register.astro  # /register — Account creation
-│   │   │   │   └── track-order.astro # /track-order — Live parcel tracking
+│   │   │   │   ├── track-order.astro # /track-order — Live parcel tracking
+│   │   │   │   └── admin/          # /admin — Admin Dashboard & Store Management
 │   │   │   └── styles/             # Tailwind & CSS variables
 │   │   ├── astro.config.mjs        # Astro configuration with React & Tailwind
 │   │   ├── tailwind.config.mjs     # Sky blue & Bengali typography config

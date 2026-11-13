@@ -181,4 +181,27 @@ const { product } = Astro.props;
       </div>
     </Container>
   </div>
+
+  <script is:inline define:vars={{
+    pixelProduct: {
+      content_name: product.name,
+      content_category: product.category,
+      content_ids: [product.slug],
+      value: product.discountPrice || product.price,
+      currency: 'BDT'
+    }
+  }}>
+    if (typeof window !== 'undefined' && typeof window.fbq === 'function') {
+      window.fbq('track', 'ViewContent', pixelProduct);
+    }
+
+    const cartBtn = document.querySelector('a[href="/cart"]');
+    if (cartBtn) {
+      cartBtn.addEventListener('click', () => {
+        if (typeof window.fbq === 'function') {
+          window.fbq('track', 'AddToCart', pixelProduct);
+        }
+      });
+    }
+  </script>
 </BaseLayout>

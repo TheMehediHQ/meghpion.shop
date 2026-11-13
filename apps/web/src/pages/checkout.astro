@@ -196,4 +196,21 @@ import { BRAND, BD_DIVISIONS } from '@meghpiyon/shared';
       </form>
     </Container>
   </div>
+
+  <script is:inline>
+    const checkoutForm = document.querySelector('form');
+    if (checkoutForm) {
+      checkoutForm.addEventListener('submit', () => {
+        if (typeof window !== 'undefined' && typeof window.fbq === 'function') {
+          window.fbq('track', 'Purchase', {
+            value: 2380,
+            currency: 'BDT',
+            content_type: 'product',
+            num_items: 1,
+            order_id: 'MP-' + Date.now().toString(36).toUpperCase()
+          });
+        }
+      });
+    }
+  </script>
 </BaseLayout>

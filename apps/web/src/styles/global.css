@@ -10,6 +10,11 @@
     --color-text: 15 23 42;
     --color-muted: 100 116 139;
     --color-border: 226 232 240;
+    --brand-maroon: #4a0404;
+    --brand-gold: #c5a059;
+    --paper-cream: #f4ece1;
+    --paper-edge: #e8dfd1;
+    --text-deep: #2c1810;
   }
 
   *,
@@ -17,9 +22,9 @@
   *::after {
     box-sizing: border-box;
     /* Respect user preference: no animations or unnecessary motion */
-    transition-property: none !important;
-    animation: none !important;
-    scroll-behavior: auto !important;
+    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
   }
 
   html {
@@ -36,15 +41,45 @@
     flex-direction: column;
     margin: 0;
   }
+
+  /* Custom fonts */
+  @font-face {
+    font-family: 'Playfair Display';
+    src: url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+  }
 }
 
 @layer components {
+  .btn-gold {
+    @apply inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-gold-400 via-gold-300 to-gold-500 text-crimson-950 font-serif font-semibold text-sm tracking-wide rounded shadow-md border border-gold-300/40;
+    transition: all 0.2s ease;
+  }
+  .btn-gold:hover {
+    @apply from-gold-300 to-gold-400;
+  }
+
+  .btn-gold-outline {
+    @apply inline-flex items-center justify-center px-6 py-3 border border-gold-400/70 text-gold-200 font-serif font-medium text-sm tracking-wide rounded;
+    transition: all 0.2s ease;
+  }
+  .btn-gold-outline:hover {
+    background-color: rgba(223, 186, 90, 0.1);
+  }
+
   .btn-primary {
-    @apply inline-flex items-center justify-center px-5 py-2.5 bg-sky-600 hover:bg-sky-700 text-white text-sm font-medium rounded-md shadow-sm;
+    @apply inline-flex items-center justify-center px-5 py-2.5 bg-crimson-700 text-gold-100 text-sm font-medium rounded-md shadow-sm;
+    transition: background-color 0.15s ease;
+  }
+  .btn-primary:hover {
+    @apply bg-crimson-800;
   }
 
   .btn-outline {
-    @apply inline-flex items-center justify-center px-5 py-2.5 border border-sky-600 text-sky-700 hover:bg-sky-50 text-sm font-medium rounded-md;
+    @apply inline-flex items-center justify-center px-5 py-2.5 border border-crimson-700 text-crimson-800 text-sm font-medium rounded-md;
+    transition: background-color 0.15s ease;
+  }
+  .btn-outline:hover {
+    @apply bg-crimson-50;
   }
 
   .btn-secondary {
@@ -52,6 +87,60 @@
   }
 
   .input-field {
-    @apply w-full px-3.5 py-2 text-sm bg-white border border-slate-300 rounded-md focus:outline-none focus:border-sky-600 focus:ring-1 focus:ring-sky-600 text-slate-900 placeholder:text-slate-400;
+    @apply w-full px-3.5 py-2 text-sm bg-white border border-slate-300 rounded-md focus:outline-none focus:border-crimson-700 focus:ring-1 focus:ring-crimson-700 text-slate-900 placeholder:text-slate-400;
+  }
+
+  .font-playfair {
+    font-family: 'Playfair Display', serif;
+  }
+
+  /* Vintage Postal Airmail Border */
+  .airmail-stripe {
+    background: repeating-linear-gradient(
+      -45deg,
+      #841926 0,
+      #841926 12px,
+      transparent 12px,
+      transparent 18px,
+      #aa7e22 18px,
+      #aa7e22 30px,
+      transparent 30px,
+      transparent 36px
+    );
+  }
+
+  /* Antique Gold Foil Text Gradient */
+  .text-gold-gradient {
+    background: linear-gradient(135deg, #f7f0cd 0%, #dfba5a 45%, #ffd777 65%, #cba038 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Floating animation */
+  @keyframes floatSlow {
+    0%, 100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-8px) rotate(0.4deg);
+    }
+  }
+
+  .animate-float-slow {
+    animation: floatSlow 6s ease-in-out infinite;
+  }
+
+  @keyframes floatGentle {
+    0%, 100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-5px) rotate(-0.5deg);
+    }
+  }
+
+  .animate-float-gentle {
+    animation: floatGentle 5s ease-in-out infinite;
   }
 }
+

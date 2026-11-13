@@ -4,6 +4,40 @@ export default {
   theme: {
     extend: {
       colors: {
+        crimson: {
+          50: '#fff5f6',
+          100: '#feeef0',
+          200: '#fddde0',
+          300: '#fbc1c8',
+          400: '#f797a2',
+          500: '#a72031',
+          600: '#841926',
+          700: '#64131d',
+          800: '#460d14',
+          850: '#32090e',
+          900: '#23060a',
+          950: '#140305',
+        },
+        gold: {
+          50: '#fdfbf4',
+          100: '#faf4df',
+          200: '#f4e7b8',
+          300: '#ebd388',
+          400: '#dfba5a',
+          500: '#cba038',
+          600: '#aa7e22',
+          700: '#835e16',
+          800: '#5e410f',
+        },
+        parchment: {
+          50: '#fcfbf8',
+          100: '#f8f4ec',
+          200: '#f1e8d7',
+          300: '#e5d7bd',
+          400: '#d1bfa0',
+          card: '#faf6ee',
+          border: '#dccab0',
+        },
         sky: {
           50: '#f0f9ff',
           100: '#e0f2fe',
@@ -11,17 +45,18 @@ export default {
           300: '#7dd3fc',
           400: '#38bdf8',
           500: '#0ea5e9',
-          600: '#0284c7', // Meghpiyon signature sky blue
+          600: '#0284c7',
           700: '#0369a1',
           800: '#075985',
           900: '#0c4a6e',
           950: '#082f49',
         },
         brand: {
-          light: '#f0f9ff',
-          DEFAULT: '#0284c7',
-          dark: '#0369a1',
-          navy: '#0f172a',
+          light: '#fdf8ef',
+          DEFAULT: '#64131d',
+          dark: '#32090e',
+          gold: '#cba038',
+          navy: '#140305',
         },
       },
       fontFamily: {
@@ -33,6 +68,18 @@ export default {
           'Roboto',
           '"Noto Sans Bengali"',
           'sans-serif',
+        ],
+        serif: [
+          '"Playfair Display"',
+          'Georgia',
+          'Cambria',
+          '"Times New Roman"',
+          'serif',
+        ],
+        cinzel: [
+          '"Cinzel"',
+          'Georgia',
+          'serif',
         ],
         bengali: [
           '"Hind Siliguri"',

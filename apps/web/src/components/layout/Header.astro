@@ -11,115 +11,155 @@ const { currentPath = '/' } = Astro.props;
 const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/shop', label: 'Shop Gifts' },
+  { href: '/shop?category=gift-boxes', label: 'Curated Hampers' },
+  { href: '/shop?category=handicrafts', label: 'Handicrafts' },
   { href: '/about', label: 'Our Story' },
-  { href: '/contact', label: 'Contact' },
   { href: '/track-order', label: 'Track Order' },
 ];
 ---
 
-<header class="w-full bg-white border-b border-slate-200 sticky top-0 z-40">
-  <!-- Top announcement bar -->
-  <div class="bg-sky-600 text-white text-xs py-1.5 px-4 text-center">
-    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-1">
-      <p class="font-bengali font-medium tracking-wide">
-        {BRAND.nameBn} — {BRAND.tagline}
-      </p>
-      <div class="hidden sm:flex items-center gap-4 text-sky-100">
+<header class="w-full sticky top-0 z-50 shadow-2xl">
+  <!-- Top notice announcement bar: Deepest Burgundy & Antique Gold -->
+  <div class="bg-[#1b0306] text-gold-200/90 text-xs py-1.5 px-4 border-b border-[#3b0a10]">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-1 text-[11px] sm:text-xs">
+      <div class="flex items-center gap-2">
+        <span class="inline-block w-2 h-2 rounded-full bg-gold-400 animate-pulse"></span>
+        <p class="font-bengali tracking-wide text-gold-100 font-medium">
+          {BRAND.nameBn} — {BRAND.tagline}
+        </p>
+      </div>
+      <div class="hidden sm:flex items-center gap-4 text-gold-300/80 font-serif tracking-wider">
+        <span>ESTD. 2024 • DHAKA</span>
+        <span>•</span>
         <span>Delivery Across All 64 Districts</span>
         <span>•</span>
-        <a href={`tel:${BRAND.supportPhone}`} class="hover:text-white underline underline-offset-2">
+        <a href={`tel:${BRAND.supportPhone}`} class="text-gold-200 hover:text-white underline underline-offset-2">
           {BRAND.supportPhone}
         </a>
       </div>
     </div>
   </div>
 
-  <!-- Main Navigation -->
-  <Container size="lg">
-    <div class="flex items-center justify-between h-16">
-      <!-- Brand Logo -->
-      <a href="/" class="flex items-center gap-2.5 group">
-        <div class="w-9 h-9 rounded-lg bg-sky-600 text-white flex items-center justify-center font-bold text-lg shadow-sm">
-          ম
-        </div>
-        <div class="flex flex-col">
-          <span class="text-xl font-bold tracking-tight text-slate-900 leading-none">
-            {BRAND.name}
-          </span>
-          <span class="text-[11px] font-medium text-sky-600 font-bengali leading-tight mt-0.5">
-            {BRAND.nameBn}
-          </span>
-        </div>
-      </a>
-
-      <!-- Desktop Nav Links -->
-      <nav class="hidden md:flex items-center gap-7">
-        {navLinks.map((link) => {
-          const isActive = currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href));
-          return (
-            <a
-              href={link.href}
-              class={`text-sm font-medium transition-none ${
-                isActive
-                  ? 'text-sky-600 border-b-2 border-sky-600 pb-0.5'
-                  : 'text-slate-600 hover:text-sky-600'
-              }`}
-            >
-              {link.label}
-            </a>
-          );
-        })}
-      </nav>
-
-      <!-- Right Action CTAs -->
-      <div class="flex items-center gap-3">
-        <a
-          href="/login"
-          class="hidden sm:inline-flex text-sm font-medium text-slate-700 hover:text-sky-600 px-3 py-1.5"
-        >
-          Sign In
+  <!-- Main Sleek Dark Crimson Navigation Bar -->
+  <div class="bg-[#2a060a]/95 backdrop-blur-md border-b border-[#4d0e17] transition-all">
+    <Container size="lg">
+      <div class="flex items-center justify-between h-20">
+        <!-- Brand Antique Gold Logo -->
+        <a href="/" class="flex items-center gap-3 group">
+          <!-- Antique Gold Wax Seal / Postal Medallion -->
+          <div class="relative w-11 h-11 rounded-full bg-gradient-to-br from-[#ffd777] via-[#cba038] to-[#795919] flex items-center justify-center shadow-[0_2px_14px_rgba(203,160,56,0.4)] border border-[#ffeaa7]/50 transition-transform group-hover:scale-105">
+            <span class="font-serif font-black text-xl text-[#1a0406] select-none">
+              ম
+            </span>
+            <!-- Postal stamp serration ring -->
+            <div class="absolute inset-0 rounded-full border border-dashed border-[#1a0406]/35"></div>
+          </div>
+          <div class="flex flex-col">
+            <div class="flex items-baseline gap-1.5">
+              <span class="font-cinzel text-xl sm:text-2xl font-bold tracking-[0.16em] text-gold-gradient leading-none">
+                MEGHPIYON
+              </span>
+            </div>
+            <div class="flex items-center gap-2 mt-1">
+              <span class="text-[11px] font-medium text-gold-200/80 font-bengali tracking-wider">
+                মেঘপিয়ন
+              </span>
+              <span class="text-[9px] uppercase tracking-widest text-gold-400/60 font-serif">
+                • VINTAGE POSTAL GIFTS
+              </span>
+            </div>
+          </div>
         </a>
 
-        <a
-          href="/cart"
-          class="relative inline-flex items-center gap-1.5 px-3.5 py-2 bg-sky-50 text-sky-700 border border-sky-200 rounded-md text-sm font-medium hover:bg-sky-100"
-          aria-label="Shopping Cart"
-        >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-          </svg>
-          <span class="hidden sm:inline">Cart</span>
-          <span class="inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-sky-600 rounded-full">
-            0
-          </span>
-        </a>
-
-        <!-- Mobile Menu details toggle (no JS required) -->
-        <details class="md:hidden relative">
-          <summary class="list-none p-2 text-slate-700 hover:text-sky-600 cursor-pointer rounded-md border border-slate-200" aria-label="Toggle navigation menu">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </summary>
-          <div class="absolute right-0 mt-2 w-56 bg-white border border-slate-200 rounded-lg shadow-lg py-2 z-50">
-            {navLinks.map((link) => (
+        <!-- Minimalist White Links -->
+        <nav class="hidden lg:flex items-center gap-8" aria-label="Main Navigation">
+          {navLinks.map((link) => {
+            const isActive = currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href));
+            return (
               <a
                 href={link.href}
-                class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-50 hover:text-sky-700"
+                class={`text-sm tracking-wide transition-colors duration-150 relative py-1 ${
+                  isActive
+                    ? 'text-gold-300 font-semibold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-gold-400 after:rounded-full'
+                    : 'text-white/85 hover:text-white font-medium'
+                }`}
               >
                 {link.label}
               </a>
-            ))}
-            <div class="border-t border-slate-100 my-1"></div>
-            <a
-              href="/login"
-              class="block px-4 py-2 text-sm text-slate-700 hover:bg-sky-50 hover:text-sky-700"
-            >
-              Sign In / Register
-            </a>
-          </div>
-        </details>
+            );
+          })}
+        </nav>
+
+        <!-- Right Action CTAs -->
+        <div class="flex items-center gap-4">
+          <!-- Search button -->
+          <a
+            href="/shop"
+            class="text-white/70 hover:text-gold-300 transition-colors p-1"
+            aria-label="Search Collection"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </a>
+
+          <!-- Minimalist White Sign In Link -->
+          <a
+            href="/login"
+            class="hidden sm:inline-flex text-xs uppercase tracking-wider text-white/85 hover:text-gold-300 px-2 py-1 transition-colors font-serif font-medium"
+          >
+            Sign In
+          </a>
+
+          <!-- Cart with Antique Gold Accent -->
+          <a
+            href="/cart"
+            class="relative inline-flex items-center gap-2 px-3 py-1.5 bg-[#3a0a10] hover:bg-[#4a0d15] text-gold-200 border border-gold-400/30 rounded text-xs font-serif tracking-wider uppercase shadow-inner transition-colors"
+            aria-label="Shopping Cart"
+          >
+            <svg class="w-4 h-4 text-gold-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            </svg>
+            <span class="hidden sm:inline text-white/90">Cart</span>
+            <span class="inline-flex items-center justify-center w-5 h-5 text-[10px] font-bold text-[#1a0406] bg-gradient-to-br from-gold-300 to-gold-500 rounded-full shadow-sm">
+              0
+            </span>
+          </a>
+
+          <!-- Mobile Menu details toggle (no JS required) -->
+          <details class="lg:hidden relative">
+            <summary class="list-none p-2 text-gold-200 hover:text-white cursor-pointer rounded border border-gold-400/30 bg-[#3a0b12]" aria-label="Toggle navigation menu">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </summary>
+            <div class="absolute right-0 mt-3 w-64 bg-[#1f0407] border border-gold-400/40 rounded-lg shadow-2xl py-3 z-50 text-white">
+              <div class="px-4 py-2 border-b border-crimson-800/80 mb-1">
+                <p class="text-xs font-cinzel text-gold-300 font-bold tracking-wider">MEGHPIYON POST</p>
+                <p class="text-[10px] text-gold-200/70 font-bengali">ভালোবাসা পৌঁছে যাক উপহারে।</p>
+              </div>
+              {navLinks.map((link) => (
+                <a
+                  href={link.href}
+                  class="block px-4 py-2 text-sm text-white/80 hover:bg-[#32080d] hover:text-gold-200 transition-colors"
+                >
+                  {link.label}
+                </a>
+              ))}
+              <div class="border-t border-crimson-800/80 my-2"></div>
+              <a
+                href="/login"
+                class="block px-4 py-2 text-sm text-gold-300 hover:bg-[#32080d]"
+              >
+                Sign In / Register
+              </a>
+            </div>
+          </details>
+        </div>
       </div>
-    </div>
-  </Container>
+    </Container>
+  </div>
+
+  <!-- Airmail stripe bottom accent line -->
+  <div class="h-1 w-full airmail-stripe opacity-90"></div>
 </header>

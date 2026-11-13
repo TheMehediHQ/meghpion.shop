@@ -1,12 +1,14 @@
 ---
 interface Props {
-  variant?: 'sky' | 'slate' | 'green' | 'amber';
+  variant?: 'sky' | 'slate' | 'green' | 'amber' | 'gold' | 'crimson';
   className?: string;
 }
 
-const { variant = 'sky', className = '' } = Astro.props;
+const { variant = 'gold', className = '' } = Astro.props;
 
 const variantStyles = {
+  gold: 'bg-gold-500/10 text-gold-700 border-gold-400/40',
+  crimson: 'bg-crimson-900/10 text-crimson-800 border-crimson-700/30',
   sky: 'bg-sky-50 text-sky-700 border-sky-200',
   slate: 'bg-slate-100 text-slate-700 border-slate-200',
   green: 'bg-emerald-50 text-emerald-700 border-emerald-200',

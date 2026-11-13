@@ -4,71 +4,214 @@ import Container from '../components/ui/Container.astro';
 import Badge from '../components/ui/Badge.astro';
 import { BRAND, PRODUCT_CATEGORIES } from '@meghpiyon/shared';
 
-// Sample preview categories
 const categories = PRODUCT_CATEGORIES;
 ---
 
-<BaseLayout>
-  <!-- Hero Section -->
-  <section class="bg-gradient-to-b from-sky-50 via-white to-white py-16 md:py-24 border-b border-slate-100">
-    <Container size="lg">
-      <div class="max-w-3xl mx-auto text-center space-y-6">
-        <Badge variant="sky">
-          Bangladeshi Artisanal & Curated Gifts
-        </Badge>
+<BaseLayout
+  title={`${BRAND.name} | Vintage Postal Gift Shop & Artisan Hampers`}
+  description="Meghpiyon — Delivering love wrapped in gifts. Luxurious artisan hampers, personalized postal keepsakes, and traditional Bangladeshi crafts."
+>
+  <!-- HERO SECTION: Rich Deep Crimson Red & Antique Gold Vintage Postal Aesthetic -->
+  <section class="relative min-h-[92vh] flex items-center justify-center bg-[#170205] text-[#f7efe1] overflow-hidden py-16 lg:py-24">
+    <!-- Atmospheric Background Layers -->
+    <div class="absolute inset-0 z-0">
+      <!-- High-res Render Backdrop with compliance to optimize-image-priority -->
+      <img
+        src="/images/hero-mockup.jpg"
+        alt="Meghpiyon vintage postal aesthetic composition with floating parchment card, wax seals, and luxury ribbon gift hampers"
+        fetchpriority="high"
+        width="1376"
+        height="768"
+        class="w-full h-full object-cover object-center opacity-30 mix-blend-luminosity filter blur-[1px] scale-105"
+      />
+      <!-- Deep Burgundy Radial Vignette Gradients -->
+      <div class="absolute inset-0 bg-gradient-to-t from-[#140204] via-[#240509]/85 to-[#1c0307]/95"></div>
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(110,18,30,0.45)_0%,rgba(20,2,4,0.95)_75%)]"></div>
 
-        <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight">
-          {BRAND.name} <span class="text-sky-600 block text-2xl md:text-3xl font-bengali font-semibold mt-3">{BRAND.tagline}</span>
-        </h1>
+      <!-- Subtle Antique Postal Watermark Pattern -->
+      <div class="absolute inset-0 opacity-[0.03] bg-[radial-gradient(#cba038_1px,transparent_1px)] [background-size:24px_24px]"></div>
+    </div>
 
-        <p class="text-base md:text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">
-          Thoughtfully crafted gift hampers, personalized memories, traditional Bangladeshi handicrafts, and blooming floral bouquets delivered with utmost care across all 64 districts.
-        </p>
+    <!-- Floating Ephemera 1: Vintage Postmark & Brass Compass (Top-Left) -->
+    <aside aria-label="Postal dispatch detail" class="hidden xl:flex absolute top-24 left-10 z-10 animate-float-slow flex-col items-center gap-2 p-4 bg-[#230509]/90 border border-gold-400/30 rounded-lg shadow-2xl backdrop-blur-md max-w-[210px] text-center rotate-[-3deg]">
+      <!-- Postmark circular stamp -->
+      <div class="w-16 h-16 rounded-full border-2 border-dashed border-gold-400/50 flex flex-col items-center justify-center text-[9px] uppercase tracking-widest text-gold-300 font-serif leading-tight">
+        <span>DHAKA</span>
+        <span class="font-bold text-[11px] text-gold-200">G.P.O.</span>
+        <span>SPECIAL</span>
+      </div>
+      <div class="border-t border-gold-400/20 pt-2 w-full">
+        <p class="text-[10px] tracking-widest text-gold-300/80 font-cinzel">LAT 23.8103° N</p>
+        <p class="text-[9px] text-gold-400/60 font-serif">BANGLADESH POSTAL REGISTRY</p>
+      </div>
+    </aside>
 
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
-          <a href="/shop" class="btn-primary w-full sm:w-auto px-8 py-3 text-base">
-            Explore Gift Collection
-          </a>
-          <a href="/track-order" class="btn-outline w-full sm:w-auto px-8 py-3 text-base">
-            Track Delivery
-          </a>
+    <!-- Floating Ephemera 2: Golden Wax Seal & Priority Tag (Top-Right) -->
+    <aside aria-label="Artisan certification detail" class="hidden xl:flex absolute top-28 right-12 z-10 animate-float-gentle flex-col items-center gap-2 p-4 bg-[#230509]/90 border border-gold-400/30 rounded-lg shadow-2xl backdrop-blur-md max-w-[210px] text-center rotate-[4deg]">
+      <!-- Golden Wax Seal Medallion -->
+      <div class="relative w-14 h-14 rounded-full bg-gradient-to-br from-[#ffd777] via-[#cba038] to-[#6e4e13] flex items-center justify-center shadow-[0_4px_16px_rgba(203,160,56,0.4)] border border-[#ffeaa7]/60">
+        <svg class="w-7 h-7 text-[#240508]" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        </svg>
+      </div>
+      <div>
+        <p class="text-[11px] font-cinzel font-bold text-gold-200 tracking-wider">ROYAL ARTISAN SEAL</p>
+        <p class="text-[9px] text-gold-300/70 font-serif mt-0.5">Complimentary Hand-poured Wax</p>
+      </div>
+    </aside>
+
+    <!-- Center Hero Area -->
+    <Container size="lg" className="relative z-10 py-4">
+      <div class="max-w-4xl mx-auto flex flex-col items-center text-center">
+
+        <!-- Top Dispatch Badge -->
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#35080e]/90 border border-gold-400/40 text-gold-200 text-xs font-serif tracking-widest uppercase shadow-lg mb-6 backdrop-blur-sm">
+          <span class="w-2 h-2 rounded-full bg-gold-400"></span>
+          <span>ESTD. 2024 • THE POSTAL GIFT COURIER</span>
+          <span class="text-gold-400/40">•</span>
+          <span class="font-bengali normal-case text-gold-300">ডাকযোগে ভালোবাসার উপহার</span>
         </div>
 
-        <!-- Trust Badges -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-10 border-t border-slate-200 text-left">
-          <div class="p-3 bg-white border border-slate-200 rounded-lg">
-            <p class="text-xs font-semibold text-slate-900">Custom Handwritten Note</p>
-            <p class="text-[11px] text-slate-500 mt-0.5">Complimentary with every gift</p>
+        <!-- THE FLOATING VINTAGE PARCHMENT CARD -->
+        <div class="relative w-full max-w-3xl bg-[#faf6ee] text-[#240609] rounded-xl p-8 sm:p-12 md:p-14 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8),0_0_40px_rgba(203,160,56,0.15)] border-2 border-[#dccab0] animate-float-slow overflow-hidden">
+          
+          <!-- Authentic Vintage Airmail Chevron Border on Top & Bottom -->
+          <div class="absolute top-0 left-0 right-0 h-2 airmail-stripe"></div>
+          <div class="absolute bottom-0 left-0 right-0 h-2 airmail-stripe"></div>
+
+          <!-- Vintage Postal Cancellation Stamp (Top-Right Watermark) -->
+          <div class="absolute top-4 right-5 sm:top-6 sm:right-8 flex items-center gap-3 opacity-80 pointer-events-none select-none">
+            <!-- Wavy postal cancellation lines -->
+            <div class="hidden sm:flex flex-col gap-1 w-12 text-[#841926]/40">
+              <div class="h-0.5 bg-[#841926]/40 rounded"></div>
+              <div class="h-0.5 bg-[#841926]/40 rounded"></div>
+              <div class="h-0.5 bg-[#841926]/40 rounded"></div>
+            </div>
+            <!-- Vintage Postage Stamp -->
+            <div class="w-14 h-16 bg-[#f3ecdc] border-2 border-dashed border-[#841926]/60 rounded-sm flex flex-col items-center justify-between p-1 shadow-sm rotate-2">
+              <span class="text-[8px] font-cinzel font-bold text-[#841926]">MEGHPIYON</span>
+              <span class="text-xs font-bengali text-crimson-800 font-bold">১০ ৳</span>
+              <span class="text-[7px] text-slate-500 font-serif">AIR MAIL</span>
+            </div>
           </div>
-          <div class="p-3 bg-white border border-slate-200 rounded-lg">
-            <p class="text-xs font-semibold text-slate-900">Nationwide Delivery</p>
-            <p class="text-[11px] text-slate-500 mt-0.5">Safe delivery in 64 districts</p>
-          </div>
-          <div class="p-3 bg-white border border-slate-200 rounded-lg">
-            <p class="text-xs font-semibold text-slate-900">bKash & Nagad</p>
-            <p class="text-[11px] text-slate-500 mt-0.5">Plus Cash on Delivery</p>
-          </div>
-          <div class="p-3 bg-white border border-slate-200 rounded-lg">
-            <p class="text-xs font-semibold text-slate-900">Artisan Crafted</p>
-            <p class="text-[11px] text-slate-500 mt-0.5">Authentic local creators</p>
+
+          <!-- Card Content -->
+          <div class="relative z-10 pt-2 pb-1">
+            <!-- Decorative Postal Ephemera Badge -->
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-[#f0e6d2] border border-[#d6c3a2] rounded text-[11px] font-cinzel tracking-wider text-[#63141f] uppercase mb-4 font-semibold">
+              <svg class="w-3.5 h-3.5 text-[#cba038]" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+              </svg>
+              <span>AIRMAIL DISPATCH • PARCEL NO. MP-2024</span>
+            </div>
+
+            <!-- Main Elegant Typography Headlines -->
+            <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-[54px] font-serif font-bold text-[#240609] tracking-tight leading-[1.15] mb-3">
+              Handcrafted Gestures,
+              <span class="block italic text-[#841926] font-normal mt-1">
+                Sealed with Affection.
+              </span>
+            </h1>
+
+            <p class="font-bengali text-xl sm:text-2xl text-[#64131d] font-semibold tracking-wide mb-5">
+              {BRAND.nameBn} — {BRAND.tagline}
+            </p>
+
+            <!-- Card Subtitle Prose -->
+            <p class="text-sm sm:text-base text-[#4a2e2b] font-serif leading-relaxed max-w-xl mx-auto mb-8">
+              Curated luxury gift hampers, antique postal keepsakes, handcrafted memories, and heirloom treasures — tied with pure satin ribbon and dispatched across all 64 districts of Bangladesh.
+            </p>
+
+            <!-- Call To Action Buttons (Antique Gold & Deep Crimson) -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <a
+                href="/shop"
+                class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 bg-gradient-to-r from-[#d4a833] via-[#e8c766] to-[#b88c24] hover:from-[#e8c766] hover:to-[#d4a833] text-[#240609] font-cinzel font-bold text-xs sm:text-sm tracking-wider uppercase rounded shadow-lg hover:shadow-[0_0_25px_rgba(232,199,102,0.5)] transition-all duration-200 transform hover:-translate-y-0.5 border border-[#fff2b8]/60"
+              >
+                <span>Explore Gift Collection</span>
+                <svg class="w-4 h-4 text-[#240609]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </a>
+
+              <a
+                href="/track-order"
+                class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-[#f5ede0] hover:bg-[#ede1ce] text-[#64131d] border border-[#841926]/40 hover:border-[#841926] font-cinzel font-semibold text-xs sm:text-sm tracking-wider uppercase rounded transition-all duration-200"
+              >
+                <svg class="w-4 h-4 text-[#841926]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <span>Track Your Parcel</span>
+              </a>
+            </div>
+
+            <!-- Embossed Wax Seal Accent at bottom center of parchment card -->
+            <div class="mt-8 pt-5 border-t border-[#dccab0]/80 flex items-center justify-center gap-3 text-xs text-[#6e4e3b] font-serif">
+              <div class="w-6 h-6 rounded-full bg-gradient-to-br from-[#ffd777] to-[#aa7e22] flex items-center justify-center text-[10px] font-bold text-[#240609] shadow-sm">
+                ম
+              </div>
+              <span class="tracking-wide">Every gift includes a complimentary wax-sealed parchment letter</span>
+            </div>
           </div>
         </div>
+
+        <!-- POSTAL LEDGER TRUST BADGES (Bottom of Hero) -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 w-full mt-12 text-left">
+          <div class="p-4 bg-[#26050a]/80 border border-gold-400/30 rounded-lg backdrop-blur-sm hover:border-gold-400/60 transition-colors">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="text-gold-300 text-base">✉️</span>
+              <p class="text-xs font-cinzel font-semibold text-gold-200 tracking-wider">Wax-Sealed Note</p>
+            </div>
+            <p class="text-[11px] text-[#decab2] font-serif">Complimentary handwritten calligraphy envelope</p>
+          </div>
+
+          <div class="p-4 bg-[#26050a]/80 border border-gold-400/30 rounded-lg backdrop-blur-sm hover:border-gold-400/60 transition-colors">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="text-gold-300 text-base">📮</span>
+              <p class="text-xs font-cinzel font-semibold text-gold-200 tracking-wider">64 Districts</p>
+            </div>
+            <p class="text-[11px] text-[#decab2] font-serif">Safe doorstep courier across all divisions</p>
+          </div>
+
+          <div class="p-4 bg-[#26050a]/80 border border-gold-400/30 rounded-lg backdrop-blur-sm hover:border-gold-400/60 transition-colors">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="text-gold-300 text-base">💳</span>
+              <p class="text-xs font-cinzel font-semibold text-gold-200 tracking-wider">bKash & Nagad</p>
+            </div>
+            <p class="text-[11px] text-[#decab2] font-serif">Instant mobile payments & Cash on Delivery</p>
+          </div>
+
+          <div class="p-4 bg-[#26050a]/80 border border-gold-400/30 rounded-lg backdrop-blur-sm hover:border-gold-400/60 transition-colors">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="text-gold-300 text-base">🎁</span>
+              <p class="text-xs font-cinzel font-semibold text-gold-200 tracking-wider">Artisan Crafted</p>
+            </div>
+            <p class="text-[11px] text-[#decab2] font-serif">Authentic handloom, nakshi & treats</p>
+          </div>
+        </div>
+
       </div>
     </Container>
   </section>
 
-  <!-- Categories Section -->
-  <section class="py-16 bg-white">
+  <!-- Categories Section with Parchment & Crimson Antique Styling -->
+  <section class="py-20 bg-[#faf6ee] text-[#240609] border-b border-[#e5d7bd]">
     <Container size="lg">
-      <div class="flex flex-col md:flex-row md:items-end justify-between mb-8">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
         <div>
-          <Badge variant="sky">Categories</Badge>
-          <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mt-2">
-            Curated For Every Occasion
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#f0e4d0] border border-[#d6c4a3] text-xs font-cinzel uppercase tracking-widest text-[#64131d] font-bold">
+            CURATED CATALOGUE
+          </div>
+          <h2 class="text-3xl md:text-4xl font-serif font-bold text-[#240609] mt-3">
+            Handcrafted For Every Occasion
           </h2>
+          <p class="text-sm font-bengali text-[#64131d] mt-1 text-base">
+            প্রিয়জনের প্রতিটি বিশেষ মুহূর্তের জন্য তৈরি উপহার
+          </p>
         </div>
-        <a href="/shop" class="text-sm font-medium text-sky-600 hover:text-sky-700 mt-2 md:mt-0">
-          View all categories &rarr;
+        <a href="/shop" class="text-xs sm:text-sm font-cinzel font-bold text-[#841926] hover:text-[#520d16] flex items-center gap-1.5 uppercase tracking-wider mt-4 md:mt-0 underline underline-offset-4">
+          <span>View all categories</span>
+          <span>&rarr;</span>
         </a>
       </div>
 
@@ -76,18 +219,21 @@ const categories = PRODUCT_CATEGORIES;
         {categories.map((cat) => (
           <a
             href={`/shop?category=${cat.id}`}
-            class="group p-6 bg-slate-50 hover:bg-sky-50 border border-slate-200 hover:border-sky-300 rounded-xl block transition-none"
+            class="group p-6 bg-[#fffdfa] hover:bg-[#f6efe1] border border-[#e5d7bd] hover:border-[#cba038] rounded-xl block transition-all duration-200 shadow-sm hover:shadow-md relative overflow-hidden"
           >
-            <div class="w-12 h-12 bg-sky-100 rounded-lg flex items-center justify-center text-sky-700 font-bold mb-4">
+            <!-- Top airmail accent bar on hover -->
+            <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-crimson-600 via-gold-400 to-crimson-700 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            
+            <div class="w-12 h-12 bg-[#f4e7d0] rounded-lg flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform">
               🎁
             </div>
-            <h3 class="text-base font-semibold text-slate-900 group-hover:text-sky-700">
+            <h3 class="text-base font-serif font-bold text-[#240609] group-hover:text-[#841926] transition-colors">
               {cat.nameEn}
             </h3>
-            <p class="text-xs text-sky-600 font-bengali mt-0.5">
+            <p class="text-xs text-[#841926] font-bengali mt-0.5 font-medium">
               {cat.nameBn}
             </p>
-            <p class="text-xs text-slate-500 mt-2">
+            <p class="text-xs text-[#5f4942] font-serif mt-2.5 leading-relaxed">
               Carefully wrapped with optional customized greetings and keepsake packaging.
             </p>
           </a>
@@ -96,47 +242,49 @@ const categories = PRODUCT_CATEGORIES;
     </Container>
   </section>
 
-  <!-- Why Meghpiyon Section -->
-  <section class="py-16 bg-sky-50 border-y border-sky-100">
+  <!-- The Meghpiyon Postal Difference Section -->
+  <section class="py-20 bg-[#230509] text-[#f7efe1] border-b border-[#3b0a10]">
     <Container size="lg">
-      <div class="max-w-2xl mx-auto text-center mb-12">
-        <Badge variant="sky">The Meghpiyon Touch</Badge>
-        <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mt-2">
+      <div class="max-w-2xl mx-auto text-center mb-14">
+        <span class="inline-block px-3 py-1 bg-[#3a0a10] border border-gold-400/40 text-gold-300 text-xs font-cinzel tracking-widest uppercase rounded">
+          THE ARTISAN TOUCH
+        </span>
+        <h2 class="text-3xl md:text-4xl font-serif font-bold text-gold-100 mt-3">
           Gifts that convey true warmth
         </h2>
-        <p class="text-sm text-slate-600 mt-2">
-          Every parcel sent through Meghpiyon is handled like a delicate letter of love.
+        <p class="text-sm font-serif text-[#d6c4a3] mt-2">
+          Every parcel dispatched through Meghpiyon is handled like an heirloom letter of affection.
         </p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="p-6 bg-white border border-slate-200 rounded-xl">
-          <div class="w-10 h-10 bg-sky-100 rounded-md flex items-center justify-center text-sky-700 font-bold mb-4">
+        <div class="p-8 bg-[#2d070d] border border-gold-400/25 rounded-xl hover:border-gold-400/50 transition-colors shadow-lg">
+          <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-gold-300 to-gold-600 text-crimson-950 flex items-center justify-center font-cinzel font-bold text-lg mb-5 shadow-md">
             01
           </div>
-          <h3 class="text-lg font-semibold text-slate-900">Customized Presentation</h3>
-          <p class="text-xs text-slate-600 mt-2 leading-relaxed">
-            Choose custom ribbon colors, calligraphed cards, and bespoke Bengali greetings printed on premium paper.
+          <h3 class="text-lg font-serif font-bold text-gold-200">Customized Presentation</h3>
+          <p class="text-xs text-[#decab2] font-serif mt-2.5 leading-relaxed">
+            Choose custom satin ribbons, calligraphed letter envelopes, and bespoke Bengali greetings printed on textured parchment paper.
           </p>
         </div>
 
-        <div class="p-6 bg-white border border-slate-200 rounded-xl">
-          <div class="w-10 h-10 bg-sky-100 rounded-md flex items-center justify-center text-sky-700 font-bold mb-4">
+        <div class="p-8 bg-[#2d070d] border border-gold-400/25 rounded-xl hover:border-gold-400/50 transition-colors shadow-lg">
+          <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-gold-300 to-gold-600 text-crimson-950 flex items-center justify-center font-cinzel font-bold text-lg mb-5 shadow-md">
             02
           </div>
-          <h3 class="text-lg font-semibold text-slate-900">Reliable Bangladeshi Logistics</h3>
-          <p class="text-xs text-slate-600 mt-2 leading-relaxed">
-            Swift dispatch within Dhaka and guaranteed doorstep delivery across all divisions, tracked from hub to recipient.
+          <h3 class="text-lg font-serif font-bold text-gold-200">Express Postal Logistics</h3>
+          <p class="text-xs text-[#decab2] font-serif mt-2.5 leading-relaxed">
+            Swift dispatch within Dhaka and guaranteed doorstep delivery across all 64 districts, tracked from our postal hub to your loved one.
           </p>
         </div>
 
-        <div class="p-6 bg-white border border-slate-200 rounded-xl">
-          <div class="w-10 h-10 bg-sky-100 rounded-md flex items-center justify-center text-sky-700 font-bold mb-4">
+        <div class="p-8 bg-[#2d070d] border border-gold-400/25 rounded-xl hover:border-gold-400/50 transition-colors shadow-lg">
+          <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-gold-300 to-gold-600 text-crimson-950 flex items-center justify-center font-cinzel font-bold text-lg mb-5 shadow-md">
             03
           </div>
-          <h3 class="text-lg font-semibold text-slate-900">Supporting Local Crafts</h3>
-          <p class="text-xs text-slate-600 mt-2 leading-relaxed">
-            Our products collaborate directly with rural artisans, potters, weavers, and small-batch chocolate makers.
+          <h3 class="text-lg font-serif font-bold text-gold-200">Supporting Heritage Crafts</h3>
+          <p class="text-xs text-[#decab2] font-serif mt-2.5 leading-relaxed">
+            We collaborate directly with rural artisans, potters, Nakshi Kantha weavers, and small-batch chocolatiers across Bangladesh.
           </p>
         </div>
       </div>
@@ -144,12 +292,15 @@ const categories = PRODUCT_CATEGORIES;
   </section>
 
   <!-- Bengali Quote Banner -->
-  <section class="py-12 bg-white text-center">
+  <section class="py-16 bg-[#faf6ee] text-center border-t border-[#e5d7bd]">
     <Container size="md">
-      <blockquote class="text-xl md:text-2xl font-bengali font-medium text-slate-800 italic">
+      <div class="w-10 h-10 mx-auto rounded-full bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center text-crimson-950 font-serif font-bold text-lg shadow-sm mb-4">
+        ম
+      </div>
+      <blockquote class="text-xl md:text-2xl font-bengali font-semibold text-[#520d16] italic leading-relaxed max-w-2xl mx-auto">
         "দূরে থেকেও কাছের অনুভূতি, মেঘপিয়নের মাধ্যমে ভালোবাসার উপহার পৌঁছে যাক প্রিয়জনের ঠিকানায়।"
       </blockquote>
-      <p class="text-xs text-slate-500 mt-3 uppercase tracking-wider">— মেঘপিয়ন টিম</p>
+      <p class="text-xs text-[#8c6753] font-serif mt-3 tracking-widest uppercase">— মেঘপিয়ন টিম • THE POSTAL GIFT SERVICE</p>
     </Container>
   </section>
 </BaseLayout>

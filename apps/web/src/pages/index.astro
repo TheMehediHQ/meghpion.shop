@@ -252,8 +252,19 @@ const testimonials = [
   </section>
 
   <!-- ============================= STORY ============================= -->
-  <section class="bg-parchment py-20">
-    <Container size="lg">
+  <section class="relative overflow-hidden bg-parchment py-20 lg:py-24 border-y border-parchment-line">
+    <!-- Atmospheric Vintage Background -->
+    <div class="absolute inset-0 z-0">
+      <img
+        src="/images/special-section.jpeg"
+        alt=""
+        class="w-full h-full object-cover object-center pointer-events-none select-none"
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+
+    <Container size="lg" className="relative z-10">
       <div class="grid items-center gap-14 lg:grid-cols-2">
         <div class="relative">
           <div class="absolute -inset-3 rotate-[-2deg] rounded-[4px] border border-parchment-line bg-parchment-deep/60"></div>

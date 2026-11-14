@@ -21,27 +21,27 @@ import { BRAND, BD_DIVISIONS } from '@meghpiyon/shared';
           <div class="border border-parchment-line rounded-[4px] p-6 space-y-5">
             <div class="flex items-center gap-2">
               <span class="w-6 h-6 rounded-full bg-ink text-white text-xs flex items-center justify-center font-bold">1</span>
-              <h2 class="text-lg font-bold text-espresso">Recipient & Delivery Address</h2>
+              <h2 class="text-lg font-bold text-espresso font-bengali">প্রাপকের তথ্য ও ডেলিভারি ঠিকানা</h2>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div class="space-y-1">
-                <label for="fullName" class="block text-xs font-semibold text-espresso/[0.85]">
-                  Recipient's Full Name *
+                <label for="fullName" class="block text-xs font-semibold text-espresso/[0.85] font-bengali">
+                  প্রাপকের পুরো নাম *
                 </label>
                 <input
                   type="text"
                   id="fullName"
                   name="fullName"
                   required
-                  placeholder="e.g. Tanvir Ahmed"
+                  placeholder="যেমন: তানভীর আহমেদ"
                   class="input-field"
                 />
               </div>
 
               <div class="space-y-1">
-                <label for="phone" class="block text-xs font-semibold text-espresso/[0.85]">
-                  Contact Phone Number *
+                <label for="phone" class="block text-xs font-semibold text-espresso/[0.85] font-bengali">
+                  মোবাইল নম্বর *
                 </label>
                 <input
                   type="tel"
@@ -54,11 +54,11 @@ import { BRAND, BD_DIVISIONS } from '@meghpiyon/shared';
               </div>
 
               <div class="space-y-1">
-                <label for="division" class="block text-xs font-semibold text-espresso/[0.85]">
-                  Division *
+                <label for="division" class="block text-xs font-semibold text-espresso/[0.85] font-bengali">
+                  বিভাগ *
                 </label>
                 <select id="division" name="division" required class="input-field">
-                  <option value="">Select Division</option>
+                  <option value="">বিভাগ নির্বাচন করুন</option>
                   {BD_DIVISIONS.map((division) => (
                     <option value={division}>{division}</option>
                   ))}
@@ -66,42 +66,42 @@ import { BRAND, BD_DIVISIONS } from '@meghpiyon/shared';
               </div>
 
               <div class="space-y-1">
-                <label for="district" class="block text-xs font-semibold text-espresso/[0.85]">
-                  District / Area *
+                <label for="district" class="block text-xs font-semibold text-espresso/[0.85] font-bengali">
+                  জেলা ও এলাকা *
                 </label>
                 <input
                   type="text"
                   id="district"
                   name="district"
                   required
-                  placeholder="e.g. Dhaka (Dhanmondi)"
+                  placeholder="যেমন: ঢাকা (ধানমন্ডি)"
                   class="input-field"
                 />
               </div>
 
               <div class="sm:col-span-2 space-y-1">
-                <label for="addressLine" class="block text-xs font-semibold text-espresso/[0.85]">
-                  Full Street Address *
+                <label for="addressLine" class="block text-xs font-semibold text-espresso/[0.85] font-bengali">
+                  সম্পূর্ণ ঠিকানা (বাসা/রোড/এলাকা) *
                 </label>
                 <input
                   type="text"
                   id="addressLine"
                   name="addressLine"
                   required
-                  placeholder="House #, Road #, Sector / Area details"
+                  placeholder="বাড়ি নং, রোড নং, সেক্টর বা এলাকার বিস্তারিত ঠিকানা"
                   class="input-field"
                 />
               </div>
 
               <div class="sm:col-span-2 space-y-1">
-                <label for="deliveryNotes" class="block text-xs font-semibold text-espresso/[0.85]">
-                  Delivery Notes / Preferred Delivery Date
+                <label for="deliveryNotes" class="block text-xs font-semibold text-espresso/[0.85] font-bengali">
+                  ডেলিভারি নোট বা কাঙ্ক্ষিত তারিখ (ঐচ্ছিক)
                 </label>
                 <input
                   type="text"
                   id="deliveryNotes"
                   name="deliveryNotes"
-                  placeholder="e.g. Please deliver on Friday afternoon, or call before arriving"
+                  placeholder="যেমন: শুক্রবার বিকেলে ডেলিভারি দিন, বা পৌঁছানোর আগে কল দিন"
                   class="input-field"
                 />
               </div>
@@ -112,11 +112,11 @@ import { BRAND, BD_DIVISIONS } from '@meghpiyon/shared';
           <div class="border border-parchment-line rounded-[4px] p-6 space-y-4">
             <div class="flex items-center gap-2">
               <span class="w-6 h-6 rounded-full bg-ink text-white text-xs flex items-center justify-center font-bold">2</span>
-              <h2 class="text-lg font-bold text-espresso">Personalized Message Card (Free)</h2>
+              <h2 class="text-lg font-bold text-espresso font-bengali">চিরকুটের বার্তা (সম্পূর্ণ ফ্রি)</h2>
             </div>
 
-            <p class="text-xs text-clay">
-              Our calligrapher will handwrite this on a premium textured note card sealed with our brand wax stamp.
+            <p class="text-xs text-clay font-bengali">
+              আমাদের ক্যালিগ্রাফার আপনার এই আন্তরিক বার্তাটি প্রিমিয়াম পার্চমেন্ট কার্ডে হাতে লিখে ওয়াক্স সিলমোহর দিয়ে বক্সে যুক্ত করবেন।
             </p>
 
             <textarea
@@ -124,7 +124,7 @@ import { BRAND, BD_DIVISIONS } from '@meghpiyon/shared';
               name="giftNote"
               rows="3"
               class="input-field"
-              placeholder="আপনার মনের সুন্দর বার্তাটি এখানে লিখুন... (Write in Bengali or English)"
+              placeholder="আপনার মনের সুন্দর বার্তাটি এখানে লিখুন... (বাংলা বা ইংরেজিতে লিখতে পারেন)"
             ></textarea>
           </div>
 
@@ -132,26 +132,26 @@ import { BRAND, BD_DIVISIONS } from '@meghpiyon/shared';
           <div class="border border-parchment-line rounded-[4px] p-6 space-y-4">
             <div class="flex items-center gap-2">
               <span class="w-6 h-6 rounded-full bg-ink text-white text-xs flex items-center justify-center font-bold">3</span>
-              <h2 class="text-lg font-bold text-espresso">Payment Option</h2>
+              <h2 class="text-lg font-bold text-espresso font-bengali">পেমেন্ট পদ্ধতি</h2>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <label class="border border-gold-600/60 bg-parchment p-4 rounded-[4px] cursor-pointer flex flex-col items-start gap-1">
                 <input type="radio" name="paymentMethod" value="cod" checked class="text-gold-700" />
-                <span class="text-sm font-bold text-espresso mt-2">Cash on Delivery</span>
-                <span class="text-[11px] text-clay">Pay cash upon receiving</span>
+                <span class="text-sm font-bold text-espresso mt-2 font-bengali">ক্যাশ অন ডেলিভারি</span>
+                <span class="text-[11px] text-clay font-bengali">পণ্য হাতে পেয়ে মূল্য পরিশোধ</span>
               </label>
 
               <label class="border border-parchment-line p-4 rounded-[4px] cursor-pointer flex flex-col items-start gap-1 hover:border-gold-600/50">
                 <input type="radio" name="paymentMethod" value="bkash" class="text-gold-700" />
-                <span class="text-sm font-bold text-pink-600 mt-2">bKash</span>
-                <span class="text-[11px] text-clay">Pay via bKash gateway</span>
+                <span class="text-sm font-bold text-pink-600 mt-2 font-bengali">বিকাশ (bKash)</span>
+                <span class="text-[11px] text-clay font-bengali">বিকাশ গেটওয়েতে পেমেন্ট</span>
               </label>
 
               <label class="border border-parchment-line p-4 rounded-[4px] cursor-pointer flex flex-col items-start gap-1 hover:border-gold-600/50">
                 <input type="radio" name="paymentMethod" value="nagad" class="text-gold-700" />
-                <span class="text-sm font-bold text-orange-600 mt-2">Nagad</span>
-                <span class="text-[11px] text-clay">Pay via Nagad gateway</span>
+                <span class="text-sm font-bold text-orange-600 mt-2 font-bengali">নগদ (Nagad)</span>
+                <span class="text-[11px] text-clay font-bengali">নগদ গেটওয়েতে পেমেন্ট</span>
               </label>
             </div>
           </div>
@@ -159,38 +159,38 @@ import { BRAND, BD_DIVISIONS } from '@meghpiyon/shared';
 
         <!-- Right Summary Sidebar -->
         <div class="bg-parchment border border-parchment-line rounded-[4px] p-6 h-fit space-y-6">
-          <h3 class="text-lg font-bold text-espresso pb-3 border-b border-parchment-line">
-            Order Review
+          <h3 class="text-lg font-bold text-espresso pb-3 border-b border-parchment-line font-bengali">
+            অর্ডার সামারি
           </h3>
 
-          <div class="space-y-3 text-sm">
+          <div class="space-y-3 text-sm font-bengali">
             <div class="flex justify-between text-clay">
-              <span>Items (1 item)</span>
-              <span class="font-medium text-espresso">{BRAND.currencySymbol}2200</span>
+              <span>উপহার সামগ্রী</span>
+              <span class="font-medium text-espresso font-sans">{BRAND.currencySymbol}2,200</span>
             </div>
             <div class="flex justify-between text-clay">
-              <span>Luxury Gift Box Packaging</span>
-              <span class="font-medium text-espresso">{BRAND.currencySymbol}100</span>
+              <span>লাক্সারি গিফট বক্স প্যাকেজিং</span>
+              <span class="font-medium text-espresso font-sans">{BRAND.currencySymbol}100</span>
             </div>
             <div class="flex justify-between text-clay">
-              <span>Delivery Fee (Standard)</span>
-              <span class="font-medium text-espresso">{BRAND.currencySymbol}80</span>
+              <span>ডেলিভারি চার্জ</span>
+              <span class="font-medium text-espresso font-sans">{BRAND.currencySymbol}80</span>
             </div>
             <div class="pt-3 border-t border-parchment-line flex justify-between text-base font-bold text-espresso">
-              <span>Payable Total</span>
-              <span class="text-gold-700">{BRAND.currencySymbol}2380</span>
+              <span>সর্বমোট প্রদেয়</span>
+              <span class="text-gold-700 font-sans">{BRAND.currencySymbol}2,380</span>
             </div>
           </div>
 
           <button
             type="submit"
-            class="btn-primary w-full py-3 text-sm justify-center shadow"
+            class="btn-primary w-full py-3.5 text-base font-bengali font-medium tracking-wide justify-center shadow"
           >
-            Confirm & Place Gift Order
+            অর্ডার নিশ্চিত করুন
           </button>
 
-          <p class="text-[11px] text-clay text-center leading-relaxed">
-            By placing your order, you agree to {BRAND.name}'s terms of service and delivery policy.
+          <p class="text-[11px] text-clay text-center leading-relaxed font-bengali">
+            অর্ডার কনফার্ম করার মাধ্যমে আপনি {BRAND.name}-এর সেবার শর্তাবলী ও ডেলিভারি পলিসি মেনে নিচ্ছেন।
           </p>
         </div>
       </form>

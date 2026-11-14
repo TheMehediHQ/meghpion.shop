@@ -19,6 +19,7 @@ export const PRODUCT_CATEGORIES = [
   { id: 'flowers', nameEn: 'Fresh & Dried Flowers', nameBn: 'ফুল ও তোড়া' },
   { id: 'jewelry', nameEn: 'Artisanal Jewelry', nameBn: 'গহনা' },
   { id: 'greeting-cards', nameEn: 'Artisan Greeting Cards', nameBn: 'শুভেচ্ছা কার্ড' },
+  { id: 'corporate-hampers', nameEn: 'Corporate Hampers', nameBn: 'কর্পোরেট গিফট হ্যাম্পার' },
 ] as const;
 
 export const BD_DIVISIONS = [

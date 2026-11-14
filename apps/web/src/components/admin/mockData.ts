@@ -81,7 +81,7 @@ export const INITIAL_PRODUCTS: AdminProduct[] = [
     discountPrice: 2200,
     stock: 18,
     category: 'gift-boxes',
-    image: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=600&auto=format&fit=crop&q=80',
+    image: 'https://images.unsplash.com/photo-1543257580-7269da773bf5?w=600&auto=format&fit=crop&q=80',
     tags: ['Best Seller', 'Handcrafted', 'Festive'],
     isFeatured: true,
     isAvailable: true,

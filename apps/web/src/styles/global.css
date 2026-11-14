@@ -64,11 +64,11 @@
   }
 
   .section-title {
-    @apply font-display text-3xl sm:text-[40px] leading-[1.12] font-semibold tracking-[-0.01em] text-espresso;
+    @apply font-tiro text-3xl sm:text-[38px] leading-[1.38] font-normal sm:font-medium tracking-normal text-espresso;
   }
 
   .section-lead {
-    @apply mt-4 max-w-2xl text-[15px] leading-relaxed text-clay;
+    @apply mt-4 max-w-2xl font-bengali text-[15px] sm:text-base leading-[1.7] text-clay;
   }
 
   /* Surfaces */
@@ -177,18 +177,18 @@
     font-family: 'Galada', cursive, serif;
   }
 
-  /* Vintage Postal Airmail Border */
+  /* Vintage Postal Airmail Border — authentic fine stitch dashed line */
   .airmail-stripe {
     background: repeating-linear-gradient(
       -45deg,
-      #841926 0,
-      #841926 12px,
-      transparent 12px,
-      transparent 18px,
-      #aa7e22 18px,
-      #aa7e22 30px,
-      transparent 30px,
-      transparent 36px
+      #8e1b27 0px,
+      #8e1b27 6px,
+      transparent 6px,
+      transparent 9.5px,
+      #b58c3a 9.5px,
+      #b58c3a 15.5px,
+      transparent 15.5px,
+      transparent 19px
     );
   }
 

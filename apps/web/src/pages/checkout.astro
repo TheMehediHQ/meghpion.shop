@@ -8,9 +8,9 @@ import { BRAND, BD_DIVISIONS } from '@meghpiyon/shared';
   title={`Checkout | ${BRAND.name}`}
   description="Complete your gift order with delivery details and payment preferences."
 >
-  <div class="py-12 bg-white">
+  <div class="py-12 bg-parchment-light">
     <Container size="lg">
-      <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight mb-8">
+      <h1 class="section-title mb-8">
         Checkout & Delivery
       </h1>
 
@@ -18,15 +18,15 @@ import { BRAND, BD_DIVISIONS } from '@meghpiyon/shared';
         <!-- Delivery and Recipient Information -->
         <div class="lg:col-span-2 space-y-8">
           <!-- Step 1: Recipient Address -->
-          <div class="border border-slate-200 rounded-xl p-6 space-y-5">
+          <div class="border border-parchment-line rounded-[4px] p-6 space-y-5">
             <div class="flex items-center gap-2">
-              <span class="w-6 h-6 rounded-full bg-sky-600 text-white text-xs flex items-center justify-center font-bold">1</span>
-              <h2 class="text-lg font-bold text-slate-900">Recipient & Delivery Address</h2>
+              <span class="w-6 h-6 rounded-full bg-ink text-white text-xs flex items-center justify-center font-bold">1</span>
+              <h2 class="text-lg font-bold text-espresso">Recipient & Delivery Address</h2>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div class="space-y-1">
-                <label for="fullName" class="block text-xs font-semibold text-slate-700">
+                <label for="fullName" class="block text-xs font-semibold text-espresso/[0.85]">
                   Recipient's Full Name *
                 </label>
                 <input
@@ -40,7 +40,7 @@ import { BRAND, BD_DIVISIONS } from '@meghpiyon/shared';
               </div>
 
               <div class="space-y-1">
-                <label for="phone" class="block text-xs font-semibold text-slate-700">
+                <label for="phone" class="block text-xs font-semibold text-espresso/[0.85]">
                   Contact Phone Number *
                 </label>
                 <input
@@ -54,7 +54,7 @@ import { BRAND, BD_DIVISIONS } from '@meghpiyon/shared';
               </div>
 
               <div class="space-y-1">
-                <label for="division" class="block text-xs font-semibold text-slate-700">
+                <label for="division" class="block text-xs font-semibold text-espresso/[0.85]">
                   Division *
                 </label>
                 <select id="division" name="division" required class="input-field">
@@ -66,7 +66,7 @@ import { BRAND, BD_DIVISIONS } from '@meghpiyon/shared';
               </div>
 
               <div class="space-y-1">
-                <label for="district" class="block text-xs font-semibold text-slate-700">
+                <label for="district" class="block text-xs font-semibold text-espresso/[0.85]">
                   District / Area *
                 </label>
                 <input
@@ -80,7 +80,7 @@ import { BRAND, BD_DIVISIONS } from '@meghpiyon/shared';
               </div>
 
               <div class="sm:col-span-2 space-y-1">
-                <label for="addressLine" class="block text-xs font-semibold text-slate-700">
+                <label for="addressLine" class="block text-xs font-semibold text-espresso/[0.85]">
                   Full Street Address *
                 </label>
                 <input
@@ -94,7 +94,7 @@ import { BRAND, BD_DIVISIONS } from '@meghpiyon/shared';
               </div>
 
               <div class="sm:col-span-2 space-y-1">
-                <label for="deliveryNotes" class="block text-xs font-semibold text-slate-700">
+                <label for="deliveryNotes" class="block text-xs font-semibold text-espresso/[0.85]">
                   Delivery Notes / Preferred Delivery Date
                 </label>
                 <input
@@ -109,13 +109,13 @@ import { BRAND, BD_DIVISIONS } from '@meghpiyon/shared';
           </div>
 
           <!-- Step 2: Handwritten Gift Card Note -->
-          <div class="border border-slate-200 rounded-xl p-6 space-y-4">
+          <div class="border border-parchment-line rounded-[4px] p-6 space-y-4">
             <div class="flex items-center gap-2">
-              <span class="w-6 h-6 rounded-full bg-sky-600 text-white text-xs flex items-center justify-center font-bold">2</span>
-              <h2 class="text-lg font-bold text-slate-900">Personalized Message Card (Free)</h2>
+              <span class="w-6 h-6 rounded-full bg-ink text-white text-xs flex items-center justify-center font-bold">2</span>
+              <h2 class="text-lg font-bold text-espresso">Personalized Message Card (Free)</h2>
             </div>
 
-            <p class="text-xs text-slate-500">
+            <p class="text-xs text-clay">
               Our calligrapher will handwrite this on a premium textured note card sealed with our brand wax stamp.
             </p>
 
@@ -129,56 +129,56 @@ import { BRAND, BD_DIVISIONS } from '@meghpiyon/shared';
           </div>
 
           <!-- Step 3: Payment Method -->
-          <div class="border border-slate-200 rounded-xl p-6 space-y-4">
+          <div class="border border-parchment-line rounded-[4px] p-6 space-y-4">
             <div class="flex items-center gap-2">
-              <span class="w-6 h-6 rounded-full bg-sky-600 text-white text-xs flex items-center justify-center font-bold">3</span>
-              <h2 class="text-lg font-bold text-slate-900">Payment Option</h2>
+              <span class="w-6 h-6 rounded-full bg-ink text-white text-xs flex items-center justify-center font-bold">3</span>
+              <h2 class="text-lg font-bold text-espresso">Payment Option</h2>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <label class="border border-sky-300 bg-sky-50/50 p-4 rounded-lg cursor-pointer flex flex-col items-start gap-1">
-                <input type="radio" name="paymentMethod" value="cod" checked class="text-sky-600" />
-                <span class="text-sm font-bold text-slate-900 mt-2">Cash on Delivery</span>
-                <span class="text-[11px] text-slate-500">Pay cash upon receiving</span>
+              <label class="border border-gold-600/60 bg-parchment p-4 rounded-[4px] cursor-pointer flex flex-col items-start gap-1">
+                <input type="radio" name="paymentMethod" value="cod" checked class="text-gold-700" />
+                <span class="text-sm font-bold text-espresso mt-2">Cash on Delivery</span>
+                <span class="text-[11px] text-clay">Pay cash upon receiving</span>
               </label>
 
-              <label class="border border-slate-200 p-4 rounded-lg cursor-pointer flex flex-col items-start gap-1 hover:border-sky-300">
-                <input type="radio" name="paymentMethod" value="bkash" class="text-sky-600" />
+              <label class="border border-parchment-line p-4 rounded-[4px] cursor-pointer flex flex-col items-start gap-1 hover:border-gold-600/50">
+                <input type="radio" name="paymentMethod" value="bkash" class="text-gold-700" />
                 <span class="text-sm font-bold text-pink-600 mt-2">bKash</span>
-                <span class="text-[11px] text-slate-500">Pay via bKash gateway</span>
+                <span class="text-[11px] text-clay">Pay via bKash gateway</span>
               </label>
 
-              <label class="border border-slate-200 p-4 rounded-lg cursor-pointer flex flex-col items-start gap-1 hover:border-sky-300">
-                <input type="radio" name="paymentMethod" value="nagad" class="text-sky-600" />
+              <label class="border border-parchment-line p-4 rounded-[4px] cursor-pointer flex flex-col items-start gap-1 hover:border-gold-600/50">
+                <input type="radio" name="paymentMethod" value="nagad" class="text-gold-700" />
                 <span class="text-sm font-bold text-orange-600 mt-2">Nagad</span>
-                <span class="text-[11px] text-slate-500">Pay via Nagad gateway</span>
+                <span class="text-[11px] text-clay">Pay via Nagad gateway</span>
               </label>
             </div>
           </div>
         </div>
 
         <!-- Right Summary Sidebar -->
-        <div class="bg-slate-50 border border-slate-200 rounded-xl p-6 h-fit space-y-6">
-          <h3 class="text-lg font-bold text-slate-900 pb-3 border-b border-slate-200">
+        <div class="bg-parchment border border-parchment-line rounded-[4px] p-6 h-fit space-y-6">
+          <h3 class="text-lg font-bold text-espresso pb-3 border-b border-parchment-line">
             Order Review
           </h3>
 
           <div class="space-y-3 text-sm">
-            <div class="flex justify-between text-slate-600">
+            <div class="flex justify-between text-clay">
               <span>Items (1 item)</span>
-              <span class="font-medium text-slate-900">{BRAND.currencySymbol}2200</span>
+              <span class="font-medium text-espresso">{BRAND.currencySymbol}2200</span>
             </div>
-            <div class="flex justify-between text-slate-600">
+            <div class="flex justify-between text-clay">
               <span>Luxury Gift Box Packaging</span>
-              <span class="font-medium text-slate-900">{BRAND.currencySymbol}100</span>
+              <span class="font-medium text-espresso">{BRAND.currencySymbol}100</span>
             </div>
-            <div class="flex justify-between text-slate-600">
+            <div class="flex justify-between text-clay">
               <span>Delivery Fee (Standard)</span>
-              <span class="font-medium text-slate-900">{BRAND.currencySymbol}80</span>
+              <span class="font-medium text-espresso">{BRAND.currencySymbol}80</span>
             </div>
-            <div class="pt-3 border-t border-slate-200 flex justify-between text-base font-bold text-slate-900">
+            <div class="pt-3 border-t border-parchment-line flex justify-between text-base font-bold text-espresso">
               <span>Payable Total</span>
-              <span class="text-sky-700">{BRAND.currencySymbol}2380</span>
+              <span class="text-gold-700">{BRAND.currencySymbol}2380</span>
             </div>
           </div>
 
@@ -189,7 +189,7 @@ import { BRAND, BD_DIVISIONS } from '@meghpiyon/shared';
             Confirm & Place Gift Order
           </button>
 
-          <p class="text-[11px] text-slate-500 text-center leading-relaxed">
+          <p class="text-[11px] text-clay text-center leading-relaxed">
             By placing your order, you agree to {BRAND.name}'s terms of service and delivery policy.
           </p>
         </div>

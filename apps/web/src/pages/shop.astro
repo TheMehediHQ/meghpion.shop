@@ -1,12 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Container from '../components/ui/Container.astro';
-import Badge from '../components/ui/Badge.astro';
+import ProductCard from '../components/ui/ProductCard.astro';
 import { BRAND, PRODUCT_CATEGORIES } from '@meghpiyon/shared';
 
 const selectedCategory = Astro.url.searchParams.get('category') || 'all';
 
-// Curated gift catalog samples
 const products = [
   {
     id: '1',
@@ -15,21 +14,23 @@ const products = [
     slug: 'shonar-bangla-artisan-gift-box',
     price: 2450,
     discountPrice: 2200,
-    category: 'gift-boxes',
+    category: 'Curated Gift Box',
     image: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=600&auto=format&fit=crop&q=80',
-    tags: ['Best Seller', 'Handcrafted'],
-    rating: 5,
+    tags: ['Best Seller'],
+    rating: 4.9,
+    reviewCount: 128,
   },
   {
     id: '2',
     name: 'Nakshi Kantha Embroidered Diary & Pen',
-    nameBn: 'নকশিকাঁথা ডায়েরি ও কলম',
+    nameBn: 'নকশিকাঁথা ডায়েরি ও কলম',
     slug: 'nakshi-kantha-diary-pen',
     price: 1250,
-    category: 'handicrafts',
+    category: 'Handicrafts',
     image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80',
-    tags: ['Traditional'],
-    rating: 4.9,
+    tags: ['Artisan Made'],
+    rating: 4.8,
+    reviewCount: 64,
   },
   {
     id: '3',
@@ -37,21 +38,23 @@ const products = [
     nameBn: 'চকলেট ও ড্রাই ফ্রুটস হ্যাম্পার',
     slug: 'artisanal-chocolates-dry-fruits',
     price: 1850,
-    category: 'chocolates',
+    category: 'Gourmet Hamper',
     image: 'https://images.unsplash.com/photo-1511381939415-e44015466834?w=600&auto=format&fit=crop&q=80',
     tags: ['Gourmet'],
     rating: 5,
+    reviewCount: 91,
   },
   {
     id: '4',
-    name: 'Personalized Wooden Photo Frame & Keepsake',
+    name: 'Personalised Wooden Photo Frame & Keepsake',
     nameBn: 'কাঠের কাস্টমাইজড ফটো ফ্রেম',
     slug: 'personalized-wooden-photo-frame',
     price: 950,
-    category: 'customized',
+    category: 'Personalised',
     image: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=600&auto=format&fit=crop&q=80',
-    tags: ['Customized'],
+    tags: ['Personalised'],
     rating: 4.8,
+    reviewCount: 43,
   },
   {
     id: '5',
@@ -59,10 +62,11 @@ const products = [
     nameBn: 'গোলাপ ও বেলি ফুলের বক্স',
     slug: 'monsoon-jasmine-rose-box',
     price: 1400,
-    category: 'flowers',
+    category: 'Fresh Flowers',
     image: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?w=600&auto=format&fit=crop&q=80',
-    tags: ['Fragrant'],
+    tags: ['Seasonal'],
     rating: 4.9,
+    reviewCount: 57,
   },
   {
     id: '6',
@@ -70,58 +74,68 @@ const products = [
     nameBn: 'টেরাকোটা প্ল্যান্টার',
     slug: 'handmade-terracotta-planter',
     price: 650,
-    category: 'handicrafts',
+    category: 'Handicrafts',
     image: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=600&auto=format&fit=crop&q=80',
     tags: ['Eco-friendly'],
     rating: 4.7,
+    reviewCount: 38,
   },
 ];
 
 const filteredProducts =
-  selectedCategory === 'all'
-    ? products
-    : products.filter((p) => p.category === selectedCategory);
+  selectedCategory === 'all' ? products : products.filter((p) => p.category === selectedCategory);
 ---
 
 <BaseLayout
-  title={`Shop Gifts | ${BRAND.name}`}
-  description="Discover our collection of curated gift boxes, traditional Bangladeshi handicrafts, personalized tokens, and fresh floral hampers."
+  title={`Collections | ${BRAND.name}`}
+  description="Browse curated gift boxes, Bangladeshi handicrafts, personalised keepsakes and floral hampers — hand-finished and delivered nationwide."
 >
-  <div class="bg-sky-50/50 border-b border-slate-200 py-8">
-    <Container size="lg">
-      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+  <!-- Page header -->
+  <section class="relative overflow-hidden border-b border-parchment-line bg-parchment">
+    <div class="absolute inset-0 paper-grain opacity-60"></div>
+    <Container size="lg" className="relative py-14">
+      <nav class="flex items-center gap-2 text-[10.5px] font-medium uppercase tracking-[0.18em] text-clay/70" aria-label="Breadcrumb">
+        <a href="/" class="transition-colors hover:text-ink">Home</a>
+        <span class="text-clay/40">/</span>
+        <span class="text-espresso">Collections</span>
+      </nav>
+
+      <div class="mt-6 flex flex-col justify-between gap-6 md:flex-row md:items-end">
         <div>
-          <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">
-            Curated Gift Collection
-          </h1>
-          <p class="text-sm text-slate-600 mt-1">
-            Hand-selected, beautifully presented, and delivered with your personal note.
+          <span class="eyebrow">
+            <span class="h-px w-7 bg-gold-600/60"></span>
+            The Collection
+          </span>
+          <h1 class="section-title mt-4">Curated Gifts &amp; Heirloom Keepsakes</h1>
+          <p class="section-lead">
+            Hand-selected pieces, finished by hand in our Dhaka atelier and delivered with a written note.
           </p>
         </div>
-        <p class="text-xs text-sky-700 font-medium">
-          Showing {filteredProducts.length} items
+        <p class="shrink-0 text-[11px] font-semibold uppercase tracking-[0.18em] text-clay">
+          {filteredProducts.length} {filteredProducts.length === 1 ? 'piece' : 'pieces'}
         </p>
       </div>
 
-      <!-- Categories Filter Tabs -->
-      <div class="flex items-center gap-2 overflow-x-auto pt-6 pb-2 scrollbar-none">
+      <!-- Category filters -->
+      <div class="mt-9 flex flex-wrap gap-2">
         <a
           href="/shop"
-          class={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap border ${
+          class={`rounded-full border px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] transition-colors ${
             selectedCategory === 'all'
-              ? 'bg-sky-600 text-white border-sky-600'
-              : 'bg-white text-slate-700 border-slate-200 hover:border-sky-300'
+              ? 'border-ink bg-ink text-parchment'
+              : 'border-parchment-line bg-parchment-light text-clay hover:border-gold-600/50 hover:text-espresso'
           }`}
         >
-          All Items
+          All Gifts
         </a>
         {PRODUCT_CATEGORIES.map((cat) => (
           <a
+            key={cat.id}
             href={`/shop?category=${cat.id}`}
-            class={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap border ${
+            class={`rounded-full border px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] transition-colors ${
               selectedCategory === cat.id
-                ? 'bg-sky-600 text-white border-sky-600'
-                : 'bg-white text-slate-700 border-slate-200 hover:border-sky-300'
+                ? 'border-ink bg-ink text-parchment'
+                : 'border-parchment-line bg-parchment-light text-clay hover:border-gold-600/50 hover:text-espresso'
             }`}
           >
             {cat.nameEn}
@@ -129,70 +143,26 @@ const filteredProducts =
         ))}
       </div>
     </Container>
-  </div>
+  </section>
 
-  <!-- Product Grid -->
-  <section class="py-12 bg-white">
+  <!-- Product grid -->
+  <section class="bg-parchment-light py-14">
     <Container size="lg">
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        {filteredProducts.map((product) => (
-          <div class="bg-white border border-slate-200 rounded-xl overflow-hidden flex flex-col">
-            <div class="relative aspect-square bg-slate-100 overflow-hidden">
-              <img
-                src={product.image}
-                alt={product.name}
-                class="w-full h-full object-cover"
-                loading="lazy"
-              />
-              {product.tags.length > 0 && (
-                <div class="absolute top-3 left-3 flex flex-wrap gap-1">
-                  {product.tags.map((tag) => (
-                    <span class="px-2 py-0.5 bg-white/90 backdrop-blur-none text-sky-700 text-[11px] font-semibold rounded shadow-sm border border-sky-100">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            <div class="p-5 flex-1 flex flex-col">
-              <span class="text-[11px] font-semibold text-sky-600 uppercase tracking-wider">
-                {product.category.replace('-', ' ')}
-              </span>
-
-              <h2 class="text-base font-semibold text-slate-900 mt-1">
-                <a href={`/product/${product.slug}`} class="hover:text-sky-600">
-                  {product.name}
-                </a>
-              </h2>
-
-              <p class="text-xs text-slate-500 font-bengali mt-0.5">
-                {product.nameBn}
-              </p>
-
-              <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
-                <div class="flex items-baseline gap-2">
-                  <span class="text-lg font-bold text-slate-900">
-                    {BRAND.currencySymbol}{product.discountPrice ?? product.price}
-                  </span>
-                  {product.discountPrice && (
-                    <span class="text-xs text-slate-400 line-through">
-                      {BRAND.currencySymbol}{product.price}
-                    </span>
-                  )}
-                </div>
-
-                <a
-                  href={`/product/${product.slug}`}
-                  class="btn-outline text-xs px-3 py-1.5"
-                >
-                  View Details
-                </a>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+      {filteredProducts.length > 0 ? (
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {filteredProducts.map((product) => (
+            <ProductCard product={product} />
+          ))}
+        </div>
+      ) : (
+        <div class="mx-auto max-w-md rounded-[4px] border border-parchment-line bg-parchment px-8 py-16 text-center">
+          <p class="font-display text-2xl text-espresso">Nothing here yet</p>
+          <p class="mt-2 text-[13px] leading-relaxed text-clay">
+            This collection is being restyled. Explore the full atelier in the meantime.
+          </p>
+          <a href="/shop" class="btn-outline-dark mt-6">View All Gifts</a>
+        </div>
+      )}
     </Container>
   </section>
 </BaseLayout>

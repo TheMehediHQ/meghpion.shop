@@ -11,7 +11,7 @@ import {
 } from 'firebase/auth';
 
 const firebaseConfig = {
-  apiKey: import.meta.env.PUBLIC_FIREBASE_API_KEY || 'AIzaSyDemoDummyApiKeyForMeghpiyonGifts',
+  apiKey: import.meta.env.PUBLIC_FIREBASE_API_KEY || 'AIzaSyDemoDummyApiKeyForMeghpeonGifts',
   authDomain: import.meta.env.PUBLIC_FIREBASE_AUTH_DOMAIN || 'meghpiyon-gift.firebaseapp.com',
   projectId: import.meta.env.PUBLIC_FIREBASE_PROJECT_ID || 'meghpiyon-gift',
   storageBucket: import.meta.env.PUBLIC_FIREBASE_STORAGE_BUCKET || 'meghpiyon-gift.appspot.com',

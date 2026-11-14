@@ -1,0 +1,49 @@
+---
+interface Props {
+  className?: string;
+  src?: string;
+  wide?: boolean;
+}
+
+const { className = '', src, wide = false } = Astro.props;
+
+const ribbonX = wide ? 85 : 88;
+const ribbonW = wide ? 30 : 24;
+---
+
+{src ? (
+  <img src={src} alt="" class={className} loading="lazy" decoding="async" />
+) : (
+  <svg class={className} viewBox="0 0 200 180" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <!-- box body -->
+    <rect x="22" y="64" width="156" height="104" rx="2" fill="#b99a6b" stroke="#7d5f36" stroke-width="2.5"/>
+    <!-- kraft grain -->
+    <g fill="#8a6a3f" opacity="0.55">
+      <circle cx="38" cy="86" r="1.4"/><circle cx="58" cy="112" r="1.4"/><circle cx="76" cy="82" r="1.4"/>
+      <circle cx="118" cy="96" r="1.4"/><circle cx="140" cy="126" r="1.4"/><circle cx="46" cy="140" r="1.4"/>
+      <circle cx="100" cy="146" r="1.4"/><circle cx="150" cy="80" r="1.4"/><circle cx="66" cy="62" r="1.4"/>
+    </g>
+    <!-- side shading -->
+    <path d="M156 64H178V168H156Z" fill="#8a6a3f" opacity="0.35"/>
+    <!-- lid -->
+    <rect x="14" y="46" width="172" height="26" rx="2" fill="#c4a771" stroke="#7d5f36" stroke-width="2.5"/>
+    <!-- satin ribbon, vertical -->
+    <rect x={ribbonX} y="46" width={ribbonW} height="122" fill="#5c0f1a"/>
+    <rect x={ribbonX} y="46" width="5" height="122" fill="#7c1a2a"/>
+    <rect x={ribbonX + ribbonW - 4} y="46" width="4" height="122" fill="#3f0a10" opacity="0.6"/>
+    <!-- bow -->
+    <g transform="translate(100 48)">
+      <path d="M0 0C-26-22-48-16-40-2C-34 8-12 6 0 0Z" fill="#5c0f1a" stroke="#3f0a10" stroke-width="1.5"/>
+      <path d="M0 0C26-22 48-16 40-2C34 8 12 6 0 0Z" fill="#4a0d15" stroke="#3f0a10" stroke-width="1.5"/>
+      <path d="M-4 2C-14 22-16 40-10 54L-2 52C-7 38-6 20 2 6Z" fill="#4a0d15"/>
+      <path d="M4 2C14 22 16 40 10 54L2 52C7 38 6 20-2 6Z" fill="#5c0f1a"/>
+      <circle cx="0" cy="1" r="7.5" fill="#7c1a2a" stroke="#3f0a10" stroke-width="1.5"/>
+    </g>
+    <!-- wax seal on box front -->
+    <g transform="translate(100 132)">
+      <circle r="12" fill="#8a6420"/>
+      <circle r="9.5" fill="#c19a4b"/>
+      <text y="4" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#5d430e">M</text>
+    </g>
+  </svg>
+)}

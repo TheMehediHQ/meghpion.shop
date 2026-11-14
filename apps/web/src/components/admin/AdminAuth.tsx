@@ -26,7 +26,7 @@ export function AdminAuth({ onLoginSuccess }: AdminAuthProps) {
       ) {
         const user = {
           email: cleanEmail,
-          name: cleanEmail === 'admin@meghpiyon.com' ? 'Super Admin' : 'Meghpiyon Manager',
+          name: cleanEmail === 'admin@meghpiyon.com' ? 'Super Admin' : 'Meghpeon Manager',
           role: 'admin',
         };
         onLoginSuccess(user);
@@ -122,7 +122,7 @@ export function AdminAuth({ onLoginSuccess }: AdminAuthProps) {
 
         <div className="text-center pt-2">
           <a href="/" className="text-xs text-slate-500 hover:text-sky-600 font-medium">
-            ← Return to Meghpiyon Store
+            ← Return to Meghpeon Store
           </a>
         </div>
       </div>

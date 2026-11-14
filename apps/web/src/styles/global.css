@@ -50,12 +50,87 @@
 }
 
 @layer components {
+  /* ============================================================
+     MEGHPEON.SHOP — professional vintage design system
+     ============================================================ */
+
+  /* Typography */
+  .font-display {
+    font-family: 'Playfair Display', Georgia, Cambria, serif;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-gold-700;
+  }
+
+  .section-title {
+    @apply font-display text-3xl sm:text-[40px] leading-[1.12] font-semibold tracking-[-0.01em] text-espresso;
+  }
+
+  .section-lead {
+    @apply mt-4 max-w-2xl text-[15px] leading-relaxed text-clay;
+  }
+
+  /* Surfaces */
+  .card-lux {
+    @apply rounded-[4px] border border-parchment-line bg-parchment-light shadow-[inset_0_1px_0_rgba(255,255,255,0.85),0_22px_44px_-30px_rgba(43,27,23,0.45)];
+  }
+
+  .paper-grain {
+    background-image: radial-gradient(rgba(96, 66, 24, 0.05) 0.6px, transparent 0.7px);
+    background-size: 5px 5px;
+  }
+
+  .hairline {
+    @apply h-px w-full bg-gradient-to-r from-transparent via-parchment-line to-transparent;
+  }
+
+  /* Ornamental divider: line — fleuron — line */
+  .ornament {
+    @apply flex items-center justify-center gap-3 text-gold-600;
+  }
+  .ornament::before,
+  .ornament::after {
+    content: '';
+    @apply h-px w-10 bg-gradient-to-r from-transparent to-gold-500/60;
+  }
+  .ornament::after {
+    @apply bg-gradient-to-l;
+  }
+
+  /* Links with animated underline */
+  .link-underline {
+    @apply relative inline-block;
+  }
+  .link-underline::after {
+    content: '';
+    @apply absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 bg-current transition-transform duration-300;
+  }
+  .link-underline:hover::after {
+    @apply scale-x-100;
+  }
+
+  /* Buttons */
   .btn-gold {
-    @apply inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-gold-400 via-gold-300 to-gold-500 text-crimson-950 font-serif font-semibold text-sm tracking-wide rounded shadow-md border border-gold-300/40;
-    transition: all 0.2s ease;
+    @apply inline-flex items-center justify-center gap-2.5 rounded-[3px] px-7 py-3.5 text-[12px] font-semibold uppercase tracking-[0.18em] text-[#241410] shadow-[inset_0_0_0_1px_rgba(255,248,230,0.55),inset_0_0_0_3px_rgba(180,146,88,0.9),0_10px_24px_-12px_rgba(43,27,23,0.6)] transition-all duration-200;
+    background-image: linear-gradient(165deg, #d9bd85 0%, #c2a068 45%, #b29258 100%);
   }
   .btn-gold:hover {
-    @apply from-gold-300 to-gold-400;
+    filter: brightness(1.05);
+    transform: translateY(-1px);
+  }
+
+  .btn-outline-dark {
+    @apply inline-flex items-center justify-center gap-2.5 rounded-[3px] border border-espresso/25 px-7 py-3.5 text-[12px] font-semibold uppercase tracking-[0.18em] text-espresso transition-colors duration-200 hover:border-espresso/60 hover:bg-espresso/[0.04];
+  }
+
+  .btn-outline-light {
+    @apply inline-flex items-center justify-center gap-2.5 rounded-[3px] border border-parchment/[0.35] px-7 py-3.5 text-[12px] font-semibold uppercase tracking-[0.18em] text-parchment transition-colors duration-200 hover:border-gold-400 hover:text-gold-200;
+  }
+
+  /* Form fields */
+  .field {
+    @apply w-full rounded-[3px] border border-parchment-line bg-white px-4 py-3 text-sm text-espresso shadow-[inset_0_1px_2px_rgba(43,27,23,0.04)] transition-colors placeholder:text-clay/60 focus:border-gold-600 focus:outline-none focus:ring-2 focus:ring-gold-500/20;
   }
 
   .btn-gold-outline {
@@ -87,7 +162,7 @@
   }
 
   .input-field {
-    @apply w-full px-3.5 py-2 text-sm bg-white border border-slate-300 rounded-md focus:outline-none focus:border-crimson-700 focus:ring-1 focus:ring-crimson-700 text-slate-900 placeholder:text-slate-400;
+    @apply w-full px-3.5 py-2.5 text-sm bg-white border border-parchment-line rounded-[3px] focus:outline-none focus:border-gold-600 focus:ring-2 focus:ring-gold-500/20 text-espresso placeholder:text-clay/60;
   }
 
   .font-playfair {
@@ -119,10 +194,10 @@
   /* Floating animation */
   @keyframes floatSlow {
     0%, 100% {
-      transform: translateY(0px) rotate(0deg);
+      transform: translateY(0px) rotate(var(--tilt, 0deg));
     }
     50% {
-      transform: translateY(-8px) rotate(0.4deg);
+      transform: translateY(-8px) rotate(var(--tilt, 0.4deg));
     }
   }
 
@@ -132,15 +207,166 @@
 
   @keyframes floatGentle {
     0%, 100% {
-      transform: translateY(0px) rotate(0deg);
+      transform: translateY(0px) rotate(var(--tilt, 0deg));
     }
     50% {
-      transform: translateY(-5px) rotate(-0.5deg);
+      transform: translateY(-5px) rotate(calc(var(--tilt, 0deg) - 0.5deg));
     }
   }
 
   .animate-float-gentle {
     animation: floatGentle 5s ease-in-out infinite;
+  }
+
+  /* ============================================================
+     VINTAGE STATIONERY DESIGN SYSTEM — Meghpiyon
+     ============================================================ */
+
+  .font-display {
+    font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  }
+
+  /* Textured handmade parchment paper */
+  .parchment-texture {
+    background-color: #f2e6d0;
+    background-image:
+      radial-gradient(ellipse at 18% 8%, rgba(122, 90, 38, 0.07), transparent 55%),
+      radial-gradient(ellipse at 85% 92%, rgba(122, 90, 38, 0.09), transparent 50%),
+      radial-gradient(ellipse at 70% 20%, rgba(255, 252, 240, 0.5), transparent 60%),
+      radial-gradient(rgba(96, 66, 24, 0.055) 0.6px, transparent 0.7px);
+    background-size: auto, auto, auto, 5px 5px;
+  }
+
+  /* Antique brass — brushed metal */
+  .brass {
+    background: linear-gradient(145deg, #e6c87e 0%, #c19a4b 38%, #8f6c26 72%, #b28a3e 100%);
+  }
+
+  /* Brass engraved text */
+  .brass-text {
+    background: linear-gradient(160deg, #f0d998 0%, #cfa64f 45%, #8f6c26 80%, #c39a45 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* ---- Vintage wax seal (stamped with 'M') ---- */
+  .wax-seal {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 52% 48% 44% 56% / 47% 55% 45% 53%;
+    background: radial-gradient(circle at 60% 68%, #b28a3e 0%, #8a6420 55%, #6d4d0d 100%);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.42);
+  }
+
+  /* embossed face of the wax seal */
+  .wax-seal::before {
+    content: '';
+    position: absolute;
+    inset: 7%;
+    border-radius: 46% 54% 51% 49% / 55% 46% 54% 45%;
+    background: radial-gradient(circle at 34% 28%, #e9cd7d 0%, #cfa64f 32%, #a37c2c 62%, #77560f 100%);
+    box-shadow:
+      inset 0 2px 4px rgba(255, 240, 190, 0.6),
+      inset 0 -4px 7px rgba(58, 36, 4, 0.7);
+  }
+
+  /* embossed serif letter inside the seal */
+  .wax-seal-letter {
+    position: relative;
+    font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+    color: #5d430e;
+    text-shadow:
+      0 -1px 1px rgba(255, 236, 170, 0.65),
+      0 1px 2px rgba(46, 28, 2, 0.8);
+    user-select: none;
+  }
+
+  /* ---- Ornate vintage gold CTA button ---- */
+  .btn-vintage-gold {
+    position: relative;
+    isolation: isolate;
+    color: #f7f3eb;
+    background: linear-gradient(165deg, #c8ab74 0%, #b29258 48%, #90713d 100%);
+    box-shadow:
+      inset 0 0 0 1px rgba(247, 243, 235, 0.55),
+      inset 0 0 0 4px #b29258,
+      inset 0 0 0 5px rgba(61, 12, 17, 0.4),
+      inset 0 0 0 6px rgba(247, 243, 235, 0.25),
+      0 12px 26px rgba(0, 0, 0, 0.42);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  }
+
+  .btn-vintage-gold:hover {
+    filter: brightness(1.07);
+    transform: translateY(-2px);
+    box-shadow:
+      inset 0 0 0 1px rgba(247, 243, 235, 0.65),
+      inset 0 0 0 4px #b29258,
+      inset 0 0 0 5px rgba(61, 12, 17, 0.4),
+      inset 0 0 0 6px rgba(247, 243, 235, 0.3),
+      0 16px 32px rgba(0, 0, 0, 0.5);
+  }
+
+  /* ---- Badge-style scalloped / notched ends ---- */
+  .btn-scalloped {
+    --scallop: 7px;
+    -webkit-mask:
+      radial-gradient(var(--scallop) at 0 var(--scallop), #0000 97%, #000) 0 0 / 100% calc(2 * var(--scallop)) repeat-y,
+      radial-gradient(var(--scallop) at 100% var(--scallop), #0000 97%, #000) 100% 0 / 100% calc(2 * var(--scallop)) repeat-y;
+    -webkit-mask-composite: source-in;
+    mask:
+      radial-gradient(var(--scallop) at 0 var(--scallop), #0000 97%, #000) 0 0 / 100% calc(2 * var(--scallop)) repeat-y,
+      radial-gradient(var(--scallop) at 100% var(--scallop), #0000 97%, #000) 100% 0 / 100% calc(2 * var(--scallop)) repeat-y;
+    mask-composite: intersect;
+  }
+
+  /* ---- Postage-stamp perforated edge (all four sides) ---- */
+  .stamp-perf {
+    --perf: 5px;
+    -webkit-mask:
+      radial-gradient(var(--perf) at 50% 0, #0000 97%, #000) 50% 0 / calc(2 * var(--perf)) 100%,
+      radial-gradient(var(--perf) at 50% 100%, #0000 97%, #000) 50% 100% / calc(2 * var(--perf)) 100%,
+      radial-gradient(var(--perf) at 0 50%, #0000 97%, #000) 0 50% / 100% calc(2 * var(--perf)),
+      radial-gradient(var(--perf) at 100% 50%, #0000 97%, #000) 100% 50% / 100% calc(2 * var(--perf));
+    mask:
+      radial-gradient(var(--perf) at 50% 0, #0000 97%, #000) 50% 0 / calc(2 * var(--perf)) 100%,
+      radial-gradient(var(--perf) at 50% 100%, #0000 97%, #000) 50% 100% / calc(2 * var(--perf)) 100%,
+      radial-gradient(var(--perf) at 0 50%, #0000 97%, #000) 0 50% / 100% calc(2 * var(--perf)),
+      radial-gradient(var(--perf) at 100% 50%, #0000 97%, #000) 100% 50% / 100% calc(2 * var(--perf));
+  }
+
+  /* ---- Deep burgundy studio backdrop with fine grain ---- */
+  .studio-backdrop {
+    background-color: #1e0407;
+    background-image:
+      radial-gradient(ellipse at 50% 35%, #3d0c11 0%, #2a070b 55%, #1e0407 100%),
+      radial-gradient(rgba(212, 175, 55, 0.05) 0.7px, transparent 0.8px);
+    background-size: auto, 6px 6px;
+  }
+
+  /* slow drift for large botanical set-pieces */
+  @keyframes driftSlow {
+    0%, 100% {
+      transform: translate3d(0, 0, 0) rotate(var(--tilt, 0deg));
+    }
+    50% {
+      transform: translate3d(0, -14px, 0) rotate(calc(var(--tilt, 0deg) + 1.2deg));
+    }
+  }
+
+  .animate-drift-slow {
+    animation: driftSlow 11s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-float-slow,
+    .animate-float-gentle,
+    .animate-drift-slow {
+      animation: none;
+    }
   }
 }
 

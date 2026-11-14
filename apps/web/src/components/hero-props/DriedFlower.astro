@@ -1,0 +1,40 @@
+---
+interface Props {
+  className?: string;
+  src?: string;
+}
+
+const { className = '', src } = Astro.props;
+---
+
+{src ? (
+  <img src={src} alt="" class={className} loading="lazy" decoding="async" />
+) : (
+  <svg class={className} viewBox="0 0 120 160" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <!-- pressed stem -->
+    <path d="M62 158C60 120 64 88 60 52" stroke="#6d5a3a" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- pressed leaves -->
+    <g>
+      <path d="M62 128C52 124 46 126 42 132C50 136 58 134 62 128Z" fill="#7a6a45"/>
+      <path d="M63 106C73 102 79 104 83 110C75 114 67 112 63 106Z" fill="#8a7a50"/>
+      <path d="M61 84C51 80 45 82 41 88C49 92 57 90 61 84Z" fill="#7a6a45"/>
+      <path d="M62 68C72 64 78 66 82 72C74 76 66 74 62 68Z" fill="#8a7a50"/>
+      <path d="M61 106L79 109M62 84L44 87" stroke="#5d4e30" stroke-width="1" opacity="0.7"/>
+    </g>
+    <!-- dried flower head -->
+    <g transform="translate(60 40)">
+      <circle cx="0" cy="-10" r="8" fill="#9a5a5a"/>
+      <circle cx="9" cy="-3" r="7.5" fill="#b0656f"/>
+      <circle cx="6" cy="8" r="7" fill="#c98a8a"/>
+      <circle cx="-6" cy="8" r="7" fill="#b0656f"/>
+      <circle cx="-9" cy="-3" r="7.5" fill="#9a5a5a"/>
+      <circle cx="0" cy="0" r="5" fill="#8a6420"/>
+      <circle cx="0" cy="0" r="2.2" fill="#5d430e"/>
+    </g>
+    <!-- masking tape pieces -->
+    <g opacity="0.78">
+      <polygon points="18,110 44,98 48,108 22,120" fill="#d8c9a8" stroke="#c4b490" stroke-width="0.75"/>
+      <polygon points="72,86 96,74 100,84 76,96" fill="#d8c9a8" stroke="#c4b490" stroke-width="0.75"/>
+    </g>
+  </svg>
+)}

@@ -1,0 +1,46 @@
+---
+interface Props {
+  className?: string;
+  src?: string;
+}
+
+const { className = '', src } = Astro.props;
+---
+
+{src ? (
+  <img src={src} alt="" class={className} loading="lazy" decoding="async" />
+) : (
+  <svg class={className} viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <pattern id="airmail-stripes" width="24" height="24" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+        <rect width="24" height="24" fill="#f4ecd8"/>
+        <rect width="9" height="24" fill="#a72031"/>
+        <rect x="12" width="9" height="24" fill="#2d4a7a"/>
+      </pattern>
+    </defs>
+    <!-- striped airmail frame -->
+    <path fill-rule="evenodd" d="M0 0H240V160H0Z M10 10H230V150H10Z" fill="url(#airmail-stripes)"/>
+    <rect x="10" y="10" width="220" height="140" fill="#efe3c8" stroke="#d3c3a0" stroke-width="1.5"/>
+    <!-- envelope flap -->
+    <path d="M10 12L120 84L230 12" stroke="#c9b892" stroke-width="2"/>
+    <!-- postmark -->
+    <g transform="translate(58 52)" stroke="#5c3a2e" fill="none" opacity="0.6">
+      <circle r="21" stroke-width="1.7" stroke-dasharray="4 3"/>
+      <circle r="14.5" stroke-width="1.1"/>
+      <path d="M22 0H44M22 -7H42M22 7H42" stroke-width="1.5"/>
+    </g>
+    <!-- postage stamp -->
+    <g transform="translate(170 24) rotate(3)">
+      <rect width="46" height="56" rx="1.5" fill="#f4ecd8" stroke="#8a2432" stroke-width="2.2" stroke-dasharray="5 3.5"/>
+      <circle cx="23" cy="23" r="11" stroke="#8a2432" stroke-width="1.5" fill="none"/>
+      <text x="23" y="28" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#8a2432">M</text>
+      <text x="23" y="46" text-anchor="middle" font-family="Georgia, serif" font-size="6.5" letter-spacing="1.2" fill="#6b5a3e">POSTAGE</text>
+    </g>
+    <!-- address lines -->
+    <g stroke="#8a7a5c" stroke-width="2" opacity="0.75">
+      <path d="M34 106H150"/>
+      <path d="M34 120H128"/>
+      <path d="M34 134H96"/>
+    </g>
+  </svg>
+)}

@@ -1,0 +1,28 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  align?: 'left' | 'center';
+  tone?: 'dark' | 'light';
+  className?: string;
+}
+
+const { eyebrow, title, lead, align = 'left', tone = 'dark', className = '' } = Astro.props;
+const isCenter = align === 'center';
+const titleTone = tone === 'dark' ? 'text-espresso' : 'text-parchment';
+const leadTone = tone === 'dark' ? 'text-clay' : 'text-parchment/[0.65]';
+const eyebrowTone = tone === 'dark' ? 'text-gold-700' : 'text-gold-300';
+---
+
+<div class={`${isCenter ? 'mx-auto max-w-2xl text-center' : ''} ${className}`}>
+  {eyebrow && (
+    <span class={`eyebrow ${isCenter ? 'justify-center' : ''} ${eyebrowTone}`}>
+      <span class={`h-px w-7 ${tone === 'dark' ? 'bg-gold-600/60' : 'bg-gold-400/50'}`}></span>
+      {eyebrow}
+      {isCenter && <span class={`h-px w-7 ${tone === 'dark' ? 'bg-gold-600/60' : 'bg-gold-400/50'}`}></span>}
+    </span>
+  )}
+  <h2 class={`section-title mt-4 ${titleTone}`}>{title}</h2>
+  {lead && <p class={`section-lead ${isCenter ? 'mx-auto' : ''} ${leadTone}`}>{lead}</p>}
+</div>

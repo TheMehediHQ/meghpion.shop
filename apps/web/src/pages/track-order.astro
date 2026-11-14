@@ -9,22 +9,22 @@ const queryOrder = Astro.url.searchParams.get('order') || 'MP-89412';
 
 <BaseLayout
   title={`Track Your Order | ${BRAND.name}`}
-  description="Check real-time delivery status of your Meghpiyon gift parcels across Bangladesh."
+  description="Check real-time delivery status of your Meghpeon gift parcels across Bangladesh."
 >
-  <div class="py-16 bg-white">
+  <div class="py-16 bg-parchment-light">
     <Container size="md">
       <div class="text-center space-y-3 mb-10">
-        <Badge variant="sky">Live Parcel Tracking</Badge>
-        <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">
+        <Badge variant="gold">Live Parcel Tracking</Badge>
+        <h1 class="section-title">
           Track Your Gift Order
         </h1>
-        <p class="text-sm text-slate-600 max-w-lg mx-auto">
+        <p class="text-sm text-clay max-w-lg mx-auto">
           Enter your order tracking ID to inspect dispatch progress, courier handoff, and estimated doorstep delivery.
         </p>
       </div>
 
       <!-- Tracking Search Form -->
-      <div class="border border-slate-200 rounded-xl p-6 bg-slate-50 mb-10">
+      <div class="border border-parchment-line rounded-[4px] p-6 bg-parchment mb-10">
         <form class="flex flex-col sm:flex-row gap-3" action="/track-order" method="GET">
           <input
             type="text"
@@ -41,75 +41,75 @@ const queryOrder = Astro.url.searchParams.get('order') || 'MP-89412';
       </div>
 
       <!-- Order Status Timeline Card -->
-      <div class="border border-slate-200 rounded-2xl p-6 sm:p-8 bg-white shadow-sm space-y-6">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-100 gap-2">
+      <div class="border border-parchment-line rounded-2xl p-6 sm:p-8 bg-parchment-light shadow-sm space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-parchment-line gap-2">
           <div>
-            <p class="text-xs text-slate-500 uppercase tracking-wider">Tracking Reference</p>
-            <p class="text-lg font-bold text-slate-900">{queryOrder}</p>
+            <p class="text-xs text-clay uppercase tracking-wider">Tracking Reference</p>
+            <p class="text-lg font-bold text-espresso">{queryOrder}</p>
           </div>
           <div class="flex items-center gap-2">
-            <span class="inline-block w-2.5 h-2.5 rounded-full bg-sky-500"></span>
-            <span class="text-xs font-semibold text-sky-700 bg-sky-50 px-2.5 py-1 rounded-full border border-sky-100">
+            <span class="inline-block w-2.5 h-2.5 rounded-full bg-gold-500/[0.06]0"></span>
+            <span class="text-xs font-semibold text-gold-700 bg-gold-500/[0.06] px-2.5 py-1 rounded-full border border-parchment-line">
               Processing in Dispatch Hub
             </span>
           </div>
         </div>
 
         <!-- Tracking Timeline -->
-        <div class="space-y-6 relative pl-6 before:content-[''] before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-slate-200">
+        <div class="space-y-6 relative pl-6 before:content-[''] before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-parchment-line">
           <!-- Step 1 (Completed) -->
           <div class="relative">
-            <div class="absolute -left-[27px] top-1 w-4 h-4 rounded-full bg-sky-600 border-2 border-white ring-2 ring-sky-200"></div>
+            <div class="absolute -left-[27px] top-1 w-4 h-4 rounded-full bg-ink border-2 border-parchment-light ring-2 ring-gold-500/25"></div>
             <div>
-              <p class="text-xs font-semibold text-slate-900">Order Confirmed & Payment Verified</p>
-              <p class="text-[11px] text-slate-500">Dhaka Central Hub • Today, 09:30 AM</p>
-              <p class="text-xs text-slate-600 mt-0.5">Order verified and allocated to artisan packing team.</p>
+              <p class="text-xs font-semibold text-espresso">Order Confirmed & Payment Verified</p>
+              <p class="text-[11px] text-clay">Dhaka Central Hub • Today, 09:30 AM</p>
+              <p class="text-xs text-clay mt-0.5">Order verified and allocated to artisan packing team.</p>
             </div>
           </div>
 
           <!-- Step 2 (Completed) -->
           <div class="relative">
-            <div class="absolute -left-[27px] top-1 w-4 h-4 rounded-full bg-sky-600 border-2 border-white ring-2 ring-sky-200"></div>
+            <div class="absolute -left-[27px] top-1 w-4 h-4 rounded-full bg-ink border-2 border-parchment-light ring-2 ring-gold-500/25"></div>
             <div>
-              <p class="text-xs font-semibold text-slate-900">Handcrafted Box Packed & Handwritten Note Sealed</p>
-              <p class="text-[11px] text-slate-500">Meghpiyon Workshop • Today, 11:45 AM</p>
-              <p class="text-xs text-slate-600 mt-0.5">Calligraphy card completed with custom ribbon wrap and fragile seals.</p>
+              <p class="text-xs font-semibold text-espresso">Handcrafted Box Packed & Handwritten Note Sealed</p>
+              <p class="text-[11px] text-clay">Meghpeon Workshop • Today, 11:45 AM</p>
+              <p class="text-xs text-clay mt-0.5">Calligraphy card completed with custom ribbon wrap and fragile seals.</p>
             </div>
           </div>
 
           <!-- Step 3 (In Progress) -->
           <div class="relative">
-            <div class="absolute -left-[27px] top-1 w-4 h-4 rounded-full bg-amber-500 border-2 border-white ring-2 ring-amber-200"></div>
+            <div class="absolute -left-[27px] top-1 w-4 h-4 rounded-full bg-amber-500 border-2 border-parchment-light ring-2 ring-amber-200"></div>
             <div>
-              <p class="text-xs font-semibold text-slate-900">Handed Over to Courier Service</p>
-              <p class="text-[11px] text-slate-500">In Transit • Expected Handover: Today, 03:00 PM</p>
-              <p class="text-xs text-slate-600 mt-0.5">Dispatched for secure last-mile transit.</p>
+              <p class="text-xs font-semibold text-espresso">Handed Over to Courier Service</p>
+              <p class="text-[11px] text-clay">In Transit • Expected Handover: Today, 03:00 PM</p>
+              <p class="text-xs text-clay mt-0.5">Dispatched for secure last-mile transit.</p>
             </div>
           </div>
 
           <!-- Step 4 (Upcoming) -->
           <div class="relative">
-            <div class="absolute -left-[27px] top-1 w-4 h-4 rounded-full bg-slate-300 border-2 border-white"></div>
+            <div class="absolute -left-[27px] top-1 w-4 h-4 rounded-full bg-parchment-300 border-2 border-parchment-light"></div>
             <div>
-              <p class="text-xs font-semibold text-slate-400">Out for Doorstep Delivery</p>
-              <p class="text-[11px] text-slate-400">Rider will contact the recipient prior to arrival.</p>
+              <p class="text-xs font-semibold text-clay/70">Out for Doorstep Delivery</p>
+              <p class="text-[11px] text-clay/70">Rider will contact the recipient prior to arrival.</p>
             </div>
           </div>
 
           <!-- Step 5 (Upcoming) -->
           <div class="relative">
-            <div class="absolute -left-[27px] top-1 w-4 h-4 rounded-full bg-slate-300 border-2 border-white"></div>
+            <div class="absolute -left-[27px] top-1 w-4 h-4 rounded-full bg-parchment-300 border-2 border-parchment-light"></div>
             <div>
-              <p class="text-xs font-semibold text-slate-400">Delivered</p>
-              <p class="text-[11px] text-slate-400">Recipient signs confirmation.</p>
+              <p class="text-xs font-semibold text-clay/70">Delivered</p>
+              <p class="text-[11px] text-clay/70">Recipient signs confirmation.</p>
             </div>
           </div>
         </div>
 
         <!-- Help box -->
-        <div class="mt-8 pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-2">
+        <div class="mt-8 pt-4 border-t border-parchment-line flex flex-col sm:flex-row items-center justify-between text-xs text-clay gap-2">
           <span>Need to modify delivery address or time?</span>
-          <a href="/contact" class="text-sky-600 font-semibold hover:underline">
+          <a href="/contact" class="text-gold-700 font-semibold hover:underline">
             Contact Support &rarr;
           </a>
         </div>

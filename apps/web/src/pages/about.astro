@@ -1,62 +1,98 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Container from '../components/ui/Container.astro';
-import Badge from '../components/ui/Badge.astro';
 import { BRAND } from '@meghpiyon/shared';
+
+const commitments = [
+  {
+    title: 'Local Artisan Collaboration',
+    text: 'We partner directly with potters, Nakshi Kantha embroiderers, weavers and confectioners across Bangladesh.',
+  },
+  {
+    title: 'Complimentary Calligraphy',
+    text: 'Every order includes a handwritten card in Bengali or English, written by our in-house calligrapher.',
+  },
+  {
+    title: 'Considered Packaging',
+    text: 'Reusable wooden boxes, handmade paper ribbons and recyclable fillers — never single-use plastic.',
+  },
+  {
+    title: 'Nationwide Reliability',
+    text: 'From Gulshan to Sylhet, every parcel is tracked, insured and treated as if it were our own.',
+  },
+];
 ---
 
 <BaseLayout
   title={`Our Story | ${BRAND.name}`}
-  description="Learn about Meghpiyon, our mission to revive traditional gifting with modern elegance across Bangladesh."
+  description={`The story behind ${BRAND.name} — reviving the art of considered gifting across Bangladesh.`}
 >
-  <div class="py-16 bg-white">
+  <!-- Editorial header -->
+  <section class="relative overflow-hidden bg-ink text-parchment">
+    <div class="absolute inset-0 studio-backdrop"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,rgba(212,175,55,0.12),transparent_60%)]"></div>
+
+    <Container size="md" className="relative py-20 text-center">
+      <span class="eyebrow justify-center text-gold-300">
+        <span class="h-px w-7 bg-gold-400/50"></span>
+        The Story Behind The Name
+        <span class="h-px w-7 bg-gold-400/50"></span>
+      </span>
+
+      <h1 class="mt-5 font-display text-[34px] font-semibold leading-tight text-parchment sm:text-[46px]">
+        {BRAND.name} <span class="font-bengali text-[26px] text-gold-300 sm:text-[34px]">({BRAND.nameBn})</span>
+      </h1>
+
+      <p class="mt-4 font-bengali text-lg text-gold-200/85">“{BRAND.tagline}”</p>
+    </Container>
+
+    <div class="relative h-8 bg-parchment"></div>
+  </section>
+
+  <!-- Story -->
+  <section class="bg-parchment-light py-20">
     <Container size="md">
-      <div class="space-y-10">
-        <!-- Hero Header -->
-        <div class="text-center space-y-4">
-          <Badge variant="sky">The Story Behind The Name</Badge>
-          <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight">
-            {BRAND.name} — <span class="text-sky-600 font-bengali font-semibold">{BRAND.nameBn}</span>
-          </h1>
-          <p class="text-xl text-sky-700 font-bengali font-medium">
-            "{BRAND.tagline}"
-          </p>
-        </div>
+      <div class="space-y-6 text-[14.5px] leading-[1.85] text-espresso/[0.85]">
+        <p class="first-letter:float-left first-letter:mr-3 first-letter:font-display first-letter:text-[54px] first-letter:leading-[0.85] first-letter:text-ink">
+          In Bengali poetry and folklore, <strong class="font-semibold text-espresso">Meghpiyon (মেঘপিয়ন)</strong> is the
+          celestial cloud postman — the tender messenger who carries heartfelt letters, unspoken affection and prayers
+          across vast horizons without losing an ounce of grace.
+        </p>
 
-        <!-- Story Content -->
-        <div class="prose prose-slate max-w-none text-sm text-slate-700 space-y-6 leading-relaxed">
-          <p>
-            In Bengali poetry and folklore, <strong>Meghpiyon (মেঘপিয়ন)</strong> represents the celestial cloud postman—the tender messenger who carries heartfelt letters, unspoken affection, and prayers across vast horizons without losing an ounce of grace.
-          </p>
+        <p>
+          Founded with that exact spirit, {BRAND.name} began with a simple frustration: in a world of instant carts and
+          mass-produced parcels, the feeling behind a gift was getting lost. We wanted to build something different — a
+          house where every box reads like a handwritten poem, curated with intention and finished by hand.
+        </p>
 
-          <p>
-            Founded with that exact spirit, <strong>{BRAND.name}</strong> was born out of a desire to redefine gifting in Bangladesh. In a fast-paced digital world, genuine human connection often gets lost in mass-produced commodities. We wanted to build something different: a gifting platform where every box feels like a handwritten poem, curated with intentionality, craftsmanship, and profound aesthetic beauty.
-          </p>
+        <div class="ornament py-2 text-[10px]">◆</div>
 
-          <div class="bg-sky-50 border border-sky-100 rounded-xl p-6 my-8">
-            <h2 class="text-base font-bold text-slate-900 mb-2">Our Core Commitments</h2>
-            <ul class="space-y-2 text-xs text-slate-700 list-disc pl-5">
-              <li><strong>Local Artisan Collaboration:</strong> We partner directly with Bangladeshi potters, Nakshi Kantha embroiderers, weavers, and local confectioners to bring authentic craftsmanship into every hamper.</li>
-              <li><strong>Complimentary Calligraphy:</strong> We believe words hold irreplaceable power. Every order includes a complimentary handwritten card in Bengali or English.</li>
-              <li><strong>Eco-conscious Packaging:</strong> Reusable wooden boxes, handmade paper ribbons, and recyclable fillers replace single-use plastics wherever possible.</li>
-              <li><strong>Nationwide Reliability:</strong> Whether sending a birthday surprise within Gulshan, Dhaka, or an anniversary token to Sylhet, our logistics team treats every package as precious.</li>
-            </ul>
+        <p>
+          Today our atelier in Dhaka wraps, ties and seals every order ourselves. Nothing is machine-packed, and nothing
+          leaves without a written note. It is slower this way. It is also the only way a gift should arrive.
+        </p>
+      </div>
+
+      <!-- Commitments -->
+      <div class="mt-14 grid gap-6 sm:grid-cols-2">
+        {commitments.map((item) => (
+          <div key={item.title} class="rounded-[4px] border border-parchment-line bg-parchment p-6">
+            <h2 class="font-display text-[19px] text-espresso">{item.title}</h2>
+            <p class="mt-2 text-[13px] leading-relaxed text-clay">{item.text}</p>
           </div>
+        ))}
+      </div>
 
-          <h2 class="text-xl font-bold text-slate-900 pt-4">Gifting As An Art Form</h2>
-          <p>
-            From corporate appreciation hampers to deeply intimate wedding presents, festival tokens (Eid, Puja, Pohela Boishakh), and spontaneous expressions of friendship, Meghpiyon ensures that your emotion reaches the recipient with pure warmth and dignity.
-          </p>
-        </div>
-
-        <!-- Team CTA -->
-        <div class="pt-8 border-t border-slate-200 text-center">
-          <p class="text-xs text-slate-500 mb-4">Have an inquiry or custom bulk gifting requirement?</p>
-          <a href="/contact" class="btn-primary">
-            Speak With Our Gift Concierge
-          </a>
+      <!-- CTA -->
+      <div class="mt-14 border-t border-parchment-line pt-10 text-center">
+        <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-clay">
+          Bulk gifting or a custom commission?
+        </p>
+        <div class="mt-5 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <a href="/contact" class="btn-gold">Speak With Our Concierge</a>
+          <a href="/shop" class="btn-outline-dark">Browse the Collection</a>
         </div>
       </div>
     </Container>
-  </div>
+  </section>
 </BaseLayout>

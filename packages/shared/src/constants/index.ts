@@ -1,12 +1,13 @@
 export const BRAND = {
-  name: 'Meghpiyon',
-  nameBn: 'মেঘপিয়ন',
+  name: 'Meghpeon',
+  nameBn: 'মেঘপিয়ন',
+  domain: 'meghpeon.shop',
   tagline: 'ভালোবাসা পৌঁছে যাক উপহারে।',
   taglineEn: 'Delivering love wrapped in gifts.',
   currency: 'BDT',
   currencySymbol: '৳',
   supportPhone: '+880 1700-000000',
-  supportEmail: 'support@meghpiyon.com',
+  supportEmail: 'support@meghpeon.shop',
   address: 'Dhaka, Bangladesh',
 } as const;
 

@@ -55,7 +55,7 @@ export function ProductsView({
       isFeatured: false,
       isAvailable: true,
       giftWrapAvailable: true,
-      description: 'A special handcrafted gift from Meghpiyon.',
+      description: 'A special handcrafted gift from Meghpeon.',
     });
     setIsAddModalOpen(true);
   };
@@ -138,7 +138,7 @@ export function ProductsView({
         <div>
           <h2 className="text-xl font-bold text-slate-900">Product Management</h2>
           <p className="text-xs text-slate-500">
-            Create, update stock, and curate gift items for the Meghpiyon shop
+            Create, update stock, and curate gift items for the Meghpeon shop
           </p>
         </div>
         <button

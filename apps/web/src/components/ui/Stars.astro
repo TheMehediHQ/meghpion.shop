@@ -1,0 +1,28 @@
+---
+interface Props {
+  rating?: number;
+  count?: number;
+  tone?: 'dark' | 'light';
+  className?: string;
+}
+
+const { rating = 5, count, tone = 'dark', className = '' } = Astro.props;
+const rounded = Math.round(rating);
+const starTone = tone === 'dark' ? 'text-gold-600' : 'text-gold-400';
+const textTone = tone === 'dark' ? 'text-clay' : 'text-parchment/[0.55]';
+
+const stars = [1, 2, 3, 4, 5];
+---
+
+<div class={`flex items-center gap-2 ${className}`}>
+  <span class="flex items-center gap-0.5" aria-hidden="true">
+    {stars.map((i) => (
+      <svg class={`h-3.5 w-3.5 ${i <= rounded ? starTone : tone === 'dark' ? 'text-parchment-line' : 'text-parchment/20'}`} viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2.6l2.9 6.1 6.7.9-4.9 4.6 1.2 6.6-5.9-3.2-5.9 3.2 1.2-6.6L2.4 9.6l6.7-.9L12 2.6z" />
+      </svg>
+    ))}
+  </span>
+  <span class={`text-[11px] font-medium tracking-wide ${textTone}`}>
+    {rating.toFixed(1)}{count !== undefined && <span class="text-clay/70"> ({count})</span>}
+  </span>
+</div>

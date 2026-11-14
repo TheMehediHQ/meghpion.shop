@@ -135,7 +135,7 @@ export function CustomerAuth({ mode = 'login', redirectUrl = '/shop' }: Customer
           ম
         </div>
         <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
-          {mode === 'register' ? 'Create an Account' : 'Welcome to Meghpiyon'}
+          {mode === 'register' ? 'Create an Account' : 'Welcome to Meghpeon'}
         </h1>
         <p className="text-xs text-slate-500 font-bengali">
           {BRAND.tagline}

@@ -1,0 +1,40 @@
+---
+interface Props {
+  className?: string;
+  src?: string;
+}
+
+const { className = '', src } = Astro.props;
+
+const flowers: Array<[number, number]> = [
+  [20, 48], [48, 44], [36, 60], [50, 28], [66, 28], [58, 36],
+  [100, 52], [72, 48], [84, 62], [92, 58], [28, 54], [78, 56],
+];
+
+const flower = (cx: number, cy: number) =>
+  `<circle cx="${cx}" cy="${cy}" r="3.1" fill="#f5efdc"/><circle cx="${cx - 2.6}" cy="${cy - 2.2}" r="1.7" fill="#fdfbf4"/><circle cx="${cx + 2.6}" cy="${cy - 2.2}" r="1.7" fill="#fdfbf4"/><circle cx="${cx - 2.6}" cy="${cy + 2.2}" r="1.7" fill="#fdfbf4"/><circle cx="${cx + 2.6}" cy="${cy + 2.2}" r="1.7" fill="#fdfbf4"/><circle cx="${cx}" cy="${cy}" r="1.2" fill="#e0d6b4"/>`;
+
+const blossoms = flowers.map(([x, y]) => flower(x, y)).join('');
+---
+
+{src ? (
+  <img src={src} alt="" class={className} loading="lazy" decoding="async" />
+) : (
+  <svg class={className} viewBox="0 0 120 140" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <!-- wiry stems -->
+    <g stroke="#cfc6a8" stroke-width="1.6" stroke-linecap="round">
+      <path d="M60 138C58 110 50 90 36 70"/>
+      <path d="M60 138C62 108 70 92 84 74"/>
+      <path d="M60 138C60 104 60 76 58 48"/>
+      <path d="M36 70C30 60 26 54 20 48"/>
+      <path d="M36 70C40 58 44 52 48 44"/>
+      <path d="M84 74C90 64 94 58 100 52"/>
+      <path d="M84 74C80 62 76 56 72 48"/>
+      <path d="M58 48C56 40 54 34 50 28"/>
+      <path d="M58 48C60 40 62 34 66 28"/>
+      <path d="M36 70C32 64 30 62 28 54"/>
+      <path d="M84 74C88 64 92 62 92 58"/>
+    </g>
+    <g set:html={blossoms} />
+  </svg>
+)}

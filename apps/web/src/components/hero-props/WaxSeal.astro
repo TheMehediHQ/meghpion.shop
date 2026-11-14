@@ -1,0 +1,24 @@
+---
+interface Props {
+  className?: string;
+  floral?: boolean;
+  letter?: string;
+  letterClassName?: string;
+}
+
+const { className = '', floral = false, letter = 'M', letterClassName = 'text-2xl' } = Astro.props;
+
+const petals = Array.from(
+  { length: 12 },
+  (_, i) => `<ellipse cx="50" cy="14" rx="3.2" ry="6.5" transform="rotate(${i * 30} 50 50)" fill="#5d430e" opacity="0.85"/>`
+).join('');
+---
+
+<span class={`relative inline-block ${className}`}>
+  {floral && (
+    <svg class="absolute inset-0 w-full h-full" viewBox="0 0 100 100" aria-hidden="true" set:html={petals} />
+  )}
+  <span class="wax-seal absolute inset-0">
+    <span class={`wax-seal-letter ${letterClassName}`}>{letter}</span>
+  </span>
+</span>

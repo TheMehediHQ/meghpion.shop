@@ -1,0 +1,38 @@
+---
+interface Props {
+  className?: string;
+  src?: string;
+}
+
+const { className = '', src } = Astro.props;
+---
+
+{src ? (
+  <img src={src} alt="" class={className} loading="lazy" decoding="async" />
+) : (
+  <svg class={className} viewBox="0 0 120 130" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <radialGradient id="brass-compass" cx="35%" cy="28%" r="85%">
+        <stop offset="0%" stop-color="#eccf87"/>
+        <stop offset="55%" stop-color="#c19a4b"/>
+        <stop offset="100%" stop-color="#77560f"/>
+      </radialGradient>
+    </defs>
+    <!-- pocket-watch crown and bow -->
+    <path d="M54 12V6a6 6 0 0 1 12 0V12" stroke="#8a6420" stroke-width="4" fill="none"/>
+    <rect x="50" y="10" width="20" height="9" rx="2" fill="url(#brass-compass)" stroke="#5f440f" stroke-width="1.6"/>
+    <!-- case -->
+    <circle cx="60" cy="72" r="52" fill="url(#brass-compass)" stroke="#5f440f" stroke-width="2.5"/>
+    <circle cx="60" cy="72" r="41" fill="#f1e6cc" stroke="#8a6420" stroke-width="2"/>
+    <!-- tick marks -->
+    <g stroke="#8a6420" stroke-width="2">
+      <path d="M60 36V43M60 101V108M24 72H31M89 72H96"/>
+      <path d="M35 47L40 52M85 47L80 52M35 97L40 92M85 97L80 92" stroke-width="1.4"/>
+    </g>
+    <!-- needle -->
+    <path d="M60 40L66 72L60 78L54 72Z" fill="#8a2432"/>
+    <path d="M60 104L66 72L60 66L54 72Z" fill="#e8dcc0" stroke="#8a6420" stroke-width="1.2"/>
+    <circle cx="60" cy="72" r="5.2" fill="url(#brass-compass)" stroke="#5f440f" stroke-width="1.6"/>
+    <text x="60" y="26" text-anchor="middle" font-family="Georgia, serif" font-size="8" fill="#5f440f">N</text>
+  </svg>
+)}

@@ -28,6 +28,7 @@ export default {
           600: '#aa7e22',
           700: '#835e16',
           800: '#5e410f',
+          900: '#B5945B',
         },
         parchment: {
           50: '#fcfbf8',
@@ -35,8 +36,31 @@ export default {
           200: '#f1e8d7',
           300: '#e5d7bd',
           400: '#d1bfa0',
+          DEFAULT: '#F6F1E4',
           card: '#faf6ee',
           border: '#dccab0',
+          light: '#FBF8F0',
+          deep: '#EFE6D3',
+          line: '#E3D8C3',
+        },
+        burgundy: {
+          DEFAULT: '#3D0C11',
+          deep: '#220508',
+          dark: '#2A070B',
+        },
+        ink: {
+          DEFAULT: '#3D0C11',
+          dark: '#2A070B',
+          deep: '#1E0407',
+        },
+        champagne: {
+          DEFAULT: '#D4AF37',
+          muted: '#C5A059',
+        },
+        espresso: '#2B1B17',
+        clay: {
+          DEFAULT: '#8A6F5A',
+          light: '#A8907C',
         },
         sky: {
           50: '#f0f9ff',
@@ -74,6 +98,12 @@ export default {
           'Georgia',
           'Cambria',
           '"Times New Roman"',
+          'serif',
+        ],
+        display: [
+          '"Playfair Display"',
+          'Georgia',
+          'Cambria',
           'serif',
         ],
         cinzel: [

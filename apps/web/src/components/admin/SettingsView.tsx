@@ -25,7 +25,7 @@ export function SettingsView({ settings, onSaveSettings, onResetData }: Settings
       <div>
         <h2 className="text-xl font-bold text-slate-900">Store Settings & Delivery Rates</h2>
         <p className="text-xs text-slate-500">
-          Configure Meghpiyon delivery rates, support contacts, and store policies
+          Configure Meghpeon delivery rates, support contacts, and store policies
         </p>
       </div>
 

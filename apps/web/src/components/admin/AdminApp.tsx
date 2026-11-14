@@ -123,7 +123,7 @@ export function AdminApp() {
   if (!isClient) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-        <div className="text-slate-400 text-sm">Loading Meghpiyon Admin Portal...</div>
+        <div className="text-slate-400 text-sm">Loading Meghpeon Admin Portal...</div>
       </div>
     );
   }

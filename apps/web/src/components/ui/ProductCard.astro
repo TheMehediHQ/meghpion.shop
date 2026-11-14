@@ -1,0 +1,83 @@
+---
+import Stars from './Stars.astro';
+import { BRAND } from '@meghpiyon/shared';
+
+interface Props {
+  product: {
+    name: string;
+    nameBn: string;
+    slug: string;
+    price: number;
+    discountPrice?: number;
+    category: string;
+    image: string;
+    tags: string[];
+    rating: number;
+    reviewCount?: number;
+  };
+}
+
+const { product } = Astro.props;
+const save = product.discountPrice ? Math.round(((product.price - product.discountPrice) / product.price) * 100) : 0;
+---
+
+<article class="group flex flex-col overflow-hidden rounded-[4px] border border-parchment-line bg-parchment-light shadow-[inset_0_1px_0_rgba(255,255,255,0.85),0_22px_44px_-32px_rgba(43,27,23,0.45)] transition-all duration-300 hover:-translate-y-1 hover:border-gold-500/60 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_28px_50px_-28px_rgba(43,27,23,0.5)]">
+  <a href={`/product/${product.slug}`} class="relative block aspect-[4/5] overflow-hidden bg-parchment-deep">
+    <img
+      src={product.image}
+      alt={product.name}
+      loading="lazy"
+      decoding="async"
+      class="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
+    />
+    <div class="absolute left-3 top-3 flex flex-col items-start gap-1.5">
+      {product.tags.map((tag) => (
+        <span class="rounded-full bg-ink/[0.85] px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.14em] text-parchment backdrop-blur-sm">
+          {tag}
+        </span>
+      ))}
+    </div>
+    <span class="absolute right-3 top-3 grid h-8 w-8 place-items-center rounded-full bg-parchment/90 text-espresso/70 transition-colors group-hover:text-ink" aria-hidden="true">
+      <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 20s-7-4.4-7-9a4 4 0 017-2.6A4 4 0 0119 11c0 4.6-7 9-7 9z" />
+      </svg>
+    </span>
+    {save > 0 && (
+      <span class="absolute bottom-3 left-3 rounded-[2px] bg-gold-400 px-2 py-1 text-[9px] font-bold uppercase tracking-[0.14em] text-ink-deep">
+        Save {save}%
+      </span>
+    )}
+  </a>
+
+  <div class="flex flex-1 flex-col p-5">
+    <span class="text-[9.5px] font-semibold uppercase tracking-[0.2em] text-gold-700">
+      {product.category.replace('-', ' ')}
+    </span>
+    <h3 class="mt-2 font-display text-[19px] leading-snug text-espresso">
+      <a href={`/product/${product.slug}`} class="transition-colors hover:text-ink">{product.name}</a>
+    </h3>
+    <p class="mt-1 font-bengali text-[11.5px] text-clay">{product.nameBn}</p>
+
+    <Stars rating={product.rating} count={product.reviewCount} className="mt-3" />
+
+    <div class="mt-auto flex items-end justify-between gap-3 pt-5">
+      <div>
+        <p class="font-display text-[21px] leading-none text-espresso">
+          {BRAND.currencySymbol}{product.discountPrice ?? product.price}
+        </p>
+        {product.discountPrice && (
+          <p class="mt-1 text-[11px] text-clay/60 line-through">{BRAND.currencySymbol}{product.price}</p>
+        )}
+      </div>
+      <a
+        href={`/product/${product.slug}`}
+        class="grid h-10 w-10 place-items-center rounded-full border border-espresso/20 text-espresso transition-colors duration-200 hover:border-ink hover:bg-ink hover:text-parchment"
+        aria-label={`View ${product.name}`}
+      >
+        <svg class="h-[18px] w-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M6 8h12l1 12H5L6 8zm3 0V6a3 3 0 016 0v2" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</article>

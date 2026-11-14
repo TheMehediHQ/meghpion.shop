@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Container from '../../components/ui/Container.astro';
-import Badge from '../../components/ui/Badge.astro';
+import Stars from '../../components/ui/Stars.astro';
 import { BRAND } from '@meghpiyon/shared';
 
 export function getStaticPaths() {
@@ -68,114 +68,138 @@ const { product } = Astro.props;
   title={`${product.name} | ${BRAND.name}`}
   description={product.description}
 >
-  <div class="py-12 bg-white">
-    <Container size="lg">
+  <div class="relative bg-parchment">
+    <div class="absolute inset-0 paper-grain opacity-60"></div>
+    <Container size="lg" className="relative py-12">
       <!-- Breadcrumb -->
-      <nav class="flex items-center gap-2 text-xs text-slate-500 mb-8">
-        <a href="/" class="hover:text-sky-600">Home</a>
-        <span>/</span>
-        <a href="/shop" class="hover:text-sky-600">Shop</a>
-        <span>/</span>
-        <span class="text-slate-900 font-medium">{product.name}</span>
+      <nav class="flex flex-wrap items-center gap-2 text-[10.5px] font-medium uppercase tracking-[0.18em] text-clay/70" aria-label="Breadcrumb">
+        <a href="/" class="transition-colors hover:text-ink">Home</a>
+        <span class="text-clay/40">/</span>
+        <a href="/shop" class="transition-colors hover:text-ink">Collections</a>
+        <span class="text-clay/40">/</span>
+        <span class="text-espresso">{product.name}</span>
       </nav>
 
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-        <!-- Image Gallery Mockup -->
-        <div class="space-y-4">
-          <div class="aspect-square bg-slate-100 rounded-xl overflow-hidden border border-slate-200">
-            <img
-              src={product.image}
-              alt={product.name}
-              class="w-full h-full object-cover"
-            />
+      <div class="mt-8 grid grid-cols-1 gap-12 lg:grid-cols-2">
+        <!-- Gallery -->
+        <div>
+          <div class="relative">
+            <div class="absolute -inset-2.5 rotate-[-1.5deg] rounded-[4px] border border-parchment-line bg-parchment-deep/50"></div>
+            <div class="relative overflow-hidden rounded-[4px] border border-parchment-line bg-parchment-light shadow-[0_30px_60px_-34px_rgba(43,27,23,0.55)]">
+              <img
+                src={product.image}
+                alt={product.name}
+                class="aspect-[4/5] w-full object-cover"
+              />
+            </div>
+            <span class="absolute -left-4 -top-4 grid h-14 w-14 -rotate-12 place-items-center rounded-full border border-gold-500/50 bg-gradient-to-br from-gold-200 via-gold-400 to-gold-700 shadow-[0_6px_16px_rgba(0,0,0,0.3)]">
+              <span class="font-bengali text-base font-semibold text-ink-deep">ম</span>
+            </span>
           </div>
-          <p class="text-xs text-center text-slate-500">
-            Complimentary gift box presentation included with every order.
-          </p>
+
+          <div class="mt-6 grid grid-cols-3 gap-3">
+            {[
+              { label: 'Hand-wrapped', icon: 'M4 8h16v12H4zM4 12h16M12 8v12M12 8S9 3 6.5 4.5 9 8 12 8zm0 0s3-5 5.5-3.5S15 8 12 8z' },
+              { label: 'Wax-sealed', icon: 'M12 3l7 4v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V7l7-4z' },
+              { label: 'Written note', icon: 'M5 4h14v16H5zM8 8h8M8 12h8M8 16h5' },
+            ].map((item) => (
+              <div key={item.label} class="rounded-[3px] border border-parchment-line bg-parchment-light px-3 py-3 text-center">
+                <svg class="mx-auto h-4 w-4 text-gold-700" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d={item.icon} />
+                </svg>
+                <p class="mt-1.5 text-[9.5px] font-semibold uppercase tracking-[0.14em] text-clay">{item.label}</p>
+              </div>
+            ))}
+          </div>
         </div>
 
-        <!-- Product Details -->
-        <div class="space-y-6">
-          <div>
-            <Badge variant="sky">{product.category}</Badge>
-            <h1 class="text-2xl md:text-3xl font-extrabold text-slate-900 mt-2">
-              {product.name}
-            </h1>
-            <p class="text-sm font-bengali text-sky-600 mt-1">
-              {product.nameBn}
-            </p>
+        <!-- Details -->
+        <div>
+          <span class="eyebrow">
+            <span class="h-px w-7 bg-gold-600/60"></span>
+            {product.category}
+          </span>
+
+          <h1 class="mt-4 font-display text-[30px] font-semibold leading-[1.15] text-espresso sm:text-[38px]">
+            {product.name}
+          </h1>
+          <p class="mt-2 font-bengali text-sm text-clay">{product.nameBn}</p>
+
+          <div class="mt-5">
+            <Stars rating={product.discountPrice ? 4.9 : 4.8} count={86} />
           </div>
 
-          <!-- Price Display -->
-          <div class="flex items-baseline gap-3">
-            <span class="text-3xl font-extrabold text-slate-900">
+          <div class="mt-6 flex flex-wrap items-end gap-3">
+            <span class="font-display text-[34px] leading-none text-espresso">
               {BRAND.currencySymbol}{product.discountPrice ?? product.price}
             </span>
             {product.discountPrice && (
-              <span class="text-base text-slate-400 line-through">
+              <span class="text-[15px] text-clay/60 line-through">
                 {BRAND.currencySymbol}{product.price}
               </span>
             )}
-            <span class="text-xs text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-semibold">
-              In Stock ({product.stock} available)
+            <span class="mb-1 inline-flex items-center gap-1.5 rounded-full border border-emerald-700/25 bg-emerald-600/[0.08] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-emerald-800">
+              <span class="h-1.5 w-1.5 rounded-full bg-emerald-600"></span>
+              In stock · {product.stock}
             </span>
           </div>
 
-          <!-- Description -->
-          <p class="text-sm text-slate-600 leading-relaxed">
+          <p class="mt-6 text-[14px] leading-relaxed text-clay">
             {product.description}
           </p>
 
-          <!-- Highlights -->
-          <div class="border-t border-b border-slate-200 py-4 space-y-2">
-            <h3 class="text-xs font-semibold text-slate-900 uppercase tracking-wider">
-              Gift Features
-            </h3>
-            <ul class="text-xs text-slate-600 space-y-1.5 list-disc pl-4">
+          <div class="mt-7 border-t border-parchment-line pt-6">
+            <h2 class="text-[10px] font-semibold uppercase tracking-[0.22em] text-gold-700">What's Inside</h2>
+            <ul class="mt-3.5 space-y-2.5">
               {product.features.map((feature: string) => (
-                <li>{feature}</li>
+                <li class="flex items-start gap-2.5 text-[13px] leading-relaxed text-espresso/[0.85]">
+                  <svg class="mt-0.5 h-4 w-4 shrink-0 text-gold-600" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M5 12.5l4.5 4.5L19 7" />
+                  </svg>
+                  {feature}
+                </li>
               ))}
             </ul>
           </div>
 
-          <!-- Custom Gift Message Option -->
-          <div class="space-y-2">
-            <label for="giftMessage" class="block text-xs font-semibold text-slate-800">
-              Complimentary Handwritten Note (Bengali or English)
+          <div class="mt-7">
+            <label for="giftMessage" class="block text-[10px] font-semibold uppercase tracking-[0.22em] text-gold-700">
+              Complimentary Handwritten Note
             </label>
             <textarea
               id="giftMessage"
               rows="3"
-              class="input-field"
-              placeholder="e.g. প্রিয়জনকে জন্মদিনের অনেক অনেক শুভকামনা!..."
+              class="field mt-2.5 resize-none"
+              placeholder="e.g. প্রিয়জনকে জন্মদিনের অনেক অনেক শুভকামনা!..."
             ></textarea>
-            <p class="text-[11px] text-slate-500">
-              Our calligrapher will handwrite this on a premium linen card.
+            <p class="mt-2 text-[11px] text-clay/70">
+              Our calligrapher writes this by hand on a linen card, tucked inside the parcel.
             </p>
           </div>
 
-          <!-- Actions -->
-          <div class="flex flex-col sm:flex-row gap-3 pt-2">
-            <a
-              href="/cart"
-              class="btn-primary flex-1 py-3 text-sm justify-center"
-            >
-              Add to Gift Cart
+          <div class="mt-7 flex flex-col gap-3 sm:flex-row">
+            <a href="/cart" class="btn-gold flex-1">
+              Add to Bag
             </a>
-            <a
-              href="/checkout"
-              class="btn-outline flex-1 py-3 text-sm justify-center"
-            >
-              Buy Now
-            </a>
+            <a href="/checkout" class="btn-outline-dark flex-1">Buy Now</a>
           </div>
 
-          <!-- Delivery Note -->
-          <div class="bg-sky-50 border border-sky-100 rounded-lg p-4 text-xs text-slate-600 space-y-1">
-            <p class="font-semibold text-slate-800">Delivery Information:</p>
-            <p>• Inside Dhaka: Delivered within 24–48 hours (Express same-day available upon request)</p>
-            <p>• Outside Dhaka: Delivered via trusted courier within 3–5 working days</p>
-            <p>• Pay securely via bKash, Nagad, or Cash on Delivery (COD)</p>
+          <div class="mt-7 rounded-[4px] border border-parchment-line bg-parchment-light p-5">
+            <p class="text-[10px] font-semibold uppercase tracking-[0.22em] text-gold-700">Delivery</p>
+            <ul class="mt-3 space-y-2 text-[12.5px] leading-relaxed text-clay">
+              <li class="flex gap-2.5">
+                <span class="mt-2 h-1 w-1 shrink-0 rounded-full bg-gold-600"></span>
+                Inside Dhaka — delivered within 24–48 hours, same-day express on request.
+              </li>
+              <li class="flex gap-2.5">
+                <span class="mt-2 h-1 w-1 shrink-0 rounded-full bg-gold-600"></span>
+                Outside Dhaka — tracked courier within 3–5 working days.
+              </li>
+              <li class="flex gap-2.5">
+                <span class="mt-2 h-1 w-1 shrink-0 rounded-full bg-gold-600"></span>
+                Pay by bKash, Nagad, card, or cash on delivery.
+              </li>
+            </ul>
           </div>
         </div>
       </div>

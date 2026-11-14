@@ -3,94 +3,184 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Container from '../components/ui/Container.astro';
 import { BRAND } from '@meghpiyon/shared';
 
-const commitments = [
+const features = [
   {
-    title: 'Local Artisan Collaboration',
-    text: 'We partner directly with potters, Nakshi Kantha embroiderers, weavers and confectioners across Bangladesh.',
+    title: 'দেশি কারিগরদের ছোঁয়া',
+    description:
+      'বাংলাদেশের মৃৎশিল্পী, নকশিকাঁথা শিল্পী, তাঁতি ও ঐতিহ্যবাহী মিষ্টান্ন কারিগরদের সাথে সরাসরি কাজ করে তৈরি আমাদের প্রতিটি উপহার।',
+    icon: 'craft',
   },
   {
-    title: 'Complimentary Calligraphy',
-    text: 'Every order includes a handwritten card in Bengali or English, written by our in-house calligrapher.',
+    title: 'হাতে লেখা ক্যালিগ্রাফি',
+    description:
+      'প্রতিটি অর্ডারের সাথে থাকছে আমাদের নিজস্ব ক্যালিগ্রাফারের হাতে লেখা বাংলা বা ইংরেজি চিরকুট।',
+    icon: 'calligraphy',
   },
   {
-    title: 'Considered Packaging',
-    text: 'Reusable wooden boxes, handmade paper ribbons and recyclable fillers — never single-use plastic.',
+    title: 'পরিবেশবান্ধব মোড়ক',
+    description:
+      'প্লাস্টিকের বদলে আমরা ব্যবহার করি পুনর্ব্যবহারযোগ্য কাঠের বাক্স, হাতে তৈরি কাগজের ফিতা ও পরিবেশবান্ধব ফিলার।',
+    icon: 'eco',
   },
   {
-    title: 'Nationwide Reliability',
-    text: 'From Gulshan to Sylhet, every parcel is tracked, insured and treated as if it were our own.',
+    title: 'দেশজুড়ে নির্ভরযোগ্যতা',
+    description:
+      'গুলশান থেকে সিলেট—দেশের যেকোনো প্রান্তে ট্র্যাকিং ও ইনস্যুরেন্স সুবিধাসহ আপনার উপহার পৌঁছে যায় আমাদের নিজের উপহারের মতোই যত্নে।',
+    icon: 'delivery',
   },
 ];
 ---
 
 <BaseLayout
-  title={`Our Story | ${BRAND.name}`}
-  description={`The story behind ${BRAND.name} — reviving the art of considered gifting across Bangladesh.`}
+  title={`আমাদের গল্প | ${BRAND.name}`}
+  description={`বাংলা কবিতা আর লোকগাথায় ‘মেঘপিয়ন’ হলো আকাশের সেই মায়াবী ডাকপিয়ন—যে দিগন্ত পেরিয়ে প্রিয়জনের কাছে পৌঁছে দেয় না-বলা ভালোবাসা, অনুভূতি আর প্রার্থনা।`}
 >
-  <!-- Editorial header -->
+  <!-- Editorial Header -->
   <section class="relative overflow-hidden bg-ink text-parchment">
-    <div class="absolute inset-0 studio-backdrop"></div>
-    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,rgba(212,175,55,0.12),transparent_60%)]"></div>
+    <div class="absolute inset-0 studio-backdrop opacity-70"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,rgba(212,175,55,0.15),transparent_65%)]"></div>
 
-    <Container size="md" className="relative py-20 text-center">
-      <span class="eyebrow justify-center text-gold-300">
-        <span class="h-px w-7 bg-gold-400/50"></span>
-        The Story Behind The Name
-        <span class="h-px w-7 bg-gold-400/50"></span>
+    <Container size="md" className="relative py-16 sm:py-20 text-center">
+      <span class="inline-flex items-center gap-2 font-bengali text-[12px] sm:text-[13px] font-medium tracking-wider text-gold-300">
+        <span class="h-px w-6 sm:w-8 bg-gold-400/50"></span>
+        ঐতিহ্য ও ভালোবাসার ডাকপিয়ন
+        <span class="h-px w-6 sm:w-8 bg-gold-400/50"></span>
       </span>
 
-      <h1 class="mt-5 font-display text-[34px] font-semibold leading-tight text-parchment sm:text-[46px]">
-        {BRAND.name} <span class="font-bengali text-[26px] text-gold-300 sm:text-[34px]">({BRAND.nameBn})</span>
+      <h1 class="mt-4 font-tiro text-[34px] sm:text-[46px] md:text-[52px] font-normal leading-[1.3] text-parchment">
+        {BRAND.name} <span class="font-tiro text-[28px] sm:text-[38px] text-gold-300">({BRAND.nameBn})</span>
       </h1>
 
-      <p class="mt-4 font-bengali text-lg text-gold-200/85">“{BRAND.tagline}”</p>
+      <p class="mt-3 font-bengali text-[15px] sm:text-[17px] text-gold-200/90">
+        “{BRAND.tagline}”
+      </p>
     </Container>
 
-    <div class="relative h-8 bg-parchment"></div>
+    <!-- Airmail stripe divider -->
+    <div class="h-[2px] w-full airmail-stripe"></div>
   </section>
 
-  <!-- Story -->
-  <section class="bg-parchment-light py-20">
-    <Container size="md">
-      <div class="space-y-6 text-[14.5px] leading-[1.85] text-espresso/[0.85]">
-        <p class="first-letter:float-left first-letter:mr-3 first-letter:font-display first-letter:text-[54px] first-letter:leading-[0.85] first-letter:text-ink">
-          In Bengali poetry and folklore, <strong class="font-semibold text-espresso">Meghpiyon (মেঘপিয়ন)</strong> is the
-          celestial cloud postman — the tender messenger who carries heartfelt letters, unspoken affection and prayers
-          across vast horizons without losing an ounce of grace.
+  <!-- Story & Features Section -->
+  <section class="relative bg-parchment-light py-16 sm:py-24 border-b border-parchment-line">
+    <Container size="lg">
+      <!-- Section Heading: আমাদের গল্প -->
+      <div class="text-center">
+        <span class="inline-flex items-center gap-2 font-bengali text-[12px] font-semibold uppercase tracking-[0.2em] text-gold-700">
+          <span class="h-px w-6 bg-gold-500/50"></span>
+          <span>স্মৃতিকথা ও ভাবনা</span>
+          <span class="h-px w-6 bg-gold-500/50"></span>
+        </span>
+        <h2 class="mt-2 font-tiro text-[32px] sm:text-[40px] md:text-[44px] font-normal leading-[1.35] text-espresso">
+          আমাদের গল্প
+        </h2>
+        <div class="mt-3 flex items-center justify-center gap-3">
+          <span class="h-px w-12 bg-gold-400/40"></span>
+          <span class="text-gold-600/70 text-xs">◆</span>
+          <span class="h-px w-12 bg-gold-400/40"></span>
+        </div>
+      </div>
+
+      <!-- Story Paragraphs (max-w-3xl for smooth, comfortable reading) -->
+      <div class="mx-auto mt-10 max-w-3xl space-y-6 font-bengali text-[16px] md:text-[17px] leading-[1.8] text-espresso/[0.88]">
+        <p class="relative rounded-[6px] border-l-2 border-gold-400/80 bg-parchment/70 px-6 py-4 shadow-[0_4px_16px_-8px_rgba(43,27,23,0.08)]">
+          বাংলা কবিতা আর লোকগাথায় <strong class="font-tiro font-semibold text-burgundy text-[18px] md:text-[20px]">‘মেঘপিয়ন’</strong> হলো আকাশের সেই মায়াবী ডাকপিয়ন—যে দিগন্ত পেরিয়ে প্রিয়জনের কাছে পৌঁছে দেয় না-বলা ভালোবাসা, অনুভূতি আর প্রার্থনা।
         </p>
 
-        <p>
-          Founded with that exact spirit, {BRAND.name} began with a simple frustration: in a world of instant carts and
-          mass-produced parcels, the feeling behind a gift was getting lost. We wanted to build something different — a
-          house where every box reads like a handwritten poem, curated with intention and finished by hand.
-        </p>
-
-        <div class="ornament py-2 text-[10px]">◆</div>
-
-        <p>
-          Today our atelier in Dhaka wraps, ties and seals every order ourselves. Nothing is machine-packed, and nothing
-          leaves without a written note. It is slower this way. It is also the only way a gift should arrive.
+        <p class="text-justify sm:text-left text-clay/95 leading-[1.8]">
+          এই যান্ত্রিক সময়ে রেডিমেড আর তাড়াহুড়োর ভিড়ে উপহারের আসল আবেগটাই হারিয়ে যাচ্ছে। সেই আক্ষেপ থেকেই মেঘপিয়ন-এর জন্ম। আমরা চেয়েছি এমন কিছু গড়তে, যেখানে প্রতিটি উপহারের বাক্স হবে এক-একটি হাতে লেখা কবিতার মতো। ঢাকার বুকে আমাদের স্টুডিওতে প্রতিটি অর্ডার আমরা নিজেরাই পরম মমতায় বাঁধি ও সিলমোহর দিই—কোনো মেশিন নয়, প্রতিটি বাক্সের সাথে থাকে হাতে লেখা ভালোবাসার চিরকুট।
         </p>
       </div>
 
-      <!-- Commitments -->
-      <div class="mt-14 grid gap-6 sm:grid-cols-2">
-        {commitments.map((item) => (
-          <div key={item.title} class="rounded-[4px] border border-parchment-line bg-parchment p-6">
-            <h2 class="font-display text-[19px] text-espresso">{item.title}</h2>
-            <p class="mt-2 text-[13px] leading-relaxed text-clay">{item.text}</p>
+      <!-- Subtle ornament divider -->
+      <div class="my-14 sm:my-16 flex items-center justify-center gap-4 text-parchment-border">
+        <span class="h-px w-16 sm:w-24 bg-parchment-line"></span>
+        <span class="font-tiro text-sm text-gold-600/70">❦</span>
+        <span class="h-px w-16 sm:w-24 bg-parchment-line"></span>
+      </div>
+
+      <!-- Sub-section Heading: আমাদের বিশেষত্ব -->
+      <div class="text-center">
+        <span class="inline-flex items-center gap-2 font-bengali text-[12px] font-semibold uppercase tracking-[0.2em] text-gold-700">
+          <span class="h-px w-6 bg-gold-500/50"></span>
+          <span>কেন আমরা অনন্য</span>
+          <span class="h-px w-6 bg-gold-500/50"></span>
+        </span>
+        <h3 class="mt-2 font-tiro text-[28px] sm:text-[34px] font-normal leading-[1.35] text-espresso">
+          আমাদের বিশেষত্ব
+        </h3>
+        <div class="mt-3 flex items-center justify-center gap-3">
+          <span class="h-px w-10 bg-gold-400/40"></span>
+          <span class="text-gold-600/70 text-xs">◆</span>
+          <span class="h-px w-10 bg-gold-400/40"></span>
+        </div>
+      </div>
+
+      <!-- Feature Items: 2x2 grid (desktop), 1-column stack (mobile) -->
+      <div class="mx-auto mt-10 grid max-w-4xl grid-cols-1 gap-6 md:grid-cols-2">
+        {features.map((item) => (
+          <div class="group relative rounded-[6px] border border-parchment-line bg-parchment/80 p-6 sm:p-7 shadow-[0_10px_25px_-18px_rgba(43,27,23,0.22)] transition-all duration-300 hover:border-gold-400/60 hover:bg-parchment hover:shadow-[0_14px_30px_-16px_rgba(43,27,23,0.3)]">
+            <div class="flex items-start gap-4">
+              <!-- Icon Container -->
+              <div class="grid h-12 w-12 shrink-0 place-items-center rounded-full border border-gold-500/30 bg-gold-400/10 text-gold-700 transition-colors duration-300 group-hover:border-gold-500/60 group-hover:bg-gold-400/20 group-hover:text-gold-800">
+                {item.icon === 'craft' && (
+                  <!-- Pottery / craft icon -->
+                  <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M8 3h8m-7 0v1.5c0 2.2-2.5 3.5-2.5 7.5 0 4.5 3 7 7.5 7s7.5-2.5 7.5-7c0-4-2.5-5.3-2.5-7.5V3" />
+                    <path d="M7 17h10" />
+                    <path d="M6 12h12" />
+                  </svg>
+                )}
+                {item.icon === 'calligraphy' && (
+                  <!-- Calligraphy pen nib icon -->
+                  <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m12 19 7-7 3 3-7 7-3-3z" />
+                    <path d="m18 13-1.5-7.5L2 2l3.5 14.5L13 18" />
+                    <path d="m2 2 7.586 7.586" />
+                    <circle cx="11" cy="11" r="2" />
+                  </svg>
+                )}
+                {item.icon === 'eco' && (
+                  <!-- Eco leaf & craft box icon -->
+                  <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.5 10-10 10Z" />
+                    <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12" />
+                  </svg>
+                )}
+                {item.icon === 'delivery' && (
+                  <!-- Delivery / reliability shield icon -->
+                  <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    <path d="m9 12 2 2 4-4" />
+                  </svg>
+                )}
+              </div>
+
+              <!-- Content -->
+              <div class="flex-1">
+                <h4 class="font-tiro text-[19px] sm:text-[20px] font-medium leading-[1.35] text-espresso transition-colors group-hover:text-burgundy">
+                  {item.title}
+                </h4>
+                <p class="mt-2 font-bengali text-[14.5px] sm:text-[15px] leading-[1.75] text-clay/95">
+                  {item.description}
+                </p>
+              </div>
+            </div>
           </div>
         ))}
       </div>
 
       <!-- CTA -->
-      <div class="mt-14 border-t border-parchment-line pt-10 text-center">
-        <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-clay">
-          Bulk gifting or a custom commission?
+      <div class="mx-auto mt-16 max-w-2xl border-t border-parchment-line pt-10 text-center">
+        <p class="font-bengali text-[15px] font-medium text-clay">
+          কর্পোরেট উপহার বা বিশেষ কাস্টমাইজড অর্ডারের জন্য আমাদের সাথে কথা বলুন
         </p>
         <div class="mt-5 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <a href="/contact" class="btn-gold">Speak With Our Concierge</a>
-          <a href="/shop" class="btn-outline-dark">Browse the Collection</a>
+          <a href="/contact" class="btn-gold font-bengali text-[14px]">
+            যোগাযোগ করুন
+          </a>
+          <a href="/shop" class="btn-outline-dark font-bengali text-[14px]">
+            উপহার সম্ভার দেখুন
+          </a>
         </div>
       </div>
     </Container>

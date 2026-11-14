@@ -169,6 +169,14 @@
     font-family: 'Playfair Display', serif;
   }
 
+  .font-tiro {
+    font-family: 'Tiro Bangla', 'Noto Serif Bengali', 'Playfair Display', Georgia, serif;
+  }
+
+  .font-galada {
+    font-family: 'Galada', cursive, serif;
+  }
+
   /* Vintage Postal Airmail Border */
   .airmail-stripe {
     background: repeating-linear-gradient(

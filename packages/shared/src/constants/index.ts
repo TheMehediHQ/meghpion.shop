@@ -6,7 +6,7 @@ export const BRAND = {
   taglineEn: 'Delivering love wrapped in gifts.',
   currency: 'BDT',
   currencySymbol: '৳',
-  supportPhone: '+880 1700-000000',
+  supportPhone: '01789335268',
   supportEmail: 'support@meghpeon.shop',
   address: 'Dhaka, Bangladesh',
 } as const;

@@ -116,6 +116,17 @@ export default {
           '"Noto Sans Bengali"',
           'sans-serif',
         ],
+        tiro: [
+          '"Tiro Bangla"',
+          '"Noto Serif Bengali"',
+          'Georgia',
+          'serif',
+        ],
+        galada: [
+          '"Galada"',
+          'cursive',
+          'serif',
+        ],
       },
     },
   },

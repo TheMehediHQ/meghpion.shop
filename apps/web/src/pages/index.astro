@@ -126,43 +126,44 @@ const testimonials = [
   description={`${BRAND.name} crafts hand-tied gift hampers, vintage postal keepsakes and artisanal treasures, delivered across all 64 districts of Bangladesh.`}
 >
   <!-- ============================= HERO ============================= -->
-  <section class="relative min-h-[580px] sm:min-h-[640px] md:min-h-[720px] lg:min-h-[780px] xl:min-h-[840px] flex items-center justify-center overflow-hidden bg-[#240508] text-parchment">
+  <section class="relative min-h-[580px] sm:min-h-[640px] md:min-h-[720px] lg:min-h-[780px] xl:min-h-[840px] flex items-center justify-center overflow-hidden bg-[#240508] text-parchment border-b border-[#E5DEC9]">
     <!-- Atmospheric Vintage Photo Flatlay Background with Dried Flowers, Brass Scale, Hampers & Compass -->
     <div class="absolute inset-0 z-0">
       <img
         src="/images/hero-vintage-bg.jpg"
-        alt="Meghpiyon — Handcrafted Sentiments, Delivered with Love. Vintage postal gift shop flatlay with pressed flowers, brass scale, and luxury ribbon gift hampers"
+        alt="Meghpiyon — Handcrafted Sentiments, Delivered with Love"
         fetchpriority="high"
-        width="1920"
-        height="951"
+        width="2752"
+        height="1536"
         class="w-full h-full object-cover object-center"
       />
     </div>
 
-    <!-- Center interactive CTA overlay -->
-    <div class="relative z-10 w-full max-w-4xl px-4 flex flex-col items-center justify-center text-center">
-      <!-- Semantic Heading for Screen Readers & SEO -->
-      <h1 class="sr-only">
-        Handcrafted Sentiments, Delivered with Love — Meghpiyon Vintage Postal Gift Atelier
+    <!-- Center Typography & Button on the Parchment Paper -->
+    <div class="relative z-10 w-full max-w-[340px] sm:max-w-[420px] md:max-w-[460px] lg:max-w-[490px] px-4 mx-auto flex flex-col items-center justify-center text-center">
+      <h1 class="font-display font-semibold text-[#241410] text-[26px] sm:text-[34px] md:text-[38px] lg:text-[44px] leading-[1.18] tracking-[-0.01em] select-none text-balance">
+        ভালোবাসা<br />
+        পৌঁছে যাক,<br />
+         উপহারে ...
       </h1>
 
-      <!-- Clickable Link positioned directly over 'Explore Gifts' -->
-      <a
-        href="/shop"
-        class="relative inline-flex items-center justify-center mt-36 sm:mt-44 md:mt-52 lg:mt-60 w-44 sm:w-52 h-11 sm:h-13 rounded cursor-pointer group"
-        aria-label="Explore Gifts"
-      >
-        <span class="sr-only">Explore Gifts</span>
-        <span class="absolute inset-0 rounded border border-transparent group-hover:border-gold-300/60 group-hover:bg-gold-500/10 group-hover:shadow-[0_0_24px_rgba(203,160,56,0.35)] transition-all duration-300 pointer-events-none"></span>
-      </a>
+      <div class="mt-6 sm:mt-7 md:mt-8">
+        <a
+          href="/shop"
+          class="group relative inline-flex items-center justify-center px-8 py-3 sm:px-9 sm:py-3.5 bg-[#B29258] hover:bg-[#9C7E48] text-[#F6F2EA] font-serif text-sm sm:text-base tracking-[0.06em] rounded-[3px] shadow-[0_4px_16px_rgba(36,20,16,0.3)] transition-all duration-200 transform hover:-translate-y-0.5 border border-[#8F6F3A]"
+        >
+          <!-- Subtle inner border flourish -->
+          <span class="pointer-events-none absolute inset-[3px] rounded-[2px] border border-[#F6F2EA]/40 group-hover:border-[#F6F2EA]/60 transition-colors"></span>
+          <span class="mr-2 text-[10px] text-[#F6F2EA]/75 select-none font-serif">❖</span>
+          <span class="font-medium tracking-wide">Explore Gifts</span>
+          <span class="ml-2 text-[10px] text-[#F6F2EA]/75 select-none font-serif">❖</span>
+        </a>
+      </div>
     </div>
-
-    <!-- Bottom transition to Benefits section -->
-    <div class="absolute bottom-0 inset-x-0 h-4 sm:h-6 bg-gradient-to-t from-parchment-light to-transparent pointer-events-none"></div>
   </section>
 
   <!-- ============================= BENEFITS ============================= -->
-  <section class="border-b border-parchment-line bg-parchment-light">
+  <section class="border-b border-[#E5DEC9] bg-[#F6F2EA]">
     <Container size="lg">
       <div class="grid grid-cols-1 gap-6 py-9 sm:grid-cols-2 lg:grid-cols-4">
         {benefits.map((benefit) => (

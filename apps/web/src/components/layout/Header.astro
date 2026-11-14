@@ -43,19 +43,14 @@ const navLinks = [
     <Container size="lg">
       <div class="flex h-[76px] items-center justify-between gap-6">
         <!-- Brand lockup -->
-        <a href="/" class="group flex shrink-0 items-center gap-3" aria-label={`${BRAND.name} — home`}>
-          <span class="relative grid h-11 w-11 place-items-center rounded-full border border-gold-500/50 bg-gradient-to-br from-gold-200 via-gold-400 to-gold-700 shadow-[0_3px_12px_rgba(212,175,55,0.25)] transition-transform duration-300 group-hover:scale-105">
-            <span class="font-bengali text-lg font-semibold text-ink-deep">ম</span>
-            <span class="pointer-events-none absolute inset-[3px] rounded-full border border-dashed border-ink-deep/30"></span>
-          </span>
-          <span class="leading-none">
-            <span class="flex items-start font-display text-[25px] font-semibold leading-none tracking-[0.01em]">
-              <span class="text-gold-gradient">{BRAND.name}</span><span class="ml-0.5 text-[13px] font-medium text-gold-300/70">.{BRAND.domain.split('.')[1]}</span>
-            </span>
-            <span class="mt-1.5 hidden text-[9px] font-medium uppercase tracking-[0.3em] text-parchment/[0.45] sm:block">
-              Bespoke Gifting · Est. 2024
-            </span>
-          </span>
+        <a href="/" class="group flex shrink-0 items-center" aria-label={`${BRAND.name} — home`}>
+          <img
+            src="/images/logo.png"
+            alt={`${BRAND.name}.shop`}
+            class="h-[44px] w-auto object-contain transition-transform duration-200 group-hover:scale-[1.02]"
+            width="133"
+            height="44"
+          />
         </a>
 
         <!-- Center links -->
@@ -121,8 +116,8 @@ const navLinks = [
             </summary>
             <div class="absolute right-0 mt-4 w-[268px] overflow-hidden rounded-[4px] border border-gold-700/30 bg-ink shadow-2xl">
               <div class="border-b border-parchment/10 px-5 py-4">
-                <p class="font-display text-lg text-gold-200">{BRAND.name}</p>
-                <p class="mt-0.5 font-bengali text-[11px] text-parchment/50">{BRAND.nameBn} — {BRAND.tagline}</p>
+                <img src="/images/logo.png" alt={BRAND.name} class="h-9 w-auto object-contain" width="109" height="36" />
+                <p class="mt-1.5 font-bengali text-[11px] text-parchment/50">{BRAND.nameBn} — {BRAND.tagline}</p>
               </div>
               <nav class="py-2" aria-label="Mobile navigation">
                 {navLinks.map((link) => (

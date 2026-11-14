@@ -31,17 +31,14 @@ const payments = ['bKash', 'Nagad', 'Visa', 'COD'];
     <div class="grid grid-cols-2 gap-10 md:grid-cols-12">
       <!-- Brand -->
       <div class="col-span-2 md:col-span-4">
-        <a href="/" class="flex items-center gap-3">
-          <span class="relative grid h-11 w-11 place-items-center rounded-full border border-gold-500/50 bg-gradient-to-br from-gold-200 via-gold-400 to-gold-700">
-            <span class="font-bengali text-lg font-semibold text-ink-deep">ম</span>
-            <span class="pointer-events-none absolute inset-[3px] rounded-full border border-dashed border-ink-deep/30"></span>
-          </span>
-          <span class="leading-none">
-            <span class="flex items-start font-display text-[24px] font-semibold leading-none">
-              <span class="text-gold-gradient">{BRAND.name}</span><span class="ml-0.5 text-[12px] text-gold-300/70">.{BRAND.domain.split('.')[1]}</span>
-            </span>
-            <span class="mt-1.5 block text-[9px] uppercase tracking-[0.3em] text-parchment/40">Bespoke Gifting</span>
-          </span>
+        <a href="/" class="inline-block" aria-label={`${BRAND.name} — home`}>
+          <img
+            src="/images/logo.png"
+            alt={`${BRAND.name}.shop`}
+            class="h-[60px] w-auto object-contain"
+            width="182"
+            height="60"
+          />
         </a>
 
         <p class="mt-5 font-bengali text-sm text-gold-200/80">{BRAND.tagline}</p>

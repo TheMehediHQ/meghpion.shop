@@ -14,21 +14,23 @@ const products = [
     slug: 'shonar-bangla-artisan-gift-box',
     price: 2450,
     discountPrice: 2200,
-    category: 'Curated Gift Box',
+    category: 'gift-boxes',
+    categoryNameBn: 'উপহার বক্স',
     image: 'https://images.unsplash.com/photo-1543257580-7269da773bf5?w=600&auto=format&fit=crop&q=80',
-    tags: ['Best Seller'],
+    tags: ['Best Seller', 'হস্তশিল্প'],
     rating: 4.9,
     reviewCount: 128,
   },
   {
     id: '2',
     name: 'Nakshi Kantha Embroidered Diary & Pen',
-    nameBn: 'নকশিকাঁথা ডায়েরি ও কলম',
+    nameBn: 'নকশিকাঁথা ডায়েরি ও রোজউড কলম',
     slug: 'nakshi-kantha-diary-pen',
     price: 1250,
-    category: 'Handicrafts',
+    category: 'handicrafts',
+    categoryNameBn: 'হস্তশিল্প',
     image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80',
-    tags: ['Artisan Made'],
+    tags: ['Artisan Made', 'ঐতিহ্যবাহী'],
     rating: 4.8,
     reviewCount: 64,
   },
@@ -38,116 +40,221 @@ const products = [
     nameBn: 'চকলেট ও ড্রাই ফ্রুটস হ্যাম্পার',
     slug: 'artisanal-chocolates-dry-fruits',
     price: 1850,
-    category: 'Gourmet Hamper',
+    category: 'chocolates',
+    categoryNameBn: 'চকলেট ও মিষ্টি',
     image: 'https://images.unsplash.com/photo-1511381939415-e44015466834?w=600&auto=format&fit=crop&q=80',
-    tags: ['Gourmet'],
+    tags: ['Gourmet', 'মিষ্টান্ন'],
     rating: 5,
     reviewCount: 91,
   },
   {
     id: '4',
     name: 'Personalised Wooden Photo Frame & Keepsake',
-    nameBn: 'কাঠের কাস্টমাইজড ফটো ফ্রেম',
+    nameBn: 'কাঠের কাস্টমাইজড ফটো ফ্রেম ও স্মারক',
     slug: 'personalized-wooden-photo-frame',
     price: 950,
-    category: 'Personalised',
+    category: 'customized',
+    categoryNameBn: 'কাস্টমাইজড উপহার',
     image: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=600&auto=format&fit=crop&q=80',
-    tags: ['Personalised'],
+    tags: ['Personalised', 'স্মারক'],
     rating: 4.8,
     reviewCount: 43,
   },
   {
     id: '5',
     name: 'Monsoon Jasmine & Rose Floral Box',
-    nameBn: 'গোলাপ ও বেলি ফুলের বক্স',
+    nameBn: 'গোলাপ ও বেলি ফুলের সুবাসিত বক্স',
     slug: 'monsoon-jasmine-rose-box',
     price: 1400,
-    category: 'Fresh Flowers',
+    category: 'flowers',
+    categoryNameBn: 'ফুল ও তোড়া',
     image: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?w=600&auto=format&fit=crop&q=80',
-    tags: ['Seasonal'],
+    tags: ['Seasonal', 'সতেজ ফুল'],
     rating: 4.9,
     reviewCount: 57,
   },
   {
     id: '6',
     name: 'Handmade Terracotta Desk Planter',
-    nameBn: 'টেরাকোটা প্ল্যান্টার',
+    nameBn: 'টেরাকোটা মাটির মিনি প্ল্যান্টার',
     slug: 'handmade-terracotta-planter',
     price: 650,
-    category: 'Handicrafts',
+    category: 'handicrafts',
+    categoryNameBn: 'হস্তশিল্প',
     image: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=600&auto=format&fit=crop&q=80',
-    tags: ['Eco-friendly'],
+    tags: ['Eco-friendly', 'মৃৎশিল্প'],
     rating: 4.7,
     reviewCount: 38,
+  },
+  {
+    id: '7',
+    name: 'Brass Filigree Keepsake Jewelry Box',
+    nameBn: 'পিতলের এন্টিক নকশা গহনা বক্স',
+    slug: 'brass-filigree-jewelry-box',
+    price: 1650,
+    category: 'jewelry',
+    categoryNameBn: 'গহনা ও স্মারক',
+    image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=600&auto=format&fit=crop&q=80',
+    tags: ['Heritage', 'খাঁটি পিতল'],
+    rating: 4.9,
+    reviewCount: 29,
+  },
+  {
+    id: '8',
+    name: 'Executive Corporate Executive Hamper',
+    nameBn: 'কর্পোরেট এক্সিকিউটিভ গিফট হ্যাম্পার',
+    slug: 'corporate-executive-hamper',
+    price: 3200,
+    discountPrice: 2950,
+    category: 'corporate-hampers',
+    categoryNameBn: 'কর্পোরেট হ্যাম্পার',
+    image: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=600&auto=format&fit=crop&q=80',
+    tags: ['Corporate', 'লাক্সারি'],
+    rating: 5,
+    reviewCount: 52,
+  },
+  {
+    id: '9',
+    name: 'Vintage Calligraphy Parchment Greeting Card',
+    nameBn: 'হাতে লেখা ক্যালিগ্রাফি শুভেচ্ছা চিরকুট',
+    slug: 'vintage-calligraphy-greeting-card',
+    price: 180,
+    category: 'greeting-cards',
+    categoryNameBn: 'শুভেচ্ছা কার্ড',
+    image: 'https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?w=600&auto=format&fit=crop&q=80',
+    tags: ['Calligraphy', 'চিরকুট'],
+    rating: 4.9,
+    reviewCount: 114,
   },
 ];
 
 const filteredProducts =
-  selectedCategory === 'all' ? products : products.filter((p) => p.category === selectedCategory);
+  selectedCategory === 'all'
+    ? products
+    : products.filter((p) => p.category === selectedCategory);
+
+// Current category label
+const currentCatObj = PRODUCT_CATEGORIES.find((c) => c.id === selectedCategory);
+const activeCategoryNameBn = currentCatObj ? currentCatObj.nameBn : 'সকল উপহার সামগ্রী';
 ---
 
 <BaseLayout
-  title={`Collections | ${BRAND.name}`}
-  description="Browse curated gift boxes, Bangladeshi handicrafts, personalised keepsakes and floral hampers — hand-finished and delivered nationwide."
+  title={`কিউরেটেড উপহার সংগ্রহ | ${BRAND.name}`}
+  description="মেঘপিয়নের কিউরেটেড উপহার বক্স, ঐতিহ্যবাহী হস্তশিল্প, কাস্টমাইজড স্মারক ও ফুল—হাতে লেখা ক্যালিগ্রাফি চিরকুট ও ওয়াক্স সিলমোহরে মোড়ানো।"
 >
-  <!-- Page header -->
-  <section class="relative overflow-hidden border-b border-parchment-line bg-parchment">
-    <div class="absolute inset-0 paper-grain opacity-60"></div>
-    <Container size="lg" className="relative py-14">
-      <nav class="flex items-center gap-2 text-[10.5px] font-medium uppercase tracking-[0.18em] text-clay/70" aria-label="Breadcrumb">
-        <a href="/" class="transition-colors hover:text-ink">Home</a>
-        <span class="text-clay/40">/</span>
-        <span class="text-espresso">Collections</span>
-      </nav>
+  <!-- Atmospheric Page Header (Matches build-gift.astro & about.astro) -->
+  <section class="relative overflow-hidden bg-ink text-parchment">
+    <div class="absolute inset-0 studio-backdrop opacity-70"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,rgba(212,175,55,0.15),transparent_65%)]"></div>
 
-      <div class="mt-6 flex flex-col justify-between gap-6 md:flex-row md:items-end">
-        <div>
-          <span class="eyebrow">
-            <span class="h-px w-7 bg-gold-600/60"></span>
-            The Collection
-          </span>
-          <h1 class="section-title mt-4">Curated Gifts &amp; Heirloom Keepsakes</h1>
-          <p class="section-lead">
-            Hand-selected pieces, finished by hand in our Dhaka atelier and delivered with a written note.
-          </p>
+    <Container size="lg" className="relative py-14 sm:py-18 text-center">
+      <span class="inline-flex items-center gap-2 font-bengali text-[12px] sm:text-[13px] font-medium tracking-wider text-gold-300">
+        <span class="h-px w-6 sm:w-8 bg-gold-400/50"></span>
+        কিউরেটেড উপহার সম্ভার · OUR COLLECTIONS
+        <span class="h-px w-6 sm:w-8 bg-gold-400/50"></span>
+      </span>
+
+      <h1 class="mt-4 font-tiro text-[32px] sm:text-[44px] md:text-[50px] font-normal leading-[1.3] text-parchment">
+        ভালোবাসার স্মারক ও কিউরেটেড উপহার
+      </h1>
+
+      <p class="mx-auto mt-3 max-w-2xl font-bengali text-[15px] sm:text-base leading-relaxed text-gold-200/90">
+        ঢাকার বুকে আমাদের স্টুডিওতে পরম মমতায় হাতে মোড়ানো প্রতিটি উপহারের বাক্স—সাথে খাঁটি ওয়াক্স সিলমোহর ও ক্যালিগ্রাফারের হাতে লেখা প্রেমমাখা চিরকুট।
+      </p>
+
+      <!-- Breadcrumb in Header -->
+      <nav class="mt-6 flex items-center justify-center gap-2 font-bengali text-[12px] text-parchment/60" aria-label="Breadcrumb">
+        <a href="/" class="transition-colors hover:text-gold-300">হোম</a>
+        <span class="text-gold-400/40">/</span>
+        <span class="text-gold-200">উপহার সংগ্রহ</span>
+        {currentCatObj && (
+          <>
+            <span class="text-gold-400/40">/</span>
+            <span class="text-gold-300 font-medium">{currentCatObj.nameBn}</span>
+          </>
+        )}
+      </nav>
+    </Container>
+
+    <!-- Airmail stripe divider -->
+    <div class="h-[2px] w-full airmail-stripe"></div>
+  </section>
+
+  <!-- Main Shop Body -->
+  <section class="bg-parchment-light py-12 sm:py-16">
+    <Container size="lg">
+      <!-- Build Your Gift Promotion Card -->
+      <div class="mb-10 overflow-hidden rounded-[6px] border border-gold-500/40 bg-gradient-to-r from-parchment via-parchment-card to-parchment p-6 sm:p-8 shadow-[0_10px_30px_-18px_rgba(43,27,23,0.22)]">
+        <div class="flex flex-col items-center justify-between gap-6 md:flex-row">
+          <div class="text-center md:text-left">
+            <span class="inline-flex items-center gap-1.5 font-bengali text-xs font-semibold uppercase tracking-wider text-gold-700">
+              <span class="text-gold-600">✨</span> নিজের পছন্দের কাস্টম উপহার
+            </span>
+            <h2 class="mt-1 font-tiro text-2xl sm:text-3xl text-espresso">
+              রেডিমেড ছাড়াও সম্পূর্ণ নিজের পছন্দমতো বক্স সাজাতে চান?
+            </h2>
+            <p class="mt-1.5 font-bengali text-[14px] leading-relaxed text-clay">
+              পছন্দের উডেন বা ক্রাফট বক্স বেছে নিয়ে চকলেট, ডায়েরি, আতর ও ক্যালিগ্রাফি চিরকুট দিয়ে নিজেই ৩-ধাপে উপহারের কম্বো তৈরি করুন।
+            </p>
+          </div>
+          <a
+            href="/build-gift"
+            class="inline-flex shrink-0 items-center gap-2 rounded-[4px] bg-ink px-6 py-3 font-bengali text-sm font-medium text-parchment shadow-md transition-all hover:bg-burgundy hover:text-gold-200 hover:shadow-lg"
+          >
+            <span>Build Your Gift শুরু করুন</span>
+            <span>→</span>
+          </a>
         </div>
-        <p class="shrink-0 text-[11px] font-semibold uppercase tracking-[0.18em] text-clay">
-          {filteredProducts.length} {filteredProducts.length === 1 ? 'piece' : 'pieces'}
+      </div>
+
+      <!-- Filter Bar & Section Header -->
+      <div class="mb-8 flex flex-col justify-between gap-4 border-b border-parchment-line pb-6 md:flex-row md:items-end">
+        <div>
+          <span class="inline-flex items-center gap-2 font-bengali text-[11px] font-semibold uppercase tracking-[0.2em] text-gold-700">
+            <span class="h-px w-5 bg-gold-500/50"></span>
+            <span>ক্যাটেগরি অনুযায়ী খুঁজুন</span>
+          </span>
+          <h3 class="mt-1 font-tiro text-2xl sm:text-3xl text-espresso">
+            {activeCategoryNameBn}
+          </h3>
+        </div>
+
+        <p class="font-bengali text-xs sm:text-sm text-clay">
+          মোট <strong class="font-sans font-bold text-espresso">{filteredProducts.length}</strong> টি উপহার প্রদর্শিত হচ্ছে
         </p>
       </div>
 
-      <!-- Category filters -->
-      <div class="mt-9 flex flex-wrap gap-2">
+      <!-- Category Filter Pills (Bangla) -->
+      <div class="mb-10 flex flex-wrap gap-2.5">
         <a
           href="/shop"
-          class={`rounded-full border px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] transition-colors ${
+          class={`rounded-full border px-4 py-2 font-bengali text-xs font-medium transition-all ${
             selectedCategory === 'all'
-              ? 'border-ink bg-ink text-parchment'
-              : 'border-parchment-line bg-parchment-light text-clay hover:border-gold-600/50 hover:text-espresso'
+              ? 'border-ink bg-ink text-parchment shadow-sm'
+              : 'border-parchment-line bg-parchment text-clay hover:border-gold-500 hover:text-espresso'
           }`}
         >
-          All Gifts
+          সব উপহার
         </a>
-        {PRODUCT_CATEGORIES.map((cat) => (
-          <a
-            key={cat.id}
-            href={`/shop?category=${cat.id}`}
-            class={`rounded-full border px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] transition-colors ${
-              selectedCategory === cat.id
-                ? 'border-ink bg-ink text-parchment'
-                : 'border-parchment-line bg-parchment-light text-clay hover:border-gold-600/50 hover:text-espresso'
-            }`}
-          >
-            {cat.nameEn}
-          </a>
-        ))}
+        {PRODUCT_CATEGORIES.map((cat) => {
+          const isSelected = selectedCategory === cat.id;
+          return (
+            <a
+              key={cat.id}
+              href={`/shop?category=${cat.id}`}
+              class={`rounded-full border px-4 py-2 font-bengali text-xs font-medium transition-all ${
+                isSelected
+                  ? 'border-ink bg-ink text-parchment shadow-sm'
+                  : 'border-parchment-line bg-parchment text-clay hover:border-gold-500 hover:text-espresso'
+              }`}
+            >
+              {cat.nameBn}
+            </a>
+          );
+        })}
       </div>
-    </Container>
-  </section>
 
-  <!-- Product grid -->
-  <section class="bg-parchment-light py-14">
-    <Container size="lg">
+      <!-- Product Grid -->
       {filteredProducts.length > 0 ? (
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {filteredProducts.map((product) => (
@@ -155,14 +262,48 @@ const filteredProducts =
           ))}
         </div>
       ) : (
-        <div class="mx-auto max-w-md rounded-[4px] border border-parchment-line bg-parchment px-8 py-16 text-center">
-          <p class="font-display text-2xl text-espresso">Nothing here yet</p>
-          <p class="mt-2 text-[13px] leading-relaxed text-clay">
-            This collection is being restyled. Explore the full atelier in the meantime.
+        <div class="mx-auto max-w-md rounded-[6px] border border-parchment-line bg-parchment px-8 py-16 text-center shadow-sm">
+          <span class="text-3xl">✉️</span>
+          <h4 class="mt-3 font-tiro text-2xl text-espresso">এই ক্যাটাগরিতে এখনো কোনো পণ্য নেই</h4>
+          <p class="mt-2 font-bengali text-sm leading-relaxed text-clay">
+            আমরা খুব শীঘ্রই এই সংগ্রহে নতুন উপহার যুক্ত করছি। ততক্ষণ আমাদের অন্যান্য সংগ্রহ দেখুন।
           </p>
-          <a href="/shop" class="btn-outline-dark mt-6">View All Gifts</a>
+          <a href="/shop" class="btn-outline-dark mt-6 font-bengali text-sm inline-block">
+            সব উপহার দেখুন
+          </a>
         </div>
       )}
+    </Container>
+  </section>
+
+  <!-- Trust Features Banner at Bottom -->
+  <section class="border-t border-parchment-line bg-parchment py-12">
+    <Container size="lg">
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 text-center">
+        <div class="rounded-[4px] border border-parchment-line bg-parchment-light p-5 shadow-sm">
+          <span class="text-2xl">🪵</span>
+          <h5 class="mt-2 font-tiro text-base text-espresso">প্রিমিয়াম বক্স ও মোড়ক</h5>
+          <p class="mt-1 font-bengali text-xs text-clay">খাঁটি কাঠ ও ক্রাফট পেপারের টেকসই স্মারক প্যাকেজিং।</p>
+        </div>
+
+        <div class="rounded-[4px] border border-parchment-line bg-parchment-light p-5 shadow-sm">
+          <span class="text-2xl">✒️</span>
+          <h5 class="mt-2 font-tiro text-base text-espresso">ফ্রি ক্যালিগ্রাফি চিরকুট</h5>
+          <p class="mt-1 font-bengali text-xs text-clay">প্রতিটি বক্সে থাকছে নিজস্ব ক্যালিগ্রাফারের হাতে লেখা কার্ড।</p>
+        </div>
+
+        <div class="rounded-[4px] border border-parchment-line bg-parchment-light p-5 shadow-sm">
+          <span class="text-2xl">🕯️</span>
+          <h5 class="mt-2 font-tiro text-base text-espresso">খাঁটি ওয়াক্স সিলমোহর</h5>
+          <p class="mt-1 font-bengali text-xs text-clay">ঐতিহ্যবাহী গালা সিলমোহর ও প্রিমিয়াম সাটিন রিবনের বাঁধন।</p>
+        </div>
+
+        <div class="rounded-[4px] border border-parchment-line bg-parchment-light p-5 shadow-sm">
+          <span class="text-2xl">🚚</span>
+          <h5 class="mt-2 font-tiro text-base text-espresso">সারাদেশে নিরাপদ ডেলিভারি</h5>
+          <p class="mt-1 font-bengali text-xs text-clay">৬৪ জেলায় ট্র্যাকিং ও সর্বোচ্চ সুরক্ষা নিশ্চিত করে ডেলিভারি।</p>
+        </div>
+      </div>
     </Container>
   </section>
 </BaseLayout>

@@ -1,119 +1,279 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Container from '../components/ui/Container.astro';
-import Badge from '../components/ui/Badge.astro';
 import { BRAND } from '@meghpiyon/shared';
 
 const queryOrder = Astro.url.searchParams.get('order') || 'MP-89412';
 ---
 
 <BaseLayout
-  title={`Track Your Order | ${BRAND.name}`}
-  description="Check real-time delivery status of your Meghpeon gift parcels across Bangladesh."
+  title={`অর্ডার ট্র্যাকিং | ${BRAND.name}`}
+  description="মেঘপিয়ন থেকে পাঠানো আপনার ভালোবাসার উপহারের পার্সেলটি বর্তমানে কোন ধাপে রয়েছে তা রিয়েল-টাইমে ট্র্যাক করুন।"
 >
-  <div class="py-16 bg-parchment-light">
-    <Container size="md">
-      <div class="text-center space-y-3 mb-10">
-        <Badge variant="gold">Live Parcel Tracking</Badge>
-        <h1 class="section-title">
-          Track Your Gift Order
-        </h1>
-        <p class="text-sm text-clay max-w-lg mx-auto">
-          Enter your order tracking ID to inspect dispatch progress, courier handoff, and estimated doorstep delivery.
-        </p>
-      </div>
+  <!-- Atmospheric Page Header (Matches build-gift, shop, & about) -->
+  <section class="relative overflow-hidden bg-ink text-parchment">
+    <div class="absolute inset-0 studio-backdrop opacity-70"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,rgba(212,175,55,0.15),transparent_65%)]"></div>
 
-      <!-- Tracking Search Form -->
-      <div class="border border-parchment-line rounded-[4px] p-6 bg-parchment mb-10">
+    <Container size="lg" className="relative py-14 sm:py-18 text-center">
+      <span class="inline-flex items-center gap-2 font-bengali text-[12px] sm:text-[13px] font-medium tracking-wider text-gold-300">
+        <span class="h-px w-6 sm:w-8 bg-gold-400/50"></span>
+        লাইভ পার্সেল ট্র্যাকিং · PARCEL DISPATCH
+        <span class="h-px w-6 sm:w-8 bg-gold-400/50"></span>
+      </span>
+
+      <h1 class="mt-4 font-tiro text-[32px] sm:text-[44px] md:text-[50px] font-normal leading-[1.3] text-parchment">
+        আপনার উপহারের পার্সেল ট্র্যাক করুন
+      </h1>
+
+      <p class="mx-auto mt-3 max-w-2xl font-bengali text-[15px] sm:text-base leading-relaxed text-gold-200/90">
+        অর্ডার নম্বর বা ট্র্যাকিং আইডি দিয়ে এক ক্লিকে জেনে নিন আপনার ভালোবাসার উপহারটি বর্তমানে কোন ধাপে রয়েছে—প্যাকিং, সিলমোহর নাকি ডোরস্টেপ ডেলিভারিতে।
+      </p>
+
+      <!-- Breadcrumb in Header -->
+      <nav class="mt-6 flex items-center justify-center gap-2 font-bengali text-[12px] text-parchment/60" aria-label="Breadcrumb">
+        <a href="/" class="transition-colors hover:text-gold-300">হোম</a>
+        <span class="text-gold-400/40">/</span>
+        <span class="text-gold-200 font-medium">অর্ডার ট্র্যাকিং</span>
+      </nav>
+    </Container>
+
+    <!-- Airmail stripe divider -->
+    <div class="h-[2px] w-full airmail-stripe"></div>
+  </section>
+
+  <!-- Main Tracking Section -->
+  <section class="bg-parchment-light py-12 sm:py-16">
+    <Container size="md">
+      <!-- Tracking Search Box (Vintage Postal Registry Form) -->
+      <div class="mb-10 overflow-hidden rounded-[6px] border border-parchment-line bg-parchment p-6 sm:p-8 shadow-[0_10px_25px_-18px_rgba(43,27,23,0.2)]">
+        <div class="mb-4">
+          <span class="font-bengali text-xs font-semibold uppercase tracking-wider text-gold-700">
+            ডাকপিয়ন ট্র্যাকিং রেজিস্ট্রার
+          </span>
+          <h2 class="mt-1 font-tiro text-xl sm:text-2xl text-espresso">
+            অর্ডার নম্বর বা ট্র্যাকিং আইডি লিখুন
+          </h2>
+        </div>
+
         <form class="flex flex-col sm:flex-row gap-3" action="/track-order" method="GET">
-          <input
-            type="text"
-            name="order"
-            value={queryOrder}
-            required
-            placeholder="Enter Order ID (e.g. MP-89412)"
-            class="input-field flex-1"
-          />
-          <button type="submit" class="btn-primary whitespace-nowrap px-6 py-2">
-            Track Order
+          <div class="relative flex-1">
+            <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-clay/70">
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </span>
+            <input
+              type="text"
+              name="order"
+              value={queryOrder}
+              required
+              placeholder="যেমন: MP-89412 বা মোবাইল নম্বর"
+              class="field w-full pl-10 border-parchment-line bg-white font-sans text-sm focus:border-gold-500"
+            />
+          </div>
+          <button
+            type="submit"
+            class="inline-flex items-center justify-center gap-2 rounded-[3px] bg-ink px-7 py-3 font-bengali text-sm font-medium text-parchment shadow-md transition-all hover:bg-burgundy hover:text-gold-200"
+          >
+            <span>ট্র্যাক করুন</span>
+            <span>→</span>
           </button>
         </form>
+
+        <div class="mt-3 flex items-center gap-2 font-bengali text-xs text-clay">
+          <span>উদাহরণ ট্র্যাকিং আইডি:</span>
+          <a href="/track-order?order=MP-89412" class="font-sans font-semibold text-gold-700 underline hover:text-ink">MP-89412</a>
+          <span>·</span>
+          <a href="/track-order?order=MP-92401" class="font-sans font-semibold text-gold-700 underline hover:text-ink">MP-92401</a>
+        </div>
       </div>
 
-      <!-- Order Status Timeline Card -->
-      <div class="border border-parchment-line rounded-2xl p-6 sm:p-8 bg-parchment-light shadow-sm space-y-6">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-parchment-line gap-2">
+      <!-- Tracking Result Card (Vintage Airmail Theme) -->
+      <div class="overflow-hidden rounded-[6px] border border-parchment-line bg-parchment p-6 sm:p-9 shadow-[0_12px_32px_-18px_rgba(43,27,23,0.25)]">
+        <!-- Airmail top stripe inside card -->
+        <div class="h-[2px] w-full airmail-stripe mb-6"></div>
+
+        <!-- Order Meta Header -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-parchment-line gap-4">
           <div>
-            <p class="text-xs text-clay uppercase tracking-wider">Tracking Reference</p>
-            <p class="text-lg font-bold text-espresso">{queryOrder}</p>
+            <div class="flex items-center gap-2">
+              <span class="font-bengali text-xs font-semibold uppercase tracking-wider text-gold-700">
+                পার্সেল ট্র্যাকিং রেফারেন্স
+              </span>
+              <span class="text-[10px] text-clay font-sans">#BD-COURIER</span>
+            </div>
+            <h3 class="mt-1 font-sans text-2xl font-bold tracking-tight text-espresso sm:text-3xl">
+              {queryOrder}
+            </h3>
+            <p class="mt-1 font-bengali text-xs text-clay">
+              প্রাপক: <strong class="text-espresso">তানভীর আহমেদ</strong> · ঢাকা (ধানমন্ডি)
+            </p>
           </div>
-          <div class="flex items-center gap-2">
-            <span class="inline-block w-2.5 h-2.5 rounded-full bg-gold-500/[0.06]0"></span>
-            <span class="text-xs font-semibold text-gold-700 bg-gold-500/[0.06] px-2.5 py-1 rounded-full border border-parchment-line">
-              Processing in Dispatch Hub
+
+          <!-- Status Pill -->
+          <div class="flex items-center gap-2 self-start sm:self-center">
+            <span class="relative flex h-3 w-3">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+            </span>
+            <span class="rounded-full border border-emerald-700/25 bg-emerald-600/[0.08] px-3.5 py-1.5 font-bengali text-xs font-semibold text-emerald-800">
+              কুরিয়ার ট্রানজিটে চলমান
             </span>
           </div>
         </div>
 
         <!-- Tracking Timeline -->
-        <div class="space-y-6 relative pl-6 before:content-[''] before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-parchment-line">
-          <!-- Step 1 (Completed) -->
+        <div class="mt-8 space-y-8 relative pl-7 before:content-[''] before:absolute before:left-2.5 before:top-2 before:bottom-2 before:w-[2px] before:bg-parchment-line">
+          <!-- Step 1: Confirmed -->
           <div class="relative">
-            <div class="absolute -left-[27px] top-1 w-4 h-4 rounded-full bg-ink border-2 border-parchment-light ring-2 ring-gold-500/25"></div>
+            <div class="absolute -left-[30px] top-0.5 grid h-5 w-5 place-items-center rounded-full bg-ink text-gold-300 ring-4 ring-parchment">
+              <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
             <div>
-              <p class="text-xs font-semibold text-espresso">Order Confirmed & Payment Verified</p>
-              <p class="text-[11px] text-clay">Dhaka Central Hub • Today, 09:30 AM</p>
-              <p class="text-xs text-clay mt-0.5">Order verified and allocated to artisan packing team.</p>
+              <div class="flex flex-wrap items-center justify-between gap-1">
+                <h4 class="font-tiro text-base font-semibold text-espresso">
+                  ১. অর্ডার নিশ্চিতকরণ ও পেমেন্ট যাচাই সম্পন্ন
+                </h4>
+                <span class="font-sans text-[11px] font-medium text-clay/80">আজ, সকাল ০৯:৩০</span>
+              </div>
+              <p class="mt-1 font-bengali text-xs leading-relaxed text-clay">
+                ঢাকা সেন্ট্রাল হাব · আপনার অর্ডারটি সফলভাবে ভেরিফাই করে আমাদের কারিগর দলের কাছে পাঠানো হয়েছে।
+              </p>
             </div>
           </div>
 
-          <!-- Step 2 (Completed) -->
+          <!-- Step 2: Packed & Sealed -->
           <div class="relative">
-            <div class="absolute -left-[27px] top-1 w-4 h-4 rounded-full bg-ink border-2 border-parchment-light ring-2 ring-gold-500/25"></div>
+            <div class="absolute -left-[30px] top-0.5 grid h-5 w-5 place-items-center rounded-full bg-ink text-gold-300 ring-4 ring-parchment">
+              <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
             <div>
-              <p class="text-xs font-semibold text-espresso">Handcrafted Box Packed & Handwritten Note Sealed</p>
-              <p class="text-[11px] text-clay">Meghpeon Workshop • Today, 11:45 AM</p>
-              <p class="text-xs text-clay mt-0.5">Calligraphy card completed with custom ribbon wrap and fragile seals.</p>
+              <div class="flex flex-wrap items-center justify-between gap-1">
+                <h4 class="font-tiro text-base font-semibold text-espresso">
+                  ২. বক্স প্যাকিং, ক্যালিগ্রাফি চিরকুট ও ওয়াক্স সিলমোহর সম্পন্ন
+                </h4>
+                <span class="font-sans text-[11px] font-medium text-clay/80">আজ, সকাল ১১:৪৫</span>
+              </div>
+              <p class="mt-1 font-bengali text-xs leading-relaxed text-clay">
+                মেঘপিয়ন স্টুডিও · ক্যালিগ্রাফারের হাতে লেখা চিঠি, পার্চমেন্ট কুশন ও খাঁটি ওয়াক্স সিলমোহরে মোড়ক সম্পন্ন হয়েছে।
+              </p>
             </div>
           </div>
 
-          <!-- Step 3 (In Progress) -->
+          <!-- Step 3: In Transit (Current) -->
           <div class="relative">
-            <div class="absolute -left-[27px] top-1 w-4 h-4 rounded-full bg-amber-500 border-2 border-parchment-light ring-2 ring-amber-200"></div>
-            <div>
-              <p class="text-xs font-semibold text-espresso">Handed Over to Courier Service</p>
-              <p class="text-[11px] text-clay">In Transit • Expected Handover: Today, 03:00 PM</p>
-              <p class="text-xs text-clay mt-0.5">Dispatched for secure last-mile transit.</p>
+            <div class="absolute -left-[30px] top-0.5 grid h-5 w-5 place-items-center rounded-full bg-gold-500 text-ink ring-4 ring-gold-200">
+              <span class="h-2 w-2 rounded-full bg-ink animate-pulse"></span>
+            </div>
+            <div class="rounded-[4px] border border-gold-500/40 bg-gold-400/[0.08] p-3.5">
+              <div class="flex flex-wrap items-center justify-between gap-1">
+                <h4 class="font-tiro text-base font-semibold text-espresso">
+                  ৩. কুরিয়ার সার্ভিসে হস্তান্তর সম্পন্ন (চলমান ধাপ)
+                </h4>
+                <span class="font-sans text-[11px] font-bold text-gold-700">আজ, দুপুর ০৩:০০</span>
+              </div>
+              <p class="mt-1 font-bengali text-xs leading-relaxed text-espresso/90">
+                নিরাপদ ট্রানজিট হাব · পার্সেলটি সুরক্ষিতভাবে ডেলিভারি ভ্যানে লোড করা হয়েছে এবং গন্তব্যের উদ্দেশ্যে ট্রানজিটে রয়েছে।
+              </p>
             </div>
           </div>
 
-          <!-- Step 4 (Upcoming) -->
+          <!-- Step 4: Out for Delivery (Upcoming) -->
           <div class="relative">
-            <div class="absolute -left-[27px] top-1 w-4 h-4 rounded-full bg-parchment-300 border-2 border-parchment-light"></div>
+            <div class="absolute -left-[30px] top-0.5 grid h-5 w-5 place-items-center rounded-full border-2 border-parchment-line bg-parchment-light text-clay ring-4 ring-parchment">
+              <span class="h-1.5 w-1.5 rounded-full bg-clay/50"></span>
+            </div>
             <div>
-              <p class="text-xs font-semibold text-clay/70">Out for Doorstep Delivery</p>
-              <p class="text-[11px] text-clay/70">Rider will contact the recipient prior to arrival.</p>
+              <div class="flex flex-wrap items-center justify-between gap-1">
+                <h4 class="font-tiro text-base font-semibold text-clay/70">
+                  ৪. ডোরস্টেপ ডেলিভারির জন্য রওনা
+                </h4>
+                <span class="font-bengali text-[11px] text-clay/60">প্রত্যাশিত: আগামীকাল সকাল ১০:০০ - দুপুর ০২:০০</span>
+              </div>
+              <p class="mt-1 font-bengali text-xs leading-relaxed text-clay/70">
+                ডেলিভারি রাইডার আপনার ঠিকানায় পৌঁছানোর পূর্বে ফোনে যোগাযোগ করে নিশ্চিত করবেন।
+              </p>
             </div>
           </div>
 
-          <!-- Step 5 (Upcoming) -->
+          <!-- Step 5: Delivered (Upcoming) -->
           <div class="relative">
-            <div class="absolute -left-[27px] top-1 w-4 h-4 rounded-full bg-parchment-300 border-2 border-parchment-light"></div>
+            <div class="absolute -left-[30px] top-0.5 grid h-5 w-5 place-items-center rounded-full border-2 border-parchment-line bg-parchment-light text-clay ring-4 ring-parchment">
+              <span class="h-1.5 w-1.5 rounded-full bg-clay/50"></span>
+            </div>
             <div>
-              <p class="text-xs font-semibold text-clay/70">Delivered</p>
-              <p class="text-[11px] text-clay/70">Recipient signs confirmation.</p>
+              <div class="flex flex-wrap items-center justify-between gap-1">
+                <h4 class="font-tiro text-base font-semibold text-clay/70">
+                  ৫. সফলভাবে উপহার হস্তান্তর সম্পন্ন
+                </h4>
+                <span class="font-bengali text-[11px] text-clay/60">প্রত্যাশিত ধাপ</span>
+              </div>
+              <p class="mt-1 font-bengali text-xs leading-relaxed text-clay/70">
+                প্রাপক ভালোবাসা মাখা উপহারটি হাসিমুখে বুঝে নিবেন।
+              </p>
             </div>
           </div>
         </div>
 
-        <!-- Help box -->
-        <div class="mt-8 pt-4 border-t border-parchment-line flex flex-col sm:flex-row items-center justify-between text-xs text-clay gap-2">
-          <span>Need to modify delivery address or time?</span>
-          <a href="/contact" class="text-gold-700 font-semibold hover:underline">
-            Contact Support &rarr;
-          </a>
+        <!-- Help & Concierge Box at Bottom -->
+        <div class="mt-10 pt-6 border-t border-parchment-line flex flex-col sm:flex-row items-center justify-between gap-4 font-bengali text-xs text-clay">
+          <div class="flex items-center gap-2">
+            <span class="text-base">☎️</span>
+            <span>জরুরি ডেলিভারি বা ঠিকানা পরিবর্তনের প্রয়োজন?</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <a
+              href="tel:+8801700000000"
+              class="font-sans font-semibold text-espresso hover:text-gold-700 transition-colors"
+            >
+              +880 1700-000000
+            </a>
+            <span class="text-parchment-line">|</span>
+            <a
+              href="/contact"
+              class="font-semibold text-gold-700 hover:text-ink underline transition-colors"
+            >
+              সাপোর্টে যোগাযোগ করুন →
+            </a>
+          </div>
         </div>
       </div>
     </Container>
-  </div>
+  </section>
+
+  <!-- Trust Features Banner at Bottom (Matches build-gift and shop) -->
+  <section class="border-t border-parchment-line bg-parchment py-12">
+    <Container size="lg">
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 text-center">
+        <div class="rounded-[4px] border border-parchment-line bg-parchment-light p-5 shadow-sm">
+          <span class="text-2xl">🪵</span>
+          <h5 class="mt-2 font-tiro text-base text-espresso">প্রিমিয়াম বক্স ও মোড়ক</h5>
+          <p class="mt-1 font-bengali text-xs text-clay">খাঁটি কাঠ ও ক্রাফট পেপারের টেকসই স্মারক প্যাকেজিং।</p>
+        </div>
+
+        <div class="rounded-[4px] border border-parchment-line bg-parchment-light p-5 shadow-sm">
+          <span class="text-2xl">✒️</span>
+          <h5 class="mt-2 font-tiro text-base text-espresso">ফ্রি ক্যালিগ্রাফি চিরকুট</h5>
+          <p class="mt-1 font-bengali text-xs text-clay">প্রতিটি বক্সে থাকছে নিজস্ব ক্যালিগ্রাফারের হাতে লেখা কার্ড।</p>
+        </div>
+
+        <div class="rounded-[4px] border border-parchment-line bg-parchment-light p-5 shadow-sm">
+          <span class="text-2xl">🕯️</span>
+          <h5 class="mt-2 font-tiro text-base text-espresso">খাঁটি ওয়াক্স সিলমোহর</h5>
+          <p class="mt-1 font-bengali text-xs text-clay">ঐতিহ্যবাহী গালা সিলমোহর ও প্রিমিয়াম সাটিন রিবনের বাঁধন।</p>
+        </div>
+
+        <div class="rounded-[4px] border border-parchment-line bg-parchment-light p-5 shadow-sm">
+          <span class="text-2xl">🚚</span>
+          <h5 class="mt-2 font-tiro text-base text-espresso">সারাদেশে নিরাপদ ডেলিভারি</h5>
+          <p class="mt-1 font-bengali text-xs text-clay">৬৪ জেলায় ট্র্যাকিং ও সর্বোচ্চ সুরক্ষা নিশ্চিত করে ডেলিভারি।</p>
+        </div>
+      </div>
+    </Container>
+  </section>
 </BaseLayout>

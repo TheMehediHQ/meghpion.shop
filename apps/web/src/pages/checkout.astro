@@ -165,12 +165,12 @@ import { BRAND, BD_DIVISIONS } from '@meghpiyon/shared';
 
           <div class="space-y-3 text-sm font-bengali">
             <div class="flex justify-between text-clay">
-              <span>উপহার সামগ্রী</span>
-              <span class="font-medium text-espresso font-sans">{BRAND.currencySymbol}2,200</span>
+              <span id="labelItems">উপহার সামগ্রী</span>
+              <span id="priceItems" class="font-medium text-espresso font-sans">{BRAND.currencySymbol}2,200</span>
             </div>
             <div class="flex justify-between text-clay">
-              <span>লাক্সারি গিফট বক্স প্যাকেজিং</span>
-              <span class="font-medium text-espresso font-sans">{BRAND.currencySymbol}100</span>
+              <span id="labelPackaging">লাক্সারি গিফট বক্স প্যাকেজিং</span>
+              <span id="pricePackaging" class="font-medium text-espresso font-sans">{BRAND.currencySymbol}100</span>
             </div>
             <div class="flex justify-between text-clay">
               <span>ডেলিভারি চার্জ</span>
@@ -178,7 +178,7 @@ import { BRAND, BD_DIVISIONS } from '@meghpiyon/shared';
             </div>
             <div class="pt-3 border-t border-parchment-line flex justify-between text-base font-bold text-espresso">
               <span>সর্বমোট প্রদেয়</span>
-              <span class="text-gold-700 font-sans">{BRAND.currencySymbol}2,380</span>
+              <span id="priceTotal" class="text-gold-700 font-sans">{BRAND.currencySymbol}2,380</span>
             </div>
           </div>
 
@@ -198,6 +198,55 @@ import { BRAND, BD_DIVISIONS } from '@meghpiyon/shared';
   </div>
 
   <script is:inline>
+    // Check if coming from Custom Hamper Builder
+    try {
+      const hamperDataStr = localStorage.getItem('meghpeon_custom_hamper');
+      if (hamperDataStr) {
+        const hamper = JSON.parse(hamperDataStr);
+        if (hamper && hamper.type === 'custom_hamper') {
+          // Pre-populate note
+          const noteField = document.getElementById('giftNote');
+          if (noteField && hamper.giftNote) {
+            noteField.value = hamper.giftNote;
+          }
+          // Pre-populate recipient name
+          const nameField = document.getElementById('fullName');
+          if (nameField && hamper.recipientName) {
+            nameField.value = hamper.recipientName;
+          }
+
+          // Update summary items
+          const labelItems = document.getElementById('labelItems');
+          const priceItems = document.getElementById('priceItems');
+          const labelPackaging = document.getElementById('labelPackaging');
+          const pricePackaging = document.getElementById('pricePackaging');
+          const priceTotal = document.getElementById('priceTotal');
+
+          if (labelPackaging && hamper.box) {
+            labelPackaging.textContent = hamper.box.nameBn;
+            if (pricePackaging) pricePackaging.textContent = '৳' + hamper.box.price;
+          }
+
+          if (labelItems && hamper.items) {
+            const itemsSum = hamper.items.reduce((sum, itemEntry) => {
+              return sum + (itemEntry.item ? itemEntry.item.price * itemEntry.quantity : 0);
+            }, 0);
+            const totalCount = hamper.items.reduce((sum, itemEntry) => sum + itemEntry.quantity, 0);
+            labelItems.textContent = `উপহার সামগ্রী (${totalCount}টি আইটেম)`;
+            if (priceItems) priceItems.textContent = '৳' + itemsSum;
+          }
+
+          if (priceTotal && hamper.totalPrice) {
+            const deliveryFee = 80;
+            const finalTotal = hamper.totalPrice + deliveryFee;
+            priceTotal.textContent = '৳' + finalTotal.toLocaleString('en-US');
+          }
+        }
+      }
+    } catch (e) {
+      console.warn('Hamper loader error', e);
+    }
+
     const checkoutForm = document.querySelector('form');
     if (checkoutForm) {
       checkoutForm.addEventListener('submit', () => {

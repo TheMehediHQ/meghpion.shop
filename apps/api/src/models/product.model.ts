@@ -44,6 +44,7 @@ const ProductSchema = new Schema<IProductDocument>(
         'flowers',
         'jewelry',
         'greeting-cards',
+        'corporate-hampers',
       ],
       index: true,
     },

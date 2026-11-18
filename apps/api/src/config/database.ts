@@ -22,6 +22,10 @@ export const getDatabaseStatus = (): ConnectionStatus => {
 };
 
 export const connectDatabase = async (): Promise<void> => {
+  if (mongoose.connection.readyState >= 1) {
+    return;
+  }
+
   try {
     mongoose.connection.on('connected', () => {
       console.log('📦 MongoDB connection established successfully');

@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "bun --watch src/server.ts",
     "build": "tsc",
+    "seed": "bun src/scripts/seed.ts",
     "start": "bun dist/server.js",
     "lint": "tsc --noEmit",
     "typecheck": "tsc --noEmit"

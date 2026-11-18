@@ -9,6 +9,7 @@ export const ProductCategoryEnum = z.enum([
   'flowers',
   'jewelry',
   'greeting-cards',
+  'corporate-hampers',
 ]);
 
 export const ProductSchema = z.object({

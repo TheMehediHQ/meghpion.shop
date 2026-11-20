@@ -12,14 +12,13 @@ export const BRAND = {
 } as const;
 
 export const PRODUCT_CATEGORIES = [
-  { id: 'gift-boxes', nameEn: 'Curated Gift Boxes', nameBn: 'উপহার বক্স' },
-  { id: 'customized', nameEn: 'Personalized Gifts', nameBn: 'কাস্টমাইজড উপহার' },
-  { id: 'handicrafts', nameEn: 'Bangladeshi Handicrafts', nameBn: 'হস্তশিল্প ও নকশিকাঁথা' },
-  { id: 'chocolates', nameEn: 'Premium Chocolates & Treats', nameBn: 'চকলেট ও মিষ্টি' },
-  { id: 'flowers', nameEn: 'Fresh & Dried Flowers', nameBn: 'ফুল ও তোড়া' },
-  { id: 'jewelry', nameEn: 'Artisanal Jewelry', nameBn: 'গহনা' },
-  { id: 'greeting-cards', nameEn: 'Artisan Greeting Cards', nameBn: 'শুভেচ্ছা কার্ড' },
-  { id: 'corporate-hampers', nameEn: 'Corporate Hampers', nameBn: 'কর্পোরেট গিফট হ্যাম্পার' },
+  { id: 'customized', nameEn: 'Customize Gifts', nameBn: 'কাস্টমাইজড উপহার' },
+  { id: 'chocolates', nameEn: 'Chocolates', nameBn: 'চকলেট ও মিষ্টি' },
+  { id: 'flowers', nameEn: 'Flowers', nameBn: 'ফুল ও তোড়া' },
+  { id: 'women-jewelry', nameEn: "Women's Jewellery", nameBn: 'নারীদের গহনা' },
+  { id: 'male-jewelry', nameEn: "Male Jewellery", nameBn: 'পুরুষদের গহনা' },
+  { id: 'cake', nameEn: 'Cakes', nameBn: 'কেক ও পেস্ট্রি' },
+  { id: 'combo-pack', nameEn: 'Combo Pack', nameBn: 'কম্বো প্যাক' },
 ] as const;
 
 export const BD_DIVISIONS = [

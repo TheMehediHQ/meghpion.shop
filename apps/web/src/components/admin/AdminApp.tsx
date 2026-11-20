@@ -46,7 +46,7 @@ const mapApiToAdminProduct = (p: any): AdminProduct => ({
   price: Number(p.price) || 0,
   discountPrice: p.discountPrice ? Number(p.discountPrice) : undefined,
   stock: Number(p.stock ?? 10),
-  category: p.category || 'gift-boxes',
+  category: p.category || 'customized',
   image: (p.images && p.images[0]) || p.image || 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=600&auto=format&fit=crop&q=80',
   tags: Array.isArray(p.tags) ? p.tags : ['Curated'],
   isFeatured: Boolean(p.isFeatured),

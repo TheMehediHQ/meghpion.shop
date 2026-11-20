@@ -31,7 +31,7 @@ export function ProductsView({
     price: 1000,
     discountPrice: undefined,
     stock: 10,
-    category: 'gift-boxes',
+    category: 'customized',
     image: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=600&auto=format&fit=crop&q=80',
     tags: ['Curated', 'New'],
     isFeatured: false,
@@ -49,7 +49,7 @@ export function ProductsView({
       price: 1000,
       discountPrice: undefined,
       stock: 15,
-      category: 'gift-boxes',
+      category: 'customized',
       image: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=600&auto=format&fit=crop&q=80',
       tags: ['Curated'],
       isFeatured: false,
@@ -93,7 +93,7 @@ export function ProductsView({
       price: Number(formData.price),
       discountPrice: formData.discountPrice ? Number(formData.discountPrice) : undefined,
       stock: Number(formData.stock ?? 0),
-      category: formData.category || 'gift-boxes',
+      category: formData.category || 'customized',
       image: formData.image || 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=600&auto=format&fit=crop&q=80',
       tags: Array.isArray(formData.tags)
         ? formData.tags

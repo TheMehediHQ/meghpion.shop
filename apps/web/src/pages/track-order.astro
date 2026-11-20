@@ -3,14 +3,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Container from '../components/ui/Container.astro';
 import { BRAND } from '@meghpiyon/shared';
 
-const queryOrder = Astro.url.searchParams.get('order') || 'MP-89412';
+const queryOrder = Astro.url.searchParams.get('order') || 'MP-17403';
 ---
 
 <BaseLayout
   title={`অর্ডার ট্র্যাকিং | ${BRAND.name}`}
   description="মেঘপিয়ন থেকে পাঠানো আপনার ভালোবাসার উপহারের পার্সেলটি বর্তমানে কোন ধাপে রয়েছে তা রিয়েল-টাইমে ট্র্যাক করুন।"
 >
-  <!-- Atmospheric Page Header (Matches build-gift, shop, & about) -->
+  <!-- Atmospheric Page Header -->
   <section class="relative overflow-hidden bg-ink text-parchment">
     <div class="absolute inset-0 studio-backdrop opacity-70"></div>
     <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,rgba(212,175,55,0.15),transparent_65%)]"></div>
@@ -56,7 +56,7 @@ const queryOrder = Astro.url.searchParams.get('order') || 'MP-89412';
           </h2>
         </div>
 
-        <form class="flex flex-col sm:flex-row gap-3" action="/track-order" method="GET">
+        <form id="trackForm" class="flex flex-col sm:flex-row gap-3">
           <div class="relative flex-1">
             <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-clay/70">
               <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -65,15 +65,17 @@ const queryOrder = Astro.url.searchParams.get('order') || 'MP-89412';
             </span>
             <input
               type="text"
+              id="orderInput"
               name="order"
               value={queryOrder}
               required
-              placeholder="যেমন: MP-89412 বা মোবাইল নম্বর"
-              class="field w-full pl-10 border-parchment-line bg-white font-sans text-sm focus:border-gold-500"
+              placeholder="যেমন: MP-17403"
+              class="field w-full pl-10 border-parchment-line bg-white font-sans text-sm focus:border-gold-500 uppercase"
             />
           </div>
           <button
             type="submit"
+            id="trackBtn"
             class="inline-flex items-center justify-center gap-2 rounded-[3px] bg-ink px-7 py-3 font-bengali text-sm font-medium text-parchment shadow-md transition-all hover:bg-burgundy hover:text-gold-200"
           >
             <span>ট্র্যাক করুন</span>
@@ -83,14 +85,27 @@ const queryOrder = Astro.url.searchParams.get('order') || 'MP-89412';
 
         <div class="mt-3 flex items-center gap-2 font-bengali text-xs text-clay">
           <span>উদাহরণ ট্র্যাকিং আইডি:</span>
-          <a href="/track-order?order=MP-89412" class="font-sans font-semibold text-gold-700 underline hover:text-ink">MP-89412</a>
-          <span>·</span>
-          <a href="/track-order?order=MP-92401" class="font-sans font-semibold text-gold-700 underline hover:text-ink">MP-92401</a>
+          <a href="/track-order?order=MP-17403" class="font-sans font-semibold text-gold-700 underline hover:text-ink">MP-17403</a>
         </div>
       </div>
 
+      <!-- Loading Indicator -->
+      <div id="loadingBox" class="hidden my-8 text-center py-10 bg-parchment rounded-[6px] border border-parchment-line">
+        <div class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-gold-600 border-r-transparent"></div>
+        <p class="mt-3 font-bengali text-sm text-clay">ডাকপিয়ন সার্ভার থেকে পার্সেলের তথ্য লোড হচ্ছে...</p>
+      </div>
+
+      <!-- Error Card (When Order Not Found) -->
+      <div id="errorCard" class="hidden my-8 rounded-[6px] border border-rose-300 bg-rose-50/70 p-6 text-center">
+        <span class="text-3xl">📭</span>
+        <h3 class="mt-2 font-tiro text-xl text-rose-900" id="errorTitle">অর্ডারটি খুঁজে পাওয়া যায়নি</h3>
+        <p class="mt-1 font-bengali text-xs sm:text-sm text-rose-700" id="errorMessage">
+          অনুগ্রহ করে আপনার সঠিক অর্ডার নম্বরটি চেক করে পুনরায় চেষ্টা করুন।
+        </p>
+      </div>
+
       <!-- Tracking Result Card (Vintage Airmail Theme) -->
-      <div class="overflow-hidden rounded-[6px] border border-parchment-line bg-parchment p-6 sm:p-9 shadow-[0_12px_32px_-18px_rgba(43,27,23,0.25)]">
+      <div id="resultCard" class="overflow-hidden rounded-[6px] border border-parchment-line bg-parchment p-6 sm:p-9 shadow-[0_12px_32px_-18px_rgba(43,27,23,0.25)]">
         <!-- Airmail top stripe inside card -->
         <div class="h-[2px] w-full airmail-stripe mb-6"></div>
 
@@ -101,13 +116,13 @@ const queryOrder = Astro.url.searchParams.get('order') || 'MP-89412';
               <span class="font-bengali text-xs font-semibold uppercase tracking-wider text-gold-700">
                 পার্সেল ট্র্যাকিং রেফারেন্স
               </span>
-              <span class="text-[10px] text-clay font-sans">#BD-COURIER</span>
+              <span class="text-[10px] text-clay font-sans">#MEGHPEON-ATLAS</span>
             </div>
-            <h3 class="mt-1 font-sans text-2xl font-bold tracking-tight text-espresso sm:text-3xl">
+            <h3 id="displayOrderNum" class="mt-1 font-sans text-2xl font-bold tracking-tight text-espresso sm:text-3xl">
               {queryOrder}
             </h3>
-            <p class="mt-1 font-bengali text-xs text-clay">
-              প্রাপক: <strong class="text-espresso">তানভীর আহমেদ</strong> · ঢাকা (ধানমন্ডি)
+            <p id="displayCustomer" class="mt-1 font-bengali text-xs text-clay">
+              প্রাপক: <strong class="text-espresso">মেহেদী হাসান</strong> · ঢাকা (ধানমন্ডি)
             </p>
           </div>
 
@@ -117,107 +132,27 @@ const queryOrder = Astro.url.searchParams.get('order') || 'MP-89412';
               <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
             </span>
-            <span class="rounded-full border border-emerald-700/25 bg-emerald-600/[0.08] px-3.5 py-1.5 font-bengali text-xs font-semibold text-emerald-800">
-              কুরিয়ার ট্রানজিটে চলমান
+            <span id="displayStatus" class="rounded-full border border-emerald-700/25 bg-emerald-600/[0.08] px-3.5 py-1.5 font-bengali text-xs font-semibold text-emerald-800">
+              অর্ডার গৃহীত হয়েছে
             </span>
           </div>
         </div>
 
+        <!-- Ordered Items Summary -->
+        <div id="itemsBox" class="py-4 border-b border-parchment-line">
+          <p class="font-bengali text-xs font-semibold text-gold-800 uppercase tracking-wider mb-2">উপহার সামগ্রী:</p>
+          <div id="displayItems" class="space-y-1.5 font-bengali text-xs text-espresso">
+            <!-- Populated via live API -->
+          </div>
+          <div class="mt-3 flex justify-between font-sans text-xs text-clay pt-2 border-t border-parchment-line/50">
+            <span>মোট প্রদেয়: <strong id="displayTotal" class="text-espresso font-bold">৳০</strong></span>
+            <span id="displayPaymentMethod" class="capitalize">Payment: COD</span>
+          </div>
+        </div>
+
         <!-- Tracking Timeline -->
-        <div class="mt-8 space-y-8 relative pl-7 before:content-[''] before:absolute before:left-2.5 before:top-2 before:bottom-2 before:w-[2px] before:bg-parchment-line">
-          <!-- Step 1: Confirmed -->
-          <div class="relative">
-            <div class="absolute -left-[30px] top-0.5 grid h-5 w-5 place-items-center rounded-full bg-ink text-gold-300 ring-4 ring-parchment">
-              <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
-              </svg>
-            </div>
-            <div>
-              <div class="flex flex-wrap items-center justify-between gap-1">
-                <h4 class="font-tiro text-base font-semibold text-espresso">
-                  ১. অর্ডার নিশ্চিতকরণ ও পেমেন্ট যাচাই সম্পন্ন
-                </h4>
-                <span class="font-sans text-[11px] font-medium text-clay/80">আজ, সকাল ০৯:৩০</span>
-              </div>
-              <p class="mt-1 font-bengali text-xs leading-relaxed text-clay">
-                ঢাকা সেন্ট্রাল হাব · আপনার অর্ডারটি সফলভাবে ভেরিফাই করে আমাদের কারিগর দলের কাছে পাঠানো হয়েছে।
-              </p>
-            </div>
-          </div>
-
-          <!-- Step 2: Packed & Sealed -->
-          <div class="relative">
-            <div class="absolute -left-[30px] top-0.5 grid h-5 w-5 place-items-center rounded-full bg-ink text-gold-300 ring-4 ring-parchment">
-              <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
-              </svg>
-            </div>
-            <div>
-              <div class="flex flex-wrap items-center justify-between gap-1">
-                <h4 class="font-tiro text-base font-semibold text-espresso">
-                  ২. বক্স প্যাকিং, ক্যালিগ্রাফি চিরকুট ও ওয়াক্স সিলমোহর সম্পন্ন
-                </h4>
-                <span class="font-sans text-[11px] font-medium text-clay/80">আজ, সকাল ১১:৪৫</span>
-              </div>
-              <p class="mt-1 font-bengali text-xs leading-relaxed text-clay">
-                মেঘপিয়ন স্টুডিও · ক্যালিগ্রাফারের হাতে লেখা চিঠি, পার্চমেন্ট কুশন ও খাঁটি ওয়াক্স সিলমোহরে মোড়ক সম্পন্ন হয়েছে।
-              </p>
-            </div>
-          </div>
-
-          <!-- Step 3: In Transit (Current) -->
-          <div class="relative">
-            <div class="absolute -left-[30px] top-0.5 grid h-5 w-5 place-items-center rounded-full bg-gold-500 text-ink ring-4 ring-gold-200">
-              <span class="h-2 w-2 rounded-full bg-ink animate-pulse"></span>
-            </div>
-            <div class="rounded-[4px] border border-gold-500/40 bg-gold-400/[0.08] p-3.5">
-              <div class="flex flex-wrap items-center justify-between gap-1">
-                <h4 class="font-tiro text-base font-semibold text-espresso">
-                  ৩. কুরিয়ার সার্ভিসে হস্তান্তর সম্পন্ন (চলমান ধাপ)
-                </h4>
-                <span class="font-sans text-[11px] font-bold text-gold-700">আজ, দুপুর ০৩:০০</span>
-              </div>
-              <p class="mt-1 font-bengali text-xs leading-relaxed text-espresso/90">
-                নিরাপদ ট্রানজিট হাব · পার্সেলটি সুরক্ষিতভাবে ডেলিভারি ভ্যানে লোড করা হয়েছে এবং গন্তব্যের উদ্দেশ্যে ট্রানজিটে রয়েছে।
-              </p>
-            </div>
-          </div>
-
-          <!-- Step 4: Out for Delivery (Upcoming) -->
-          <div class="relative">
-            <div class="absolute -left-[30px] top-0.5 grid h-5 w-5 place-items-center rounded-full border-2 border-parchment-line bg-parchment-light text-clay ring-4 ring-parchment">
-              <span class="h-1.5 w-1.5 rounded-full bg-clay/50"></span>
-            </div>
-            <div>
-              <div class="flex flex-wrap items-center justify-between gap-1">
-                <h4 class="font-tiro text-base font-semibold text-clay/70">
-                  ৪. ডোরস্টেপ ডেলিভারির জন্য রওনা
-                </h4>
-                <span class="font-bengali text-[11px] text-clay/60">প্রত্যাশিত: আগামীকাল সকাল ১০:০০ - দুপুর ০২:০০</span>
-              </div>
-              <p class="mt-1 font-bengali text-xs leading-relaxed text-clay/70">
-                ডেলিভারি রাইডার আপনার ঠিকানায় পৌঁছানোর পূর্বে ফোনে যোগাযোগ করে নিশ্চিত করবেন।
-              </p>
-            </div>
-          </div>
-
-          <!-- Step 5: Delivered (Upcoming) -->
-          <div class="relative">
-            <div class="absolute -left-[30px] top-0.5 grid h-5 w-5 place-items-center rounded-full border-2 border-parchment-line bg-parchment-light text-clay ring-4 ring-parchment">
-              <span class="h-1.5 w-1.5 rounded-full bg-clay/50"></span>
-            </div>
-            <div>
-              <div class="flex flex-wrap items-center justify-between gap-1">
-                <h4 class="font-tiro text-base font-semibold text-clay/70">
-                  ৫. সফলভাবে উপহার হস্তান্তর সম্পন্ন
-                </h4>
-                <span class="font-bengali text-[11px] text-clay/60">প্রত্যাশিত ধাপ</span>
-              </div>
-              <p class="mt-1 font-bengali text-xs leading-relaxed text-clay/70">
-                প্রাপক ভালোবাসা মাখা উপহারটি হাসিমুখে বুঝে নিবেন।
-              </p>
-            </div>
-          </div>
+        <div id="displayTimeline" class="mt-8 space-y-8 relative pl-7 before:content-[''] before:absolute before:left-2.5 before:top-2 before:bottom-2 before:w-[2px] before:bg-parchment-line">
+          <!-- Populated dynamically via live API -->
         </div>
 
         <!-- Help & Concierge Box at Bottom -->
@@ -246,34 +181,110 @@ const queryOrder = Astro.url.searchParams.get('order') || 'MP-89412';
     </Container>
   </section>
 
-  <!-- Trust Features Banner at Bottom (Matches build-gift and shop) -->
-  <section class="border-t border-parchment-line bg-parchment py-12">
-    <Container size="lg">
-      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 text-center">
-        <div class="rounded-[4px] border border-parchment-line bg-parchment-light p-5 shadow-sm">
-          <span class="text-2xl">🪵</span>
-          <h5 class="mt-2 font-tiro text-base text-espresso">প্রিমিয়াম বক্স ও মোড়ক</h5>
-          <p class="mt-1 font-bengali text-xs text-clay">খাঁটি কাঠ ও ক্রাফট পেপারের টেকসই স্মারক প্যাকেজিং।</p>
-        </div>
+  <!-- Script for Live Dynamic Fetching from Atlas Backend -->
+  <script is:inline>
+    async function loadLiveOrder(orderNumber) {
+      const loadingBox = document.getElementById('loadingBox');
+      const errorCard = document.getElementById('errorCard');
+      const resultCard = document.getElementById('resultCard');
 
-        <div class="rounded-[4px] border border-parchment-line bg-parchment-light p-5 shadow-sm">
-          <span class="text-2xl">✒️</span>
-          <h5 class="mt-2 font-tiro text-base text-espresso">ফ্রি ক্যালিগ্রাফি চিরকুট</h5>
-          <p class="mt-1 font-bengali text-xs text-clay">প্রতিটি বক্সে থাকছে নিজস্ব ক্যালিগ্রাফারের হাতে লেখা কার্ড।</p>
-        </div>
+      if (!orderNumber) return;
 
-        <div class="rounded-[4px] border border-parchment-line bg-parchment-light p-5 shadow-sm">
-          <span class="text-2xl">🕯️</span>
-          <h5 class="mt-2 font-tiro text-base text-espresso">খাঁটি ওয়াক্স সিলমোহর</h5>
-          <p class="mt-1 font-bengali text-xs text-clay">ঐতিহ্যবাহী গালা সিলমোহর ও প্রিমিয়াম সাটিন রিবনের বাঁধন।</p>
-        </div>
+      loadingBox.classList.remove('hidden');
+      errorCard.classList.add('hidden');
+      resultCard.classList.add('hidden');
 
-        <div class="rounded-[4px] border border-parchment-line bg-parchment-light p-5 shadow-sm">
-          <span class="text-2xl">🚚</span>
-          <h5 class="mt-2 font-tiro text-base text-espresso">সারাদেশে নিরাপদ ডেলিভারি</h5>
-          <p class="mt-1 font-bengali text-xs text-clay">৬৪ জেলায় ট্র্যাকিং ও সর্বোচ্চ সুরক্ষা নিশ্চিত করে ডেলিভারি।</p>
-        </div>
-      </div>
-    </Container>
-  </section>
+      try {
+        const res = await fetch(`/api/v1/orders/${encodeURIComponent(orderNumber.trim())}`);
+        if (!res.ok) {
+          throw new Error('Order not found');
+        }
+        const json = await res.json();
+        const order = json.data;
+
+        if (!order) throw new Error('Order data is empty');
+
+        // Populate details
+        document.getElementById('displayOrderNum').textContent = order.orderNumber;
+        document.getElementById('displayCustomer').innerHTML = `প্রাপক: <strong class="text-espresso">${order.shippingAddress?.fullName || 'সম্মানিত গ্রাহক'}</strong> · ${order.shippingAddress?.district || 'ঢাকা'}`;
+
+        const statusMap = {
+          pending: 'অর্ডার যাচাই প্রক্রিয়াধীন',
+          processing: 'উপহার প্যাকিং ও সিলমোহর সম্পন্ন',
+          shipped: 'কুরিয়ার ট্রানজিটে চলমান',
+          delivered: 'সফলভাবে ডেলিভারি সম্পন্ন',
+          cancelled: 'অর্ডার বাতিল করা হয়েছে'
+        };
+        document.getElementById('displayStatus').textContent = statusMap[order.orderStatus] || order.orderStatus;
+
+        // Items
+        const itemsContainer = document.getElementById('displayItems');
+        if (order.items && order.items.length > 0) {
+          itemsContainer.innerHTML = order.items.map(item => `
+            <div class="flex justify-between items-center py-1">
+              <span>🎁 ${item.name} × ${item.quantity || 1}</span>
+              <span class="font-sans font-semibold">৳${(item.price * (item.quantity || 1)).toLocaleString('en-US')}</span>
+            </div>
+          `).join('');
+        }
+
+        document.getElementById('displayTotal').textContent = '৳' + (order.total || 0).toLocaleString('en-US');
+        document.getElementById('displayPaymentMethod').textContent = `পেমেন্ট: ${(order.paymentMethod || 'COD').toUpperCase()} (${order.paymentStatus || 'pending'})`;
+
+        // Timeline
+        const timelineContainer = document.getElementById('displayTimeline');
+        if (order.timeline && order.timeline.length > 0) {
+          timelineContainer.innerHTML = order.timeline.map((event, idx) => {
+            const isLast = idx === order.timeline.length - 1;
+            const eventDate = new Date(event.timestamp);
+            const timeStr = eventDate.toLocaleTimeString('bn-BD', { hour: '2-digit', minute: '2-digit' });
+            const dateStr = eventDate.toLocaleDateString('bn-BD', { day: 'numeric', month: 'short' });
+
+            return `
+              <div class="relative">
+                <div class="absolute -left-[30px] top-0.5 grid h-5 w-5 place-items-center rounded-full ${isLast ? 'bg-gold-500 text-ink ring-4 ring-gold-200' : 'bg-ink text-gold-300 ring-4 ring-parchment'}">
+                  ${isLast ? '<span class="h-2 w-2 rounded-full bg-ink animate-pulse"></span>' : '<svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" /></svg>'}
+                </div>
+                <div class="${isLast ? 'rounded-[4px] border border-gold-500/40 bg-gold-400/[0.08] p-3.5' : ''}">
+                  <div class="flex flex-wrap items-center justify-between gap-1">
+                    <h4 class="font-tiro text-base font-semibold text-espresso">
+                      ${event.description}
+                    </h4>
+                    <span class="font-bengali text-[11px] font-medium text-clay/80">${dateStr}, ${timeStr}</span>
+                  </div>
+                  <p class="mt-1 font-bengali text-xs leading-relaxed text-clay">
+                    ${event.location ? `${event.location} · ` : ''}স্ট্যাটাস: ${statusMap[event.status] || event.status}
+                  </p>
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+
+        loadingBox.classList.add('hidden');
+        resultCard.classList.remove('hidden');
+      } catch (err) {
+        loadingBox.classList.add('hidden');
+        document.getElementById('errorMessage').textContent = `অর্ডার নম্বর '${orderNumber}' ডাটাবেজে পাওয়া যায়নি। অনুগ্রহ করে সঠিক ট্র্যাকিং নম্বর দিয়ে চেষ্টা করুন।`;
+        errorCard.classList.remove('hidden');
+      }
+    }
+
+    // On Load
+    const params = new URLSearchParams(window.location.search);
+    const initialOrder = params.get('order') || 'MP-17403';
+    document.getElementById('orderInput').value = initialOrder;
+    loadLiveOrder(initialOrder);
+
+    // Form submit listener
+    const form = document.getElementById('trackForm');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const num = document.getElementById('orderInput').value.trim();
+      if (num) {
+        history.pushState(null, '', `?order=${encodeURIComponent(num)}`);
+        loadLiveOrder(num);
+      }
+    });
+  </script>
 </BaseLayout>

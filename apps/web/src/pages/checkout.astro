@@ -14,7 +14,7 @@ import { BRAND, BD_DIVISIONS } from '@meghpiyon/shared';
         Checkout & Delivery
       </h1>
 
-      <form class="grid grid-cols-1 lg:grid-cols-3 gap-12" action="/track-order" method="GET">
+      <form id="checkoutForm" class="grid grid-cols-1 lg:grid-cols-3 gap-12">
         <!-- Delivery and Recipient Information -->
         <div class="lg:col-span-2 space-y-8">
           <!-- Step 1: Recipient Address -->
@@ -249,15 +249,104 @@ import { BRAND, BD_DIVISIONS } from '@meghpiyon/shared';
 
     const checkoutForm = document.querySelector('form');
     if (checkoutForm) {
-      checkoutForm.addEventListener('submit', () => {
-        if (typeof window !== 'undefined' && typeof window.fbq === 'function') {
-          window.fbq('track', 'Purchase', {
-            value: 2380,
-            currency: 'BDT',
-            content_type: 'product',
-            num_items: 1,
-            order_id: 'MP-' + Date.now().toString(36).toUpperCase()
+      checkoutForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const submitBtn = checkoutForm.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="inline-block animate-spin mr-2">⏳</span>অর্ডার প্রসেসিং হচ্ছে...';
+
+        try {
+          // Read form data
+          const formData = new FormData(checkoutForm);
+          const fullName = formData.get('fullName');
+          const phone = formData.get('phone');
+          const division = formData.get('division') || 'Dhaka';
+          const district = formData.get('district');
+          const addressLine = formData.get('addressLine');
+          const deliveryNotes = formData.get('deliveryNotes') || '';
+          const giftNote = formData.get('giftNote') || '';
+          const giftWrap = formData.get('giftWrap') === 'on';
+          const paymentMethod = formData.get('paymentMethod') || 'cod';
+
+          // Items payload
+          let orderItems = [];
+          const hamperDataStr = localStorage.getItem('meghpeon_custom_hamper');
+          if (hamperDataStr) {
+            const hamper = JSON.parse(hamperDataStr);
+            if (hamper && hamper.items) {
+              orderItems = hamper.items.map(itemEntry => ({
+                productId: itemEntry.item?.id || 'custom-item',
+                name: itemEntry.item?.nameBn || itemEntry.item?.name || 'কাস্টম উপহার আইটেম',
+                price: Number(itemEntry.item?.price) || 500,
+                quantity: Number(itemEntry.quantity) || 1,
+                giftWrap: true,
+                giftMessage: giftNote,
+              }));
+              if (hamper.box) {
+                orderItems.unshift({
+                  productId: hamper.box.id,
+                  name: hamper.box.nameBn,
+                  price: hamper.box.price,
+                  quantity: 1,
+                  giftWrap: true,
+                });
+              }
+            }
+          }
+
+          // Fallback if direct checkout
+          if (orderItems.length === 0) {
+            orderItems = [
+              {
+                productId: 'shonar-bangla-artisan-gift-box',
+                name: 'সোনার বাংলা উপহার বক্স',
+                price: 2200,
+                quantity: 1,
+                giftWrap: giftWrap,
+                giftMessage: giftNote,
+              }
+            ];
+          }
+
+          const orderPayload = {
+            items: orderItems,
+            shippingAddress: {
+              fullName,
+              phone,
+              division,
+              district,
+              addressLine,
+              deliveryNotes,
+            },
+            paymentMethod,
+            giftWrap,
+            giftNote,
+          };
+
+          const res = await fetch('/api/v1/orders', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(orderPayload),
           });
+
+          if (!res.ok) {
+            const errJson = await res.json().catch(() => ({}));
+            throw new Error(errJson.message || 'অর্ডার গ্রহণ করা সম্ভব হয়নি।');
+          }
+
+          const result = await res.json();
+          const orderNumber = result.data?.orderNumber;
+
+          // Clear local storage hamper
+          localStorage.removeItem('meghpeon_custom_hamper');
+
+          // Redirect to live track order page
+          window.location.href = `/track-order?order=${encodeURIComponent(orderNumber)}`;
+        } catch (err) {
+          alert('ত্রুটি: ' + (err.message || 'অর্ডার করতে সমস্যা হয়েছে।'));
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalText;
         }
       });
     }

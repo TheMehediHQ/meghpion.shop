@@ -3,10 +3,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Container from '../components/ui/Container.astro';
 import ProductCard from '../components/ui/ProductCard.astro';
 import { BRAND, PRODUCT_CATEGORIES } from '@meghpiyon/shared';
+import { fetchProducts } from '../lib/api';
 
 const selectedCategory = Astro.url.searchParams.get('category') || 'all';
 
-const products = [
+const fallbackProducts = [
   {
     id: '1',
     name: 'Shonar Bangla Artisan Gift Box',
@@ -127,6 +128,27 @@ const products = [
     reviewCount: 114,
   },
 ];
+
+// Fetch live products from backend API (Atlas MongoDB)
+const apiProducts = await fetchProducts(selectedCategory !== 'all' ? selectedCategory : undefined);
+
+const products =
+  apiProducts && apiProducts.length > 0
+    ? apiProducts.map((p: any) => ({
+        id: p._id || p.id,
+        name: p.name,
+        nameBn: p.nameBn,
+        slug: p.slug,
+        price: p.price,
+        discountPrice: p.discountPrice,
+        category: p.category,
+        categoryNameBn: PRODUCT_CATEGORIES.find((c) => c.id === p.category)?.nameBn || p.category,
+        image: p.images?.[0] || p.image || 'https://images.unsplash.com/photo-1543257580-7269da773bf5?w=600&auto=format&fit=crop&q=80',
+        tags: p.tags || [],
+        rating: p.rating || 4.9,
+        reviewCount: p.reviewCount || 50,
+      }))
+    : fallbackProducts;
 
 const filteredProducts =
   selectedCategory === 'all'

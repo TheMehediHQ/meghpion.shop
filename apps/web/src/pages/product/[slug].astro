@@ -3,9 +3,10 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Container from '../../components/ui/Container.astro';
 import Stars from '../../components/ui/Stars.astro';
 import { BRAND } from '@meghpiyon/shared';
+import { fetchProducts } from '../../lib/api';
 
-export function getStaticPaths() {
-  const items = [
+export async function getStaticPaths() {
+  const fallbackItems = [
     {
       slug: 'shonar-bangla-artisan-gift-box',
       name: 'Shonar Bangla Artisan Gift Box',
@@ -55,7 +56,37 @@ export function getStaticPaths() {
     },
   ];
 
-  return items.map((product) => ({
+  try {
+    const apiProducts = await fetchProducts();
+    if (apiProducts && apiProducts.length > 0) {
+      return apiProducts.map((p: any) => ({
+        params: { slug: p.slug },
+        props: {
+          product: {
+            slug: p.slug,
+            name: p.name,
+            nameBn: p.nameBn,
+            price: p.price,
+            discountPrice: p.discountPrice,
+            category: p.category,
+            description: p.description || p.shortDescription,
+            image: p.images?.[0] || 'https://images.unsplash.com/photo-1543257580-7269da773bf5?w=800&auto=format&fit=crop&q=80',
+            stock: p.stock ?? 15,
+            features: [
+              'খাঁটি পাইনউড অথবা ক্রাফট প্রেজেন্টেশন বক্স',
+              'বাংলা বা ইংরেজিতে নিজস্ব ক্যালিগ্রাফি চিরকুট',
+              'প্রিমিয়াম সাটিন ফিতা ও মোড়ক',
+              'নিরাপদ ট্রানজিট প্যাকেজিং',
+            ],
+          },
+        },
+      }));
+    }
+  } catch (e) {
+    console.warn('Fallback to static items in getStaticPaths:', e);
+  }
+
+  return fallbackItems.map((product) => ({
     params: { slug: product.slug },
     props: { product },
   }));

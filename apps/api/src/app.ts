@@ -64,3 +64,7 @@ export const createApp = (): Application => {
 
   return app;
 };
+
+export const app = createApp();
+export default app;
+

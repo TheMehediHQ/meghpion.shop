@@ -4,9 +4,10 @@ node_modules/
 .pnp.js
 
 # Production build outputs
-dist/
+apps/*/dist/
 build/
 .astro/
+!packages/shared/dist/
 
 # Environment variables
 .env

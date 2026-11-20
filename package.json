@@ -11,6 +11,7 @@
     "dev:web": "bun --filter @meghpiyon/web dev",
     "dev:api": "bun --filter @meghpiyon/api dev",
     "build": "bun --filter @meghpiyon/shared build && bun --filter @meghpiyon/api build && bun --filter @meghpiyon/web build",
+    "postinstall": "bun --filter @meghpiyon/shared build",
     "lint": "bun --filter @meghpiyon/shared lint && bun --filter @meghpiyon/api lint && bun --filter @meghpiyon/web lint",
     "typecheck": "bun --filter @meghpiyon/shared typecheck && bun --filter @meghpiyon/api typecheck && bun --filter @meghpiyon/web typecheck"
   },

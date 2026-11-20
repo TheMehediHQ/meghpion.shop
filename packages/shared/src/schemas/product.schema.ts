@@ -9,6 +9,7 @@ export const ProductCategoryEnum = z.enum([
   'male-jewelry',
   'cake',
   'combo-pack',
+  'others',
   'gift-boxes',
   'handicrafts',
   'jewelry',

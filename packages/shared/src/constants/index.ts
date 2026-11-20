@@ -19,6 +19,7 @@ export const PRODUCT_CATEGORIES = [
   { id: 'male-jewelry', nameEn: "Male Jewellery", nameBn: 'পুরুষদের গহনা' },
   { id: 'cake', nameEn: 'Cakes', nameBn: 'কেক ও পেস্ট্রি' },
   { id: 'combo-pack', nameEn: 'Combo Pack', nameBn: 'কম্বো প্যাক' },
+  { id: 'others', nameEn: 'Others', nameBn: 'অন্যান্য উপহার' },
 ] as const;
 
 export const BD_DIVISIONS = [

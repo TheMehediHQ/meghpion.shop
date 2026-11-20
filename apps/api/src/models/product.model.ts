@@ -44,6 +44,7 @@ const ProductSchema = new Schema<IProductDocument>(
         'male-jewelry',
         'cake',
         'combo-pack',
+        'others',
         'gift-boxes',
         'handicrafts',
         'jewelry',

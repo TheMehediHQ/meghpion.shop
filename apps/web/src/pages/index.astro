@@ -32,15 +32,55 @@ const benefits = [
   },
 ];
 
-const categoryMeta: Record<string, { count: string; blurb: string }> = {
-  'gift-boxes': { count: '48টি উপহার', blurb: 'বিশেষ মুহূর্তের লেয়ার্ড গিফট বক্স' },
-  customized: { count: '26টি উপহার', blurb: 'নাম ও বার্তা খোদai করা স্মৃতিচিহ্ন' },
-  handicrafts: { count: '34টি উপহার', blurb: 'হাতে সেলাই করা নকশিকাঁথা ও মৃৎশিল্প' },
-  chocolates: { count: '18টি উপহার', blurb: 'আর্টিসানাল প্রিমিয়াম চকলেটের স্বাদ' },
-  flowers: { count: '22টি উপহার', blurb: 'তাজা ও শুকনো ফুলের মনোমুগ্ধকর তোড়া' },
-  jewelry: { count: '15টি উপহার', blurb: 'ঐতিহ্যবাহী ব্রাস ও সিলভার গয়না' },
-  'greeting-cards': { count: '40টি ডিজাইন', blurb: 'লেটারপ্রেস চিরকুট ও ক্যালিগ্রাফি' },
-  'corporate-hampers': { count: '30টি উপহার', blurb: 'কর্পোরেট ক্লায়েন্ট ও টিম ডেলিগেট হ্যাম্পার' },
+const categoryMeta: Record<string, { count: string; blurb: string; image: string; tag: string }> = {
+  'gift-boxes': {
+    count: '৪৮টি উপহার',
+    blurb: 'পাইনউড ও ক্রাফট বক্সে সাজানো লেয়ার্ড উপহার সম্ভার',
+    image: 'https://images.unsplash.com/photo-1543257580-7269da773bf5?w=700&auto=format&fit=crop&q=80',
+    tag: 'Vintage Boxes',
+  },
+  customized: {
+    count: '২৬টি উপহার',
+    blurb: 'নাম, বিশেষ তারিখ ও বার্তা খোদাই করা আজীবন স্মারক',
+    image: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=700&auto=format&fit=crop&q=80',
+    tag: 'Keepsakes',
+  },
+  handicrafts: {
+    count: '৩৪টি উপহার',
+    blurb: 'বাংলার কারিগরদের নকশিকাঁথা, টেরাকোটা ও মৃৎশিল্প',
+    image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=700&auto=format&fit=crop&q=80',
+    tag: 'Artisan Crafts',
+  },
+  chocolates: {
+    count: '১৮টি উপহার',
+    blurb: 'হাতে তৈরি খাঁটি বেলজিয়ান ট্রাফেল ও রোস্টেড নাটস',
+    image: 'https://images.unsplash.com/photo-1511381939415-e44015466834?w=700&auto=format&fit=crop&q=80',
+    tag: 'Gourmet Treats',
+  },
+  flowers: {
+    count: '২২টি উপহার',
+    blurb: 'গোলাপ ও বেলির সতেজ সুবাসিত তোড়া ও ড্রাইড ফ্লাওয়ার',
+    image: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?w=700&auto=format&fit=crop&q=80',
+    tag: 'Fresh Florals',
+  },
+  jewelry: {
+    count: '১৫টি উপহার',
+    blurb: 'খাঁটি পিতলের অ্যান্টিক ফিলিগ্রি ও রাজকীয় অলংকার বক্স',
+    image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=700&auto=format&fit=crop&q=80',
+    tag: 'Heritage Brass',
+  },
+  'greeting-cards': {
+    count: '৪০টি ডিজাইন',
+    blurb: 'পার্চমেন্ট পেপারে নিব-কালির ক্যালিগ্রাফি ও মোমের সিলমোহর',
+    image: 'https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?w=700&auto=format&fit=crop&q=80',
+    tag: 'Calligraphy',
+  },
+  'corporate-hampers': {
+    count: '৩০টি উপহার',
+    blurb: 'কর্পোরেট ক্লায়েন্ট ও টিম ডেলিগেট এক্সিকিউটিভ হ্যাম্পার',
+    image: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=700&auto=format&fit=crop&q=80',
+    tag: 'Executive Hamper',
+  },
 };
 
 const fallbackFeatured = [
@@ -227,24 +267,66 @@ const testimonials = [
         </a>
       </div>
 
-      <div class="mt-12 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+      <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {PRODUCT_CATEGORIES.map((cat) => {
-          const meta = categoryMeta[cat.id] ?? { count: '', blurb: '' };
+          const meta = categoryMeta[cat.id] ?? {
+            count: 'উপহার সম্ভার',
+            blurb: 'মেঘপিয়নের বিশেষ কিউরেটেড উপহার',
+            image: 'https://images.unsplash.com/photo-1543257580-7269da773bf5?w=700&auto=format&fit=crop&q=80',
+            tag: 'Curated',
+          };
           return (
             <a
               href={`/shop?category=${cat.id}`}
-              class="group relative overflow-hidden rounded-[4px] border border-parchment-line bg-parchment-light p-6 transition-all duration-300 hover:-translate-y-1 hover:border-gold-500/60 hover:shadow-[0_24px_40px_-30px_rgba(43,27,23,0.5)]"
+              class="group flex flex-col overflow-hidden rounded-[4px] border border-parchment-line bg-parchment-light shadow-[inset_0_1px_0_rgba(255,255,255,0.85),0_18px_36px_-24px_rgba(43,27,23,0.35)] transition-all duration-300 hover:-translate-y-1.5 hover:border-gold-500/70 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.95),0_26px_48px_-20px_rgba(43,27,23,0.45)]"
             >
-              <span class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold-500/50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></span>
+              <!-- Vintage Image Header with Aspect Ratio & Warm Vignette -->
+              <div class="relative aspect-[16/11] overflow-hidden bg-parchment-deep">
+                <img
+                  src={meta.image}
+                  alt={`${cat.nameBn} - ${cat.nameEn}`}
+                  loading="lazy"
+                  decoding="async"
+                  class="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                />
+                <!-- Subtle vintage vignette gradient -->
+                <div class="absolute inset-0 bg-gradient-to-t from-ink-deep/70 via-transparent to-black/10"></div>
+                
+                <!-- Vintage Tag Stamp / Badge -->
+                <span class="absolute top-3 left-3 rounded-[3px] border border-gold-400/40 bg-ink/80 px-2.5 py-1 font-sans text-[9px] font-semibold uppercase tracking-[0.16em] text-gold-200 backdrop-blur-sm shadow-sm">
+                  {meta.tag}
+                </span>
 
-              <span class="grid h-14 w-14 place-items-center rounded-full border border-gold-600/25 bg-gold-500/[0.07] text-gold-700 transition-colors duration-300 group-hover:bg-gold-500/15">
-                <CategoryIcon id={cat.id} />
-              </span>
+                <!-- Count pill inside image bottom right -->
+                <span class="absolute bottom-2.5 right-3 font-bengali text-[11px] font-medium text-parchment/95 drop-shadow">
+                  {meta.count}
+                </span>
+              </div>
 
-              <p class="mt-5 text-[9.5px] font-semibold uppercase tracking-[0.2em] text-gold-700">{meta.count}</p>
-              <h3 class="mt-1.5 font-display text-[19px] leading-snug text-espresso">{cat.nameEn}</h3>
-              <p class="mt-1 font-bengali text-[13px] sm:text-[14px] font-medium text-clay">{cat.nameBn}</p>
-              <p class="mt-2.5 font-bengali text-[13px] sm:text-[14px] leading-relaxed text-clay/85">{meta.blurb}</p>
+              <!-- Card Body Content -->
+              <div class="flex flex-1 flex-col p-5 sm:p-5.5">
+                <h3 class="font-display text-[19px] sm:text-[20px] font-semibold leading-snug text-espresso transition-colors duration-200 group-hover:text-ink">
+                  {cat.nameEn}
+                </h3>
+                <p class="mt-0.5 font-bengali text-[14px] font-medium text-gold-800">
+                  {cat.nameBn}
+                </p>
+                <p class="mt-2 font-bengali text-[13px] leading-[1.65] text-clay line-clamp-2">
+                  {meta.blurb}
+                </p>
+
+                <!-- Action Footer -->
+                <div class="mt-auto pt-4 flex items-center justify-between border-t border-parchment-line/60">
+                  <span class="font-bengali text-[12.5px] font-semibold text-espresso/85 transition-colors group-hover:text-burgundy">
+                    কালেকশন দেখুন
+                  </span>
+                  <span class="flex h-6 w-6 items-center justify-center rounded-full bg-parchment text-espresso/70 transition-all duration-200 group-hover:bg-gold-500/20 group-hover:text-ink group-hover:translate-x-1" aria-hidden="true">
+                    <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </span>
+                </div>
+              </div>
             </a>
           );
         })}

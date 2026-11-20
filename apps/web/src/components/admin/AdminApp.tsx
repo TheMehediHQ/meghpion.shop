@@ -13,6 +13,14 @@ import {
   getStoredData,
   setStoredData,
 } from './mockData';
+import {
+  fetchProducts,
+  createProductApi,
+  updateProductApi,
+  deleteProductApi,
+  fetchOrdersApi,
+  updateOrderStatusApi,
+} from '../../lib/api';
 import { AdminAuth } from './AdminAuth';
 import { DashboardView } from './DashboardView';
 import { ProductsView } from './ProductsView';
@@ -30,6 +38,55 @@ import {
 } from './icons';
 import { BRAND } from '@meghpiyon/shared';
 
+const mapApiToAdminProduct = (p: any): AdminProduct => ({
+  id: p._id || p.id,
+  name: p.name,
+  nameBn: p.nameBn || '',
+  slug: p.slug,
+  price: Number(p.price) || 0,
+  discountPrice: p.discountPrice ? Number(p.discountPrice) : undefined,
+  stock: Number(p.stock ?? 10),
+  category: p.category || 'gift-boxes',
+  image: (p.images && p.images[0]) || p.image || 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=600&auto=format&fit=crop&q=80',
+  tags: Array.isArray(p.tags) ? p.tags : ['Curated'],
+  isFeatured: Boolean(p.isFeatured),
+  isAvailable: p.isAvailable !== false,
+  giftWrapAvailable: p.giftWrapAvailable !== false,
+  rating: p.rating || 5,
+  reviewCount: p.reviewCount || 0,
+  description: p.description || '',
+  createdAt: p.createdAt || new Date().toISOString(),
+});
+
+const mapApiToAdminOrder = (o: any): AdminOrder => ({
+  id: o._id || o.id,
+  orderNumber: o.orderNumber,
+  customerName: o.shippingAddress?.fullName || 'Anonymous Customer',
+  customerPhone: o.shippingAddress?.phone || '',
+  customerEmail: o.shippingAddress?.email || '',
+  division: o.shippingAddress?.division || 'Dhaka',
+  district: o.shippingAddress?.district || '',
+  addressLine: o.shippingAddress?.addressLine || '',
+  items: (o.items || []).map((i: any) => ({
+    productId: i.productId,
+    name: i.name,
+    price: Number(i.price) || 0,
+    quantity: Number(i.quantity) || 1,
+    giftWrap: Boolean(i.giftWrap),
+    customText: i.giftMessage || i.customText,
+  })),
+  subtotal: Number(o.subtotal) || 0,
+  deliveryFee: Number(o.deliveryFee) || 0,
+  giftWrapFee: Number(o.giftWrapFee) || 0,
+  discount: Number(o.discount) || 0,
+  total: Number(o.total) || 0,
+  paymentMethod: o.paymentMethod || 'cod',
+  paymentStatus: o.paymentStatus || 'pending',
+  orderStatus: o.orderStatus || 'pending',
+  giftMessage: o.giftNote || o.giftMessage,
+  createdAt: o.createdAt || new Date().toISOString(),
+});
+
 export function AdminApp() {
   const [user, setUser] = useState<{ email: string; name: string; role: string } | null>(null);
   const [isClient, setIsClient] = useState(false);
@@ -45,14 +102,42 @@ export function AdminApp() {
   const [selectedOrderModal, setSelectedOrderModal] = useState<AdminOrder | null>(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
-  // Initialize from LocalStorage on mount
+  // Initialize from LocalStorage + Backend API (MongoDB Atlas) on mount
   useEffect(() => {
     setIsClient(true);
     const savedUser = getStoredData<{ email: string; name: string; role: string } | null>('user', null);
     if (savedUser) setUser(savedUser);
 
-    setProducts(getStoredData<AdminProduct[]>('products', INITIAL_PRODUCTS));
-    setOrders(getStoredData<AdminOrder[]>('orders', INITIAL_ORDERS));
+    async function loadLiveData() {
+      try {
+        const [apiProds, apiOrders] = await Promise.all([
+          fetchProducts('', true),
+          fetchOrdersApi(),
+        ]);
+
+        if (apiProds && apiProds.length > 0) {
+          const mapped = apiProds.map(mapApiToAdminProduct);
+          setProducts(mapped);
+          setStoredData('products', mapped);
+        } else {
+          setProducts(getStoredData<AdminProduct[]>('products', INITIAL_PRODUCTS));
+        }
+
+        if (apiOrders && apiOrders.length > 0) {
+          const mapped = apiOrders.map(mapApiToAdminOrder);
+          setOrders(mapped);
+          setStoredData('orders', mapped);
+        } else {
+          setOrders(getStoredData<AdminOrder[]>('orders', INITIAL_ORDERS));
+        }
+      } catch (err) {
+        console.warn('Admin loadLiveData fallback to cache:', err);
+        setProducts(getStoredData<AdminProduct[]>('products', INITIAL_PRODUCTS));
+        setOrders(getStoredData<AdminOrder[]>('orders', INITIAL_ORDERS));
+      }
+    }
+
+    loadLiveData();
     setCustomers(getStoredData<AdminCustomer[]>('customers', INITIAL_CUSTOMERS));
     setSettings(getStoredData<StoreSettings>('settings', INITIAL_SETTINGS));
   }, []);
@@ -67,39 +152,80 @@ export function AdminApp() {
     setStoredData('user', null);
   };
 
-  // Product actions
-  const handleSaveProduct = (product: AdminProduct) => {
-    setProducts((prev) => {
-      const exists = prev.some((p) => p.id === product.id);
-      const updated = exists ? prev.map((p) => (p.id === product.id ? product : p)) : [product, ...prev];
-      setStoredData('products', updated);
-      return updated;
-    });
+  // Product actions connected to MongoDB Atlas
+  const handleSaveProduct = async (product: AdminProduct) => {
+    const isNew = !product.id || product.id.startsWith('prod-');
+    const payload = {
+      name: product.name,
+      nameBn: product.nameBn,
+      slug: product.slug,
+      price: product.price,
+      discountPrice: product.discountPrice,
+      stock: product.stock,
+      category: product.category,
+      description: product.description,
+      images: [product.image],
+      tags: product.tags,
+      isFeatured: product.isFeatured,
+      isAvailable: product.isAvailable,
+      giftWrapAvailable: product.giftWrapAvailable,
+    };
+
+    try {
+      if (isNew) {
+        const created = await createProductApi(payload);
+        const mapped = mapApiToAdminProduct(created);
+        setProducts((prev) => [mapped, ...prev.filter((p) => p.id !== product.id)]);
+      } else {
+        const updated = await updateProductApi(product.id, payload);
+        const mapped = mapApiToAdminProduct(updated);
+        setProducts((prev) => prev.map((p) => (p.id === product.id ? mapped : p)));
+      }
+    } catch (err) {
+      console.error('Failed to sync product with Atlas backend:', err);
+      // Optimistic update
+      setProducts((prev) => {
+        const exists = prev.some((p) => p.id === product.id);
+        return exists ? prev.map((p) => (p.id === product.id ? product : p)) : [product, ...prev];
+      });
+    }
   };
 
-  const handleDeleteProduct = (productId: string) => {
-    setProducts((prev) => {
-      const updated = prev.filter((p) => p.id !== productId);
-      setStoredData('products', updated);
-      return updated;
-    });
+  const handleDeleteProduct = async (productId: string) => {
+    try {
+      if (!productId.startsWith('prod-')) {
+        await deleteProductApi(productId);
+      }
+      setProducts((prev) => prev.filter((p) => p.id !== productId));
+    } catch (err) {
+      console.error('Failed to delete product from Atlas backend:', err);
+      setProducts((prev) => prev.filter((p) => p.id !== productId));
+    }
   };
 
-  // Order actions
-  const handleUpdateOrderStatus = (orderId: string, newStatus: string) => {
-    setOrders((prev) => {
-      const updated = prev.map((o) => (o.id === orderId ? { ...o, orderStatus: newStatus } : o));
-      setStoredData('orders', updated);
-      return updated;
-    });
+  // Order actions connected to MongoDB Atlas
+  const handleUpdateOrderStatus = async (orderId: string, newStatus: string) => {
+    try {
+      if (!orderId.startsWith('ord-')) {
+        await updateOrderStatusApi(orderId, { orderStatus: newStatus });
+      }
+      setOrders((prev) => prev.map((o) => (o.id === orderId ? { ...o, orderStatus: newStatus } : o)));
+    } catch (err) {
+      console.error('Failed to update order status in backend:', err);
+      setOrders((prev) => prev.map((o) => (o.id === orderId ? { ...o, orderStatus: newStatus } : o)));
+    }
   };
 
-  const handleUpdatePaymentStatus = (orderId: string, newPaymentStatus: string) => {
-    setOrders((prev) => {
-      const updated = prev.map((o) => (o.id === orderId ? { ...o, paymentStatus: newPaymentStatus } : o));
-      setStoredData('orders', updated);
-      return updated;
-    });
+  const handleUpdatePaymentStatus = async (orderId: string, newPaymentStatus: string) => {
+    try {
+      if (!orderId.startsWith('ord-')) {
+        await updateOrderStatusApi(orderId, { paymentStatus: newPaymentStatus });
+      }
+      setOrders((prev) => prev.map((o) => (o.id === orderId ? { ...o, paymentStatus: newPaymentStatus } : o)));
+    } catch (err) {
+      console.error('Failed to update payment status in backend:', err);
+      setOrders((prev) => prev.map((o) => (o.id === orderId ? { ...o, paymentStatus: newPaymentStatus } : o)));
+    }
   };
 
   // Settings

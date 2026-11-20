@@ -38,12 +38,16 @@ export function getApiUrl(endpoint: string): URL {
   return new URL(`${base}${cleanEndpoint}`, origin);
 }
 
-export async function fetchProducts(category?: string) {
+export async function fetchProducts(category?: string, showAll: boolean = false) {
   try {
     const url = getApiUrl('/products');
     if (category && category !== 'all') {
       url.searchParams.set('category', category);
     }
+    if (showAll) {
+      url.searchParams.set('showAll', 'true');
+    }
+    url.searchParams.set('limit', '100');
     const res = await fetch(url.toString());
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
     const data = await res.json();
@@ -64,6 +68,64 @@ export async function fetchProductBySlug(slug: string) {
   } catch (error) {
     console.warn('API fetchProductBySlug failed:', error);
     return null;
+  }
+}
+
+export async function createProductApi(productPayload: any) {
+  try {
+    const url = getApiUrl('/products');
+    const res = await fetch(url.toString(), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(productPayload),
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || `Failed to create product: ${res.status}`);
+    }
+    const data = await res.json();
+    return data.data;
+  } catch (error) {
+    console.error('Create product API error:', error);
+    throw error;
+  }
+}
+
+export async function updateProductApi(id: string, productPayload: any) {
+  try {
+    const url = getApiUrl(`/products/${id}`);
+    const res = await fetch(url.toString(), {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(productPayload),
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || `Failed to update product: ${res.status}`);
+    }
+    const data = await res.json();
+    return data.data;
+  } catch (error) {
+    console.error('Update product API error:', error);
+    throw error;
+  }
+}
+
+export async function deleteProductApi(id: string) {
+  try {
+    const url = getApiUrl(`/products/${id}`);
+    const res = await fetch(url.toString(), {
+      method: 'DELETE',
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || `Failed to delete product: ${res.status}`);
+    }
+    const data = await res.json();
+    return data.data;
+  } catch (error) {
+    console.error('Delete product API error:', error);
+    throw error;
   }
 }
 
@@ -99,5 +161,38 @@ export async function trackOrderApi(orderNumber: string) {
   } catch (error) {
     console.warn('Track order API error:', error);
     return null;
+  }
+}
+
+export async function fetchOrdersApi() {
+  try {
+    const url = getApiUrl('/orders');
+    const res = await fetch(url.toString());
+    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+    const data = await res.json();
+    return data.data || [];
+  } catch (error) {
+    console.warn('API fetchOrders failed:', error);
+    return [];
+  }
+}
+
+export async function updateOrderStatusApi(id: string, payload: { orderStatus?: string; paymentStatus?: string; note?: string }) {
+  try {
+    const url = getApiUrl(`/orders/${id}/status`);
+    const res = await fetch(url.toString(), {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || `Failed to update order: ${res.status}`);
+    }
+    const data = await res.json();
+    return data.data;
+  } catch (error) {
+    console.error('Update order status API error:', error);
+    throw error;
   }
 }

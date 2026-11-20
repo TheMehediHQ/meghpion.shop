@@ -5,6 +5,8 @@ import { CreateOrderSchema } from '@meghpiyon/shared';
 
 export const orderRouter = Router();
 
+orderRouter.get('/', OrderController.listOrders);
+
 orderRouter.post(
   '/',
   validateRequest({ body: CreateOrderSchema }),
@@ -12,3 +14,5 @@ orderRouter.post(
 );
 
 orderRouter.get('/:orderNumber', OrderController.trackOrder);
+
+orderRouter.patch('/:id/status', OrderController.updateOrderStatus);

@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import mongoose from 'mongoose';
 import { OrderModel } from '../models/order.model.js';
 import { sendSuccess } from '../utils/apiResponse.js';
 import { AppError } from '../utils/appError.js';
@@ -48,8 +49,9 @@ export class OrderController {
         data: order,
       });
     } catch (error) {
+      if (error instanceof AppError) throw error;
       console.error('Error creating order:', error);
-      throw new AppError('Could not process order placement', 500);
+      throw new AppError('Could not process order', 500);
     }
   }
 
@@ -71,7 +73,63 @@ export class OrderController {
     } catch (error) {
       if (error instanceof AppError) throw error;
       console.error('Error tracking order:', error);
-      throw new AppError('Could not retrieve tracking details', 500);
+      throw new AppError('Could not track order', 500);
+    }
+  }
+
+  public static async listOrders(_req: Request, res: Response): Promise<void> {
+    try {
+      const orders = await OrderModel.find().sort({ createdAt: -1 }).limit(100).lean();
+      sendSuccess({
+        res,
+        statusCode: 200,
+        message: 'Orders retrieved successfully',
+        data: orders,
+      });
+    } catch (error) {
+      console.error('Error listing orders:', error);
+      throw new AppError('Could not retrieve orders', 500);
+    }
+  }
+
+  public static async updateOrderStatus(req: Request, res: Response): Promise<void> {
+    try {
+      const id = String(req.params.id);
+      const { orderStatus, paymentStatus, note } = req.body;
+
+      const query = mongoose.Types.ObjectId.isValid(id) ? { _id: id } : { orderNumber: id };
+      const order = await OrderModel.findOne(query);
+
+      if (!order) {
+        throw new AppError('Order not found', 404);
+      }
+
+      if (orderStatus && order.orderStatus !== orderStatus) {
+        order.orderStatus = orderStatus;
+        order.timeline.push({
+          status: orderStatus,
+          timestamp: new Date(),
+          description: note || `অর্ডারের বর্তমান অবস্থা: ${orderStatus}`,
+          location: 'Dhaka Hub',
+        });
+      }
+
+      if (paymentStatus) {
+        order.paymentStatus = paymentStatus;
+      }
+
+      await order.save();
+
+      sendSuccess({
+        res,
+        statusCode: 200,
+        message: 'Order updated successfully',
+        data: order,
+      });
+    } catch (error) {
+      if (error instanceof AppError) throw error;
+      console.error('Error updating order:', error);
+      throw new AppError('Could not update order', 500);
     }
   }
 }

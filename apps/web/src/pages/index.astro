@@ -7,6 +7,7 @@ import Stars from '../components/ui/Stars.astro';
 import CategoryIcon from '../components/ui/CategoryIcon.astro';
 import WaxSeal from '../components/hero-props/WaxSeal.astro';
 import { BRAND, PRODUCT_CATEGORIES } from '@meghpiyon/shared';
+import { fetchProducts } from '../lib/api';
 
 const benefits = [
   {
@@ -33,7 +34,7 @@ const benefits = [
 
 const categoryMeta: Record<string, { count: string; blurb: string }> = {
   'gift-boxes': { count: '48টি উপহার', blurb: 'বিশেষ মুহূর্তের লেয়ার্ড গিফট বক্স' },
-  customized: { count: '26টি উপহার', blurb: 'নাম ও বার্তা খোদাই করা স্মৃতিচিহ্ন' },
+  customized: { count: '26টি উপহার', blurb: 'নাম ও বার্তা খোদai করা স্মৃতিচিহ্ন' },
   handicrafts: { count: '34টি উপহার', blurb: 'হাতে সেলাই করা নকশিকাঁথা ও মৃৎশিল্প' },
   chocolates: { count: '18টি উপহার', blurb: 'আর্টিসানাল প্রিমিয়াম চকলেটের স্বাদ' },
   flowers: { count: '22টি উপহার', blurb: 'তাজা ও শুকনো ফুলের মনোমুগ্ধকর তোড়া' },
@@ -42,7 +43,7 @@ const categoryMeta: Record<string, { count: string; blurb: string }> = {
   'corporate-hampers': { count: '30টি উপহার', blurb: 'কর্পোরেট ক্লায়েন্ট ও টিম ডেলিগেট হ্যাম্পার' },
 };
 
-const featured = [
+const fallbackFeatured = [
   {
     name: 'Shonar Bangla Artisan Gift Box',
     nameBn: 'সোনার বাংলা উপহার বক্স',
@@ -89,6 +90,31 @@ const featured = [
     reviewCount: 57,
   },
 ];
+
+// Fetch live products from backend (Atlas MongoDB)
+const apiProducts = await fetchProducts();
+const featuredList =
+  apiProducts && apiProducts.length > 0
+    ? (apiProducts.filter((p: any) => p.isFeatured).length > 0
+        ? apiProducts.filter((p: any) => p.isFeatured)
+        : apiProducts
+      )
+        .slice(0, 4)
+        .map((p: any) => ({
+          name: p.name,
+          nameBn: p.nameBn || '',
+          slug: p.slug,
+          price: p.price,
+          discountPrice: p.discountPrice,
+          category: p.category,
+          image: p.images?.[0] || 'https://images.unsplash.com/photo-1543257580-7269da773bf5?w=800&auto=format&fit=crop&q=80',
+          tags: p.tags && p.tags.length > 0 ? p.tags : ['Featured'],
+          rating: p.rating || 4.9,
+          reviewCount: p.reviewCount || 50,
+        }))
+    : fallbackFeatured;
+
+const featured = featuredList;
 
 const stats = [
   { value: '12,000+', label: 'উপহার ডেলিভারি' },

@@ -12,13 +12,13 @@ export const BRAND = {
 } as const;
 
 export const PRODUCT_CATEGORIES = [
-  { id: 'customized', nameEn: 'Customize Gifts', nameBn: 'কাস্টমাইজড উপহার' },
+  { id: 'custom-gifts', nameEn: 'Custom Gifts', nameBn: 'কাস্টম উপহার' },
+  { id: 'cakes-pastries', nameEn: 'Cakes & Pastries', nameBn: 'কেক ও পেস্ট্রি' },
+  { id: 'mens-accessories', nameEn: "Men's Accessories", nameBn: 'পুরুষদের অ্যাক্সেসরিজ' },
   { id: 'chocolates', nameEn: 'Chocolates', nameBn: 'চকলেট ও মিষ্টি' },
   { id: 'flowers', nameEn: 'Flowers', nameBn: 'ফুল ও তোড়া' },
-  { id: 'women-jewelry', nameEn: "Women's Jewellery", nameBn: 'নারীদের গহনা' },
-  { id: 'male-jewelry', nameEn: "Male Jewellery", nameBn: 'পুরুষদের গহনা' },
-  { id: 'cake', nameEn: 'Cakes', nameBn: 'কেক ও পেস্ট্রি' },
-  { id: 'combo-pack', nameEn: 'Combo Pack', nameBn: 'কম্বো প্যাক' },
+  { id: 'womens-jewellery', nameEn: "Women's Jewellery", nameBn: 'নারীদের গহনা' },
+  { id: 'combo-gift-box', nameEn: 'Combo Gift Box', nameBn: 'কম্বো গিফট বক্স' },
   { id: 'others', nameEn: 'Others', nameBn: 'অন্যান্য উপহার' },
 ] as const;
 

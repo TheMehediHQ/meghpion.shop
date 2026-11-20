@@ -2,14 +2,19 @@ import { z } from 'zod';
 import { PaginationQuerySchema } from './api.schema.js';
 
 export const ProductCategoryEnum = z.enum([
-  'customized',
+  'custom-gifts',
+  'cakes-pastries',
+  'mens-accessories',
   'chocolates',
   'flowers',
-  'women-jewelry',
+  'womens-jewellery',
+  'combo-gift-box',
+  'others',
+  'customized',
   'male-jewelry',
+  'women-jewelry',
   'cake',
   'combo-pack',
-  'others',
   'gift-boxes',
   'handicrafts',
   'jewelry',

@@ -7,17 +7,17 @@ interface Props {
 const { id, className = 'h-7 w-7' } = Astro.props;
 
 const icons: Record<string, string> = {
-  customized: '<rect x="3" y="3" width="18" height="18" rx="1.5"/><path d="M12 16.5s-4-2.4-4-5.2A2.3 2.3 0 0112 9.6a2.3 2.3 0 014 1.7c0 2.8-4 5.2-4 5.2z"/>',
+  'custom-gifts': '<rect x="3" y="3" width="18" height="18" rx="1.5"/><path d="M12 16.5s-4-2.4-4-5.2A2.3 2.3 0 0112 9.6a2.3 2.3 0 014 1.7c0 2.8-4 5.2-4 5.2z"/>',
+  'cakes-pastries': '<path d="M3 19h18v2H3zM4 14h16v5H4zM6 10h12v4H6z"/><circle cx="12" cy="7" r="1.5"/>',
+  'mens-accessories': '<circle cx="12" cy="12" r="7"/><path d="M12 9v6M9 12h6"/>',
   chocolates: '<rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="M9 5v14M15 5v14M3 12h18"/>',
   flowers: '<circle cx="12" cy="9" r="2.4"/><path d="M12 6.6a2.4 2.4 0 013.4 3.4M12 6.6A2.4 2.4 0 008.6 10M14.4 10a2.4 2.4 0 01-1 3.8M9.6 10a2.4 2.4 0 001 3.8M12 13.8V21"/><path d="M12 17c-1.6 0-3-1-3.6-2.4C10 14 12 15 12 17zm0 0c1.6 0 3-1 3.6-2.4C14 14 12 15 12 17z"/>',
-  'women-jewelry': '<circle cx="12" cy="15" r="5"/><path d="M9 6l3-3 3 3-3 3-3-3z"/><path d="M12 3v6"/>',
-  'male-jewelry': '<circle cx="12" cy="12" r="7"/><path d="M12 9v6M9 12h6"/>',
-  cake: '<path d="M3 19h18v2H3zM4 14h16v5H4zM6 10h12v4H6z"/><circle cx="12" cy="7" r="1.5"/>',
-  'combo-pack': '<rect x="3" y="8" width="18" height="13" rx="1.5"/><path d="M3 12h18M12 8v13"/><path d="M12 8S9.5 3 7.5 4.5 9 8 12 8zm0 0s2.5-5 4.5-3.5S15 8 12 8z"/>',
+  'womens-jewellery': '<circle cx="12" cy="15" r="5"/><path d="M9 6l3-3 3 3-3 3-3-3z"/><path d="M12 3v6"/>',
+  'combo-gift-box': '<rect x="3" y="8" width="18" height="13" rx="1.5"/><path d="M3 12h18M12 8v13"/><path d="M12 8S9.5 3 7.5 4.5 9 8 12 8zm0 0s2.5-5 4.5-3.5S15 8 12 8z"/>',
   others: '<circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/><circle cx="5" cy="12" r="1.5"/>',
 };
 
-const paths = icons[id] ?? icons['combo-pack'] ?? icons['customized'];
+const paths = icons[id] ?? icons['combo-gift-box'] ?? icons['custom-gifts'];
 ---
 
 <svg class={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={paths} />

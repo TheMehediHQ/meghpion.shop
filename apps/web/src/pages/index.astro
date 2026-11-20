@@ -33,51 +33,51 @@ const benefits = [
 ];
 
 const categoryMeta: Record<string, { count: string; blurb: string; image: string; tag: string }> = {
-  customized: {
+  'custom-gifts': {
     count: '২৬টি উপহার',
-    blurb: 'নাম, বিশেষ তারিখ ও বার্তা খোদাই করা আজীবন স্মারক',
+    blurb: 'নাম, বিশেষ তারিখ ও নিজস্ব বার্তা খোদাই করা আজীবন স্মারক উপহার',
     image: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=700&auto=format&fit=crop&q=80',
-    tag: 'Customize',
+    tag: 'Custom Gifts',
   },
-  chocolates: {
-    count: '১৮টি উপহার',
-    blurb: 'হাতে তৈরি খাঁটি বেলজিয়ান ট্রাফেল ও রোস্টেড নাটস',
-    image: 'https://images.unsplash.com/photo-1511381939415-e44015466834?w=700&auto=format&fit=crop&q=80',
-    tag: 'Chocolate',
+  'cakes-pastries': {
+    count: '১৪টি ফ্লেভার',
+    blurb: 'তাজা বেকড প্রিমিয়াম ডার্ক চকোলেট ট্রাফেল ও বিশেষ সেলিব্রেশন কেক',
+    image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=700&auto=format&fit=crop&q=80',
+    tag: 'Cakes & Pastries',
   },
-  flowers: {
-    count: '২২টি উপহার',
-    blurb: 'গোলাপ ও বেলির সতেজ সুবাসিত তোড়া ও ড্রাইড ফ্লাওয়ার',
-    image: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?w=700&auto=format&fit=crop&q=80',
-    tag: 'Flowers',
-  },
-  'women-jewelry': {
-    count: '১৫টি উপহার',
-    blurb: 'খাঁটি পিতলের অ্যান্টিক ফিলিগ্রি, ঝুমকা ও রাজকীয় অলংকার বক্স',
-    image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=700&auto=format&fit=crop&q=80',
-    tag: 'Women Jewellery',
-  },
-  'male-jewelry': {
+  'mens-accessories': {
     count: '১৬টি উপহার',
     blurb: 'খাঁটি ব্রাস কাফলিংক, প্রিমিয়াম টাই-পিন ও জেনুইন লেদার ব্যান্ড',
     image: 'https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=700&auto=format&fit=crop&q=80',
-    tag: 'Male Jewellery',
+    tag: "Men's Accessories",
   },
-  cake: {
-    count: '১৪টি ফ্লেভার',
-    blurb: 'তাজা বেকড প্রিমিয়াম চকোলেট ট্রাফেল ও বিশেষ সেলিব্রেশন কেক',
-    image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=700&auto=format&fit=crop&q=80',
-    tag: 'Cake',
+  chocolates: {
+    count: '১৮টি উপহার',
+    blurb: 'হাতে তৈরি খাঁটি বেলজিয়ান ট্রাফেল, ড্রাই ফ্রুটস ও রোস্টেড নাটস',
+    image: 'https://images.unsplash.com/photo-1511381939415-e44015466834?w=700&auto=format&fit=crop&q=80',
+    tag: 'Chocolates',
   },
-  'combo-pack': {
+  flowers: {
+    count: '২২টি উপহার',
+    blurb: 'গোলাপ ও বেলির সতেজ সুবাসিত তোড়া এবং ড্রাইড ফ্লাওয়ার',
+    image: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?w=700&auto=format&fit=crop&q=80',
+    tag: 'Flowers',
+  },
+  'womens-jewellery': {
+    count: '১৫টি উপহার',
+    blurb: 'খাঁটি পিতলের অ্যান্টিক ফিলিগ্রি, ঝুমকা ও রাজকীয় অলংকার বক্স',
+    image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=700&auto=format&fit=crop&q=80',
+    tag: "Women's Jewellery",
+  },
+  'combo-gift-box': {
     count: '২৮টি প্যাকেজ',
     blurb: 'ফুল, চকলেট, কেক ও চিরকুটের সমন্বয়ে ভালোবাসার কমপ্লিট প্যাকেজ',
     image: 'https://images.unsplash.com/photo-1543257580-7269da773bf5?w=700&auto=format&fit=crop&q=80',
-    tag: 'Combo Pack',
+    tag: 'Combo Gift Box',
   },
   others: {
     count: '১২টি উপহার',
-    blurb: 'অনন্য হস্তশিল্প, পার্চমেন্ট চিরকুট ও বিশেষ সংগৃহীত উপহার সম্ভার',
+    blurb: 'অনন্য হস্তশিল্প, পার্চমেন্ট চিরকুট ও সংগৃহীত বিশেষ উপহার সম্ভার',
     image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=700&auto=format&fit=crop&q=80',
     tag: 'Others',
   },

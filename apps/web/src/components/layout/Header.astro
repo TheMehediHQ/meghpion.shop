@@ -87,11 +87,12 @@ const navLinks = [
           </a>
 
           <a
+            id="nav-account-link"
             href="/login"
-            class="hidden h-10 w-10 place-items-center rounded-full text-gold-300/90 transition-colors hover:bg-white/5 hover:text-gold-200 sm:grid"
+            class="hidden h-10 w-10 place-items-center rounded-full text-gold-300/90 transition-colors hover:bg-white/5 hover:text-gold-200 sm:grid overflow-hidden"
             aria-label="Account"
           >
-            <svg class="h-[19px] w-[19px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg id="nav-account-icon" class="h-[19px] w-[19px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M16 19v-1a4 4 0 00-4-4H8a4 4 0 00-4 4v1M12 11a4 4 0 100-8 4 4 0 000 8z" />
             </svg>
           </a>
@@ -145,3 +146,23 @@ const navLinks = [
     <div class="h-[2px] w-full airmail-stripe"></div>
   </div>
 </header>
+
+<script>
+  try {
+    const rawUser = localStorage.getItem('meghpiyon_customer_user');
+    const accountLink = document.getElementById('nav-account-link');
+    if (rawUser && accountLink) {
+      const user = JSON.parse(rawUser);
+      accountLink.setAttribute('title', `Signed in as ${user.name || 'Patron'}`);
+      accountLink.setAttribute('aria-label', `Account: ${user.name || 'Patron'}`);
+      if (user.avatarUrl) {
+        accountLink.innerHTML = `<img src="${user.avatarUrl}" alt="${user.name || 'Profile'}" referrerpolicy="no-referrer" class="h-7 w-7 rounded-full border border-gold-400/70 object-cover" />`;
+      } else if (user.name) {
+        const initial = String(user.name).trim().charAt(0).toUpperCase();
+        accountLink.innerHTML = `<span class="grid h-7 w-7 place-items-center rounded-full border border-gold-400/70 bg-burgundy text-[11px] font-bold text-gold-200">${initial}</span>`;
+      }
+    }
+  } catch {
+    // ignore storage errors
+  }
+</script>

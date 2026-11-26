@@ -23,6 +23,7 @@ export function CustomerAuth({ mode = 'login', redirectUrl = '/shop' }: Customer
   const [loggedUser, setLoggedUser] = useState<{
     name: string;
     email?: string | null;
+    avatarUrl?: string | null;
     authProvider?: string;
   } | null>(null);
   const [currentPassword, setCurrentPassword] = useState('');
@@ -32,8 +33,7 @@ export function CustomerAuth({ mode = 'login', redirectUrl = '/shop' }: Customer
     if (typeof window !== 'undefined') {
       try {
         const raw = localStorage.getItem('meghpiyon_customer_user');
-        const token = localStorage.getItem('meghpiyon_auth_token');
-        if (raw && token) {
+        if (raw) {
           setLoggedUser(JSON.parse(raw));
         }
       } catch {
@@ -233,11 +233,20 @@ export function CustomerAuth({ mode = 'login', redirectUrl = '/shop' }: Customer
         <div className="pointer-events-none absolute inset-[6px] rounded-[2px] border border-gold-500/20" aria-hidden="true" />
         <div className="relative z-10 space-y-5">
           <div className="text-center space-y-1.5">
-            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-gold-400/50 bg-gradient-to-br from-crimson-600 to-ink-deep text-gold-200 font-display text-xl font-semibold">
-              {loggedUser.name.charAt(0)}
-            </div>
+            {loggedUser.avatarUrl ? (
+              <img
+                src={loggedUser.avatarUrl}
+                alt={loggedUser.name}
+                referrerPolicy="no-referrer"
+                className="mx-auto h-14 w-14 rounded-full border-2 border-gold-500/60 object-cover shadow-md"
+              />
+            ) : (
+              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-gold-400/50 bg-gradient-to-br from-crimson-600 to-ink-deep text-gold-200 font-display text-xl font-semibold">
+                {loggedUser.name.charAt(0)}
+              </div>
+            )}
             <p className="pt-1 text-[10px] font-semibold uppercase tracking-[0.26em] text-gold-700">
-              Patron Account
+              Patron Account ({loggedUser.authProvider === 'google' ? 'Google' : loggedUser.authProvider === 'facebook' ? 'Facebook' : 'Email'})
             </p>
             <h1 className="font-display text-2xl font-semibold text-espresso">
               {loggedUser.name}

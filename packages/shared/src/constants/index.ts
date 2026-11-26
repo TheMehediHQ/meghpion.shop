@@ -57,4 +57,4 @@ export const PAYMENT_METHODS = [
   'card',
 ] as const;
 
-export const USER_ROLES = ['customer', 'admin', 'moderator'] as const;
+export const USER_ROLES = ['customer', 'employee', 'admin', 'moderator'] as const;

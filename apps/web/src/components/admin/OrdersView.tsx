@@ -73,20 +73,20 @@ export function OrdersView({
     <div className="space-y-6">
       {/* Top Header */}
       <div>
-        <h2 className="text-xl font-bold text-slate-900">Order Management</h2>
-        <p className="text-xs text-slate-500">
+        <h2 className="font-display text-2xl font-semibold text-espresso">Order Management</h2>
+        <p className="text-xs text-clay mt-0.5">
           Track customer parcels, update delivery status, and verify payment across Bangladesh
         </p>
       </div>
 
       {/* Tabs by Status */}
-      <div className="flex flex-wrap items-center gap-1 border-b border-slate-200 pb-2 text-xs">
+      <div className="flex flex-wrap items-center gap-1.5 border-b border-parchment-line pb-2.5 text-xs">
         <button
           onClick={() => setActiveStatusTab('all')}
-          className={`px-3 py-1.5 rounded-lg font-medium transition-colors ${
+          className={`px-3 py-1.5 rounded-[3px] font-medium transition-colors ${
             activeStatusTab === 'all'
-              ? 'bg-sky-600 text-white'
-              : 'text-slate-600 hover:bg-slate-100'
+              ? 'bg-ink text-parchment border border-gold-500/40'
+              : 'text-clay hover:text-espresso hover:bg-parchment-deep/60'
           }`}
         >
           All Orders ({orders.length})
@@ -98,10 +98,10 @@ export function OrdersView({
             <button
               key={status}
               onClick={() => setActiveStatusTab(status)}
-              className={`px-3 py-1.5 rounded-lg font-medium capitalize transition-colors flex items-center gap-1.5 ${
+              className={`px-3 py-1.5 rounded-[3px] font-medium capitalize transition-colors flex items-center gap-1.5 ${
                 activeStatusTab === status
-                  ? 'bg-sky-600 text-white'
-                  : 'text-slate-600 hover:bg-slate-100'
+                  ? 'bg-ink text-parchment border border-gold-500/40'
+                  : 'text-clay hover:text-espresso hover:bg-parchment-deep/60'
               }`}
             >
               <span>{status.replace('_', ' ')}</span>
@@ -109,8 +109,8 @@ export function OrdersView({
                 <span
                   className={`px-1.5 py-0.2 rounded-full text-[10px] ${
                     activeStatusTab === status
-                      ? 'bg-white/20 text-white'
-                      : 'bg-slate-200 text-slate-700'
+                      ? 'bg-gold-400/20 text-gold-200'
+                      : 'bg-parchment-deep text-espresso'
                   }`}
                 >
                   {count}
@@ -122,9 +122,9 @@ export function OrdersView({
       </div>
 
       {/* Search Bar */}
-      <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+      <div className="bg-parchment-light border border-parchment-line rounded-[4px] p-4 shadow-sm">
         <div className="relative w-full">
-          <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+          <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-clay">
             <SearchIcon />
           </span>
           <input
@@ -132,16 +132,16 @@ export function OrdersView({
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by Order #, customer name, mobile phone (017...), division..."
-            className="w-full pl-9 pr-4 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-sky-600 focus:bg-white"
+            className="w-full pl-9 pr-4 py-2 text-xs bg-parchment-50 border border-parchment-border rounded-[3px] text-espresso placeholder:text-clay-light focus:outline-none focus:border-gold-600 focus:ring-1 focus:ring-gold-500/40"
           />
         </div>
       </div>
 
       {/* Orders Table */}
-      <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+      <div className="bg-parchment-light border border-parchment-line rounded-[4px] shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-slate-50 text-slate-500 border-b border-slate-200 uppercase tracking-wider font-semibold text-[11px]">
+            <thead className="bg-parchment-deep/70 text-espresso border-b border-parchment-line uppercase tracking-wider font-semibold text-[11px]">
               <tr>
                 <th className="py-3 px-4">Order ID & Date</th>
                 <th className="py-3 px-4">Customer</th>
@@ -152,41 +152,41 @@ export function OrdersView({
                 <th className="py-3 px-4 text-right">Details</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-parchment-line/70">
               {filteredOrders.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="py-8 text-center text-slate-400">
+                  <td colSpan={7} className="py-8 text-center text-clay">
                     No orders found matching this filter.
                   </td>
                 </tr>
               ) : (
                 filteredOrders.map((ord) => (
-                  <tr key={ord.id} className="hover:bg-slate-50/70">
+                  <tr key={ord.id} className="hover:bg-parchment-deep/30 transition-colors">
                     <td className="py-3 px-4">
-                      <div className="font-mono font-bold text-slate-900">{ord.orderNumber}</div>
-                      <div className="text-[10px] text-slate-400">{ord.createdAt}</div>
+                      <div className="font-mono font-bold text-espresso">{ord.orderNumber}</div>
+                      <div className="text-[10px] text-clay">{ord.createdAt}</div>
                     </td>
                     <td className="py-3 px-4">
-                      <div className="font-semibold text-slate-800">{ord.customerName}</div>
-                      <div className="text-[11px] text-slate-500">{ord.customerPhone}</div>
-                      <div className="text-[10px] text-slate-400">{ord.district}, {ord.division}</div>
+                      <div className="font-semibold text-espresso">{ord.customerName}</div>
+                      <div className="text-[11px] text-clay">{ord.customerPhone}</div>
+                      <div className="text-[10px] text-clay-light">{ord.district}, {ord.division}</div>
                     </td>
                     <td className="py-3 px-4">
-                      <div className="text-slate-800 font-medium">
+                      <div className="text-espresso font-medium">
                         {ord.items.length} item{ord.items.length > 1 ? 's' : ''}
                       </div>
-                      <div className="text-[10px] text-slate-500 truncate max-w-xs">
+                      <div className="text-[10px] text-clay truncate max-w-xs">
                         {ord.items.map((i) => `${i.quantity}x ${i.name}`).join(', ')}
                       </div>
                       {ord.giftMessage && (
-                        <span className="inline-block mt-0.5 text-[9px] bg-sky-50 text-sky-700 px-1.5 py-0.5 rounded border border-sky-100">
+                        <span className="inline-block mt-0.5 text-[9px] bg-gold-50 text-gold-800 px-1.5 py-0.5 rounded-[2px] border border-gold-400/40">
                           💌 Gift Note Attached
                         </span>
                       )}
                     </td>
                     <td className="py-3 px-4">
-                      <div className="font-bold text-slate-900">৳ {ord.total}</div>
-                      <div className="text-[10px] text-slate-400 uppercase">
+                      <div className="font-bold text-espresso">৳ {ord.total}</div>
+                      <div className="text-[10px] text-clay uppercase">
                         {ord.paymentMethod}
                       </div>
                     </td>
@@ -223,7 +223,7 @@ export function OrdersView({
                     <td className="py-3 px-4 text-right">
                       <button
                         onClick={() => setSelectedOrderModal(ord)}
-                        className="inline-flex items-center gap-1 px-2.5 py-1 text-slate-600 hover:text-sky-600 hover:bg-sky-50 rounded border border-slate-200 text-xs font-medium"
+                        className="inline-flex items-center gap-1 px-2.5 py-1 text-espresso hover:text-burgundy hover:bg-parchment-deep rounded-[3px] border border-parchment-border text-xs font-medium transition-colors"
                       >
                         <EyeIcon /> View
                       </button>
@@ -238,32 +238,32 @@ export function OrdersView({
 
       {/* Order Details Modal */}
       {selectedOrderModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm overflow-y-auto">
-          <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-2xl my-8 p-6 space-y-6">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink-deep/65 backdrop-blur-sm overflow-y-auto">
+          <div className="bg-parchment-light rounded-[4px] shadow-2xl border border-parchment-line w-full max-w-2xl my-8 p-6 space-y-6">
+            <div className="flex items-center justify-between border-b border-parchment-line pb-3">
               <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-sky-600">
+                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-gold-700">
                   Order Details
                 </span>
-                <h3 className="text-lg font-bold text-slate-900">
+                <h3 className="font-display text-xl font-semibold text-espresso">
                   {selectedOrderModal.orderNumber}
                 </h3>
-                <span className="text-[11px] text-slate-400">
+                <span className="text-[11px] text-clay">
                   Placed on {selectedOrderModal.createdAt}
                 </span>
               </div>
               <button
                 onClick={() => setSelectedOrderModal(null)}
-                className="p-1 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100"
+                className="p-1 rounded-[3px] text-clay hover:text-espresso hover:bg-parchment-deep"
               >
                 <CloseIcon />
               </button>
             </div>
 
             {/* Quick Status Bar */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-parchment-deep/50 p-4 rounded-[3px] border border-parchment-line text-xs">
               <div>
-                <label className="block text-[11px] font-semibold text-slate-500 uppercase mb-1">
+                <label className="block text-[10px] font-semibold text-clay uppercase tracking-wider mb-1">
                   Update Order Fulfillment Status
                 </label>
                 <select
@@ -275,7 +275,7 @@ export function OrdersView({
                       orderStatus: e.target.value,
                     });
                   }}
-                  className="w-full py-1.5 px-3 bg-white border border-slate-300 rounded-lg text-xs font-semibold focus:outline-none focus:border-sky-600 uppercase"
+                  className="w-full py-1.5 px-3 bg-parchment-50 border border-parchment-border rounded-[3px] text-xs font-semibold text-espresso focus:outline-none focus:border-gold-600 uppercase"
                 >
                   {ORDER_STATUSES.map((st) => (
                     <option key={st} value={st}>
@@ -286,7 +286,7 @@ export function OrdersView({
               </div>
 
               <div>
-                <label className="block text-[11px] font-semibold text-slate-500 uppercase mb-1">
+                <label className="block text-[10px] font-semibold text-clay uppercase tracking-wider mb-1">
                   Payment Status ({selectedOrderModal.paymentMethod.toUpperCase()})
                 </label>
                 <select
@@ -298,7 +298,7 @@ export function OrdersView({
                       paymentStatus: e.target.value,
                     });
                   }}
-                  className="w-full py-1.5 px-3 bg-white border border-slate-300 rounded-lg text-xs font-semibold focus:outline-none focus:border-sky-600 uppercase"
+                  className="w-full py-1.5 px-3 bg-parchment-50 border border-parchment-border rounded-[3px] text-xs font-semibold text-espresso focus:outline-none focus:border-gold-600 uppercase"
                 >
                   {PAYMENT_STATUSES.map((ps) => (
                     <option key={ps} value={ps}>
@@ -311,21 +311,21 @@ export function OrdersView({
 
             {/* Customer & Shipping Information */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-              <div className="p-3 bg-white border border-slate-200 rounded-xl space-y-1">
-                <span className="font-semibold text-slate-700 uppercase tracking-wider text-[10px]">
+              <div className="p-3.5 bg-parchment-50 border border-parchment-line rounded-[3px] space-y-1">
+                <span className="font-semibold text-gold-800 uppercase tracking-wider text-[10px]">
                   Customer Contact
                 </span>
-                <p className="font-bold text-slate-900 text-sm">{selectedOrderModal.customerName}</p>
-                <p className="text-slate-600">📞 {selectedOrderModal.customerPhone}</p>
-                <p className="text-slate-600">✉️ {selectedOrderModal.customerEmail}</p>
+                <p className="font-bold text-espresso text-sm">{selectedOrderModal.customerName}</p>
+                <p className="text-clay">📞 {selectedOrderModal.customerPhone}</p>
+                <p className="text-clay">✉️ {selectedOrderModal.customerEmail}</p>
               </div>
 
-              <div className="p-3 bg-white border border-slate-200 rounded-xl space-y-1">
-                <span className="font-semibold text-slate-700 uppercase tracking-wider text-[10px]">
+              <div className="p-3.5 bg-parchment-50 border border-parchment-line rounded-[3px] space-y-1">
+                <span className="font-semibold text-gold-800 uppercase tracking-wider text-[10px]">
                   Shipping Destination
                 </span>
-                <p className="font-medium text-slate-800">{selectedOrderModal.addressLine}</p>
-                <p className="text-slate-600">
+                <p className="font-medium text-espresso">{selectedOrderModal.addressLine}</p>
+                <p className="text-clay">
                   {selectedOrderModal.district}, {selectedOrderModal.division} Division
                 </p>
               </div>
@@ -333,11 +333,11 @@ export function OrdersView({
 
             {/* Personalized Gift Message */}
             {selectedOrderModal.giftMessage && (
-              <div className="p-3.5 bg-sky-50 border border-sky-100 rounded-xl text-xs space-y-1">
-                <span className="font-bold text-sky-800 uppercase tracking-wider text-[10px] flex items-center gap-1">
+              <div className="p-3.5 bg-gold-50 border border-gold-400/50 rounded-[3px] text-xs space-y-1">
+                <span className="font-bold text-gold-800 uppercase tracking-wider text-[10px] flex items-center gap-1">
                   💌 Attached Handwritten Gift Card Message:
                 </span>
-                <p className="text-sky-950 font-bengali italic text-sm">
+                <p className="text-espresso font-bengali italic text-sm">
                   "{selectedOrderModal.giftMessage}"
                 </p>
               </div>
@@ -345,11 +345,11 @@ export function OrdersView({
 
             {/* Items Table */}
             <div className="space-y-2 text-xs">
-              <span className="font-semibold text-slate-700 uppercase tracking-wider text-[10px]">
+              <span className="font-semibold text-espresso uppercase tracking-wider text-[10px]">
                 Ordered Items
               </span>
-              <table className="w-full text-left border border-slate-200 rounded-lg overflow-hidden">
-                <thead className="bg-slate-50 text-slate-500 border-b border-slate-200 text-[10px]">
+              <table className="w-full text-left border border-parchment-line rounded-[3px] overflow-hidden">
+                <thead className="bg-parchment-deep/70 text-espresso border-b border-parchment-line text-[10px]">
                   <tr>
                     <th className="py-2 px-3">Item</th>
                     <th className="py-2 px-3 text-right">Price</th>
@@ -357,25 +357,25 @@ export function OrdersView({
                     <th className="py-2 px-3 text-right">Total</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className="divide-y divide-parchment-line/70">
                   {selectedOrderModal.items.map((item, idx) => (
                     <tr key={idx}>
                       <td className="py-2.5 px-3">
-                        <div className="font-medium text-slate-900">{item.name}</div>
+                        <div className="font-medium text-espresso">{item.name}</div>
                         {item.customText && (
-                          <div className="text-[10px] text-sky-600 font-mono">
+                          <div className="text-[10px] text-burgundy font-mono">
                             Customization: {item.customText}
                           </div>
                         )}
                         {item.giftWrap && (
-                          <div className="text-[10px] text-amber-600">
+                          <div className="text-[10px] text-gold-700">
                             + Luxury Gift Wrapping included
                           </div>
                         )}
                       </td>
-                      <td className="py-2.5 px-3 text-right font-medium">৳ {item.price}</td>
-                      <td className="py-2.5 px-3 text-center">{item.quantity}</td>
-                      <td className="py-2.5 px-3 text-right font-bold text-slate-900">
+                      <td className="py-2.5 px-3 text-right font-medium text-espresso">৳ {item.price}</td>
+                      <td className="py-2.5 px-3 text-center text-espresso">{item.quantity}</td>
+                      <td className="py-2.5 px-3 text-right font-bold text-espresso">
                         ৳ {item.price * item.quantity}
                       </td>
                     </tr>
@@ -385,28 +385,28 @@ export function OrdersView({
             </div>
 
             {/* Financial Summary */}
-            <div className="border-t border-slate-200 pt-3 text-xs space-y-1 max-w-xs ml-auto">
-              <div className="flex justify-between text-slate-600">
+            <div className="border-t border-parchment-line pt-3 text-xs space-y-1 max-w-xs ml-auto">
+              <div className="flex justify-between text-clay">
                 <span>Subtotal:</span>
                 <span>৳ {selectedOrderModal.subtotal}</span>
               </div>
-              <div className="flex justify-between text-slate-600">
+              <div className="flex justify-between text-clay">
                 <span>Delivery Fee:</span>
                 <span>৳ {selectedOrderModal.deliveryFee}</span>
               </div>
               {selectedOrderModal.giftWrapFee > 0 && (
-                <div className="flex justify-between text-slate-600">
+                <div className="flex justify-between text-clay">
                   <span>Gift Wrapping:</span>
                   <span>৳ {selectedOrderModal.giftWrapFee}</span>
                 </div>
               )}
               {selectedOrderModal.discount > 0 && (
-                <div className="flex justify-between text-emerald-600">
+                <div className="flex justify-between text-emerald-700">
                   <span>Special Discount:</span>
                   <span>- ৳ {selectedOrderModal.discount}</span>
                 </div>
               )}
-              <div className="flex justify-between font-bold text-slate-900 text-sm pt-1 border-t border-slate-200">
+              <div className="flex justify-between font-bold text-espresso text-sm pt-1 border-t border-parchment-line">
                 <span>Total Amount:</span>
                 <span>৳ {selectedOrderModal.total}</span>
               </div>
@@ -415,13 +415,13 @@ export function OrdersView({
             <div className="flex justify-between items-center pt-2">
               <button
                 onClick={() => window.print()}
-                className="px-3.5 py-1.5 border border-slate-300 rounded-lg text-xs font-semibold text-slate-700 hover:bg-slate-50"
+                className="px-3.5 py-1.5 border border-parchment-border rounded-[3px] text-xs font-semibold text-espresso hover:bg-parchment-deep transition-colors"
               >
                 🖨️ Print Invoice / Packing Slip
               </button>
               <button
                 onClick={() => setSelectedOrderModal(null)}
-                className="px-5 py-2 bg-sky-600 hover:bg-sky-700 text-white rounded-lg text-xs font-semibold shadow-sm"
+                className="px-5 py-2 bg-ink hover:bg-burgundy-dark text-parchment border border-gold-500/40 rounded-[3px] text-xs font-semibold shadow-sm transition-colors"
               >
                 Done
               </button>

@@ -20,12 +20,14 @@ import {
   deleteProductApi,
   fetchOrdersApi,
   updateOrderStatusApi,
+  changePasswordApi,
 } from '../../lib/api';
 import { AdminAuth } from './AdminAuth';
 import { DashboardView } from './DashboardView';
 import { ProductsView } from './ProductsView';
 import { OrdersView } from './OrdersView';
 import { CustomersView } from './CustomersView';
+import { EmployeesView } from './EmployeesView';
 import { SettingsView } from './SettingsView';
 import {
   LayoutDashboardIcon,
@@ -88,9 +90,9 @@ const mapApiToAdminOrder = (o: any): AdminOrder => ({
 });
 
 export function AdminApp() {
-  const [user, setUser] = useState<{ email: string; name: string; role: string } | null>(null);
+  const [user, setUser] = useState<{ id?: string; email: string; name: string; role: string } | null>(null);
   const [isClient, setIsClient] = useState(false);
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'products' | 'orders' | 'customers' | 'settings'>('dashboard');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'products' | 'orders' | 'customers' | 'employees' | 'settings'>('dashboard');
 
   // Stored state
   const [products, setProducts] = useState<AdminProduct[]>(INITIAL_PRODUCTS);
@@ -101,53 +103,74 @@ export function AdminApp() {
   // Modals
   const [selectedOrderModal, setSelectedOrderModal] = useState<AdminOrder | null>(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+  const [currentPwd, setCurrentPwd] = useState('');
+  const [newPwd, setNewPwd] = useState('');
+  const [pwdMsg, setPwdMsg] = useState<{ type: 'ok' | 'err'; text: string } | null>(null);
+  const [pwdSaving, setPwdSaving] = useState(false);
+
+  const loadLiveData = async () => {
+    try {
+      const [apiProds, apiOrders] = await Promise.all([
+        fetchProducts('', true),
+        fetchOrdersApi(),
+      ]);
+
+      if (apiProds && apiProds.length > 0) {
+        const mapped = apiProds.map(mapApiToAdminProduct);
+        setProducts(mapped);
+        setStoredData('products', mapped);
+      } else {
+        setProducts(getStoredData<AdminProduct[]>('products', INITIAL_PRODUCTS));
+      }
+
+      if (apiOrders && apiOrders.length > 0) {
+        const mapped = apiOrders.map(mapApiToAdminOrder);
+        setOrders(mapped);
+        setStoredData('orders', mapped);
+      } else {
+        setOrders(getStoredData<AdminOrder[]>('orders', INITIAL_ORDERS));
+      }
+    } catch (err) {
+      console.warn('Admin loadLiveData fallback to cache:', err);
+      setProducts(getStoredData<AdminProduct[]>('products', INITIAL_PRODUCTS));
+      setOrders(getStoredData<AdminOrder[]>('orders', INITIAL_ORDERS));
+    }
+  };
 
   // Initialize from LocalStorage + Backend API (MongoDB Atlas) on mount
   useEffect(() => {
     setIsClient(true);
-    const savedUser = getStoredData<{ email: string; name: string; role: string } | null>('user', null);
-    if (savedUser) setUser(savedUser);
-
-    async function loadLiveData() {
-      try {
-        const [apiProds, apiOrders] = await Promise.all([
-          fetchProducts('', true),
-          fetchOrdersApi(),
-        ]);
-
-        if (apiProds && apiProds.length > 0) {
-          const mapped = apiProds.map(mapApiToAdminProduct);
-          setProducts(mapped);
-          setStoredData('products', mapped);
-        } else {
-          setProducts(getStoredData<AdminProduct[]>('products', INITIAL_PRODUCTS));
-        }
-
-        if (apiOrders && apiOrders.length > 0) {
-          const mapped = apiOrders.map(mapApiToAdminOrder);
-          setOrders(mapped);
-          setStoredData('orders', mapped);
-        } else {
-          setOrders(getStoredData<AdminOrder[]>('orders', INITIAL_ORDERS));
-        }
-      } catch (err) {
-        console.warn('Admin loadLiveData fallback to cache:', err);
-        setProducts(getStoredData<AdminProduct[]>('products', INITIAL_PRODUCTS));
-        setOrders(getStoredData<AdminOrder[]>('orders', INITIAL_ORDERS));
+    const savedUser = getStoredData<{ id?: string; email: string; name: string; role: string } | null>('user', null);
+    const token = typeof window !== 'undefined' ? localStorage.getItem('meghpiyon_admin_token') : null;
+    if (savedUser && token) {
+      setUser(savedUser);
+      if (savedUser.role !== 'admin') {
+        setActiveTab('orders');
       }
+      loadLiveData();
     }
-
-    loadLiveData();
     setCustomers(getStoredData<AdminCustomer[]>('customers', INITIAL_CUSTOMERS));
     setSettings(getStoredData<StoreSettings>('settings', INITIAL_SETTINGS));
   }, []);
 
-  const handleLoginSuccess = (loggedInUser: { email: string; name: string; role: string }) => {
+  const handleLoginSuccess = (
+    loggedInUser: { id?: string; email: string; name: string; role: string },
+    token: string
+  ) => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('meghpiyon_admin_token', token);
+    }
     setUser(loggedInUser);
     setStoredData('user', loggedInUser);
+    setActiveTab(loggedInUser.role === 'admin' ? 'dashboard' : 'orders');
+    loadLiveData();
   };
 
   const handleLogout = () => {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('meghpiyon_admin_token');
+    }
     setUser(null);
     setStoredData('user', null);
   };
@@ -260,70 +283,56 @@ export function AdminApp() {
   }
 
   const pendingCount = orders.filter((o) => o.orderStatus === 'pending').length;
+  const isAdmin = user.role === 'admin';
 
   return (
-    <div className="min-h-screen bg-slate-100 flex flex-col md:flex-row antialiased text-slate-800">
+    <div className="min-h-screen bg-parchment paper-grain flex flex-col md:flex-row antialiased text-espresso">
       {/* Sidebar Navigation */}
-      <aside className="w-full md:w-64 bg-slate-900 text-slate-300 flex-shrink-0 flex flex-col border-r border-slate-800">
+      <aside className="w-full md:w-64 bg-ink-deep text-parchment/80 flex-shrink-0 flex flex-col border-r border-gold-500/20">
         {/* Brand header */}
-        <div className="p-5 border-b border-slate-800 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-sky-500 text-white flex items-center justify-center font-bold text-base shadow">
-              ম
+        <div className="p-5 border-b border-parchment/10 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-full border border-gold-400/50 bg-gradient-to-br from-crimson-600 to-ink text-gold-200 flex items-center justify-center font-display font-bold text-base shadow">
+              M
             </div>
             <div>
-              <span className="font-bold text-white tracking-tight leading-none block text-sm">
+              <span className="font-display font-semibold text-parchment tracking-tight leading-none block text-base">
                 {BRAND.name}
               </span>
-              <span className="text-[10px] text-sky-400 font-semibold tracking-wider uppercase">
-                Admin Panel
+              <span className="text-[9.5px] text-gold-400 font-semibold tracking-[0.2em] uppercase">
+                {isAdmin ? 'Admin Portal' : 'Staff Portal'}
               </span>
             </div>
           </div>
-          <span className="px-1.5 py-0.5 rounded text-[9px] bg-slate-800 text-slate-400 border border-slate-700">
-            v1.0
+          <span className="px-1.5 py-0.5 rounded-[2px] text-[9px] bg-ink text-gold-300 border border-gold-500/25 uppercase">
+            {user.role}
           </span>
         </div>
 
         {/* Navigation list */}
-        <nav className="p-3 space-y-1 flex-1">
-          <button
-            onClick={() => setActiveTab('dashboard')}
-            className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-medium transition-colors ${
-              activeTab === 'dashboard'
-                ? 'bg-sky-600 text-white font-semibold shadow-sm'
-                : 'text-slate-400 hover:text-white hover:bg-slate-800'
-            }`}
-          >
-            <div className="flex items-center gap-2.5">
-              <LayoutDashboardIcon />
-              <span>Dashboard</span>
-            </div>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('products')}
-            className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-medium transition-colors ${
-              activeTab === 'products'
-                ? 'bg-sky-600 text-white font-semibold shadow-sm'
-                : 'text-slate-400 hover:text-white hover:bg-slate-800'
-            }`}
-          >
-            <div className="flex items-center gap-2.5">
-              <ShoppingBagIcon />
-              <span>Gift Products</span>
-            </div>
-            <span className="px-1.5 py-0.2 rounded text-[10px] bg-slate-800 text-slate-300">
-              {products.length}
-            </span>
-          </button>
+        <nav className="p-3 space-y-1.5 flex-1">
+          {isAdmin && (
+            <button
+              onClick={() => setActiveTab('dashboard')}
+              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-[3px] text-xs font-medium transition-colors ${
+                activeTab === 'dashboard'
+                  ? 'bg-burgundy text-gold-200 font-semibold border border-gold-500/40 shadow-sm'
+                  : 'text-parchment/65 hover:text-parchment hover:bg-white/[0.05]'
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <LayoutDashboardIcon />
+                <span>Dashboard</span>
+              </div>
+            </button>
+          )}
 
           <button
             onClick={() => setActiveTab('orders')}
-            className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-medium transition-colors ${
+            className={`w-full flex items-center justify-between px-3 py-2.5 rounded-[3px] text-xs font-medium transition-colors ${
               activeTab === 'orders'
-                ? 'bg-sky-600 text-white font-semibold shadow-sm'
-                : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                ? 'bg-burgundy text-gold-200 font-semibold border border-gold-500/40 shadow-sm'
+                : 'text-parchment/65 hover:text-parchment hover:bg-white/[0.05]'
             }`}
           >
             <div className="flex items-center gap-2.5">
@@ -331,49 +340,97 @@ export function AdminApp() {
               <span>Orders & Parcels</span>
             </div>
             {pendingCount > 0 && (
-              <span className="px-1.5 py-0.5 rounded-full text-[10px] bg-amber-500 text-slate-950 font-bold">
+              <span className="px-1.5 py-0.5 rounded-full text-[10px] bg-gold-400 text-ink-deep font-bold">
                 {pendingCount}
               </span>
             )}
           </button>
 
           <button
-            onClick={() => setActiveTab('customers')}
-            className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-medium transition-colors ${
-              activeTab === 'customers'
-                ? 'bg-sky-600 text-white font-semibold shadow-sm'
-                : 'text-slate-400 hover:text-white hover:bg-slate-800'
+            onClick={() => setActiveTab('products')}
+            className={`w-full flex items-center justify-between px-3 py-2.5 rounded-[3px] text-xs font-medium transition-colors ${
+              activeTab === 'products'
+                ? 'bg-burgundy text-gold-200 font-semibold border border-gold-500/40 shadow-sm'
+                : 'text-parchment/65 hover:text-parchment hover:bg-white/[0.05]'
             }`}
           >
             <div className="flex items-center gap-2.5">
-              <UsersIcon />
-              <span>Customers</span>
+              <ShoppingBagIcon />
+              <span>Gift Products</span>
             </div>
-            <span className="px-1.5 py-0.2 rounded text-[10px] bg-slate-800 text-slate-300">
-              {customers.length}
+            <span className="px-1.5 py-0.5 rounded-[2px] text-[10px] bg-black/30 text-gold-300 border border-gold-500/20">
+              {products.length}
             </span>
           </button>
 
-          <button
-            onClick={() => setActiveTab('settings')}
-            className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-medium transition-colors ${
-              activeTab === 'settings'
-                ? 'bg-sky-600 text-white font-semibold shadow-sm'
-                : 'text-slate-400 hover:text-white hover:bg-slate-800'
-            }`}
-          >
-            <div className="flex items-center gap-2.5">
-              <SettingsIcon />
-              <span>Store Settings</span>
-            </div>
-          </button>
+          {isAdmin && (
+            <>
+              <button
+                onClick={() => setActiveTab('customers')}
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-[3px] text-xs font-medium transition-colors ${
+                  activeTab === 'customers'
+                    ? 'bg-burgundy text-gold-200 font-semibold border border-gold-500/40 shadow-sm'
+                    : 'text-parchment/65 hover:text-parchment hover:bg-white/[0.05]'
+                }`}
+              >
+                <div className="flex items-center gap-2.5">
+                  <UsersIcon />
+                  <span>Customers</span>
+                </div>
+                <span className="px-1.5 py-0.5 rounded-[2px] text-[10px] bg-black/30 text-gold-300 border border-gold-500/20">
+                  {customers.length}
+                </span>
+              </button>
+
+              <button
+                onClick={() => setActiveTab('employees')}
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-[3px] text-xs font-medium transition-colors ${
+                  activeTab === 'employees'
+                    ? 'bg-burgundy text-gold-200 font-semibold border border-gold-500/40 shadow-sm'
+                    : 'text-parchment/65 hover:text-parchment hover:bg-white/[0.05]'
+                }`}
+              >
+                <div className="flex items-center gap-2.5">
+                  <UsersIcon />
+                  <span>Team & Employees</span>
+                </div>
+              </button>
+
+              <button
+                onClick={() => setActiveTab('settings')}
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-[3px] text-xs font-medium transition-colors ${
+                  activeTab === 'settings'
+                    ? 'bg-burgundy text-gold-200 font-semibold border border-gold-500/40 shadow-sm'
+                    : 'text-parchment/65 hover:text-parchment hover:bg-white/[0.05]'
+                }`}
+              >
+                <div className="flex items-center gap-2.5">
+                  <SettingsIcon />
+                  <span>Store Settings</span>
+                </div>
+              </button>
+            </>
+          )}
         </nav>
 
         {/* Bottom Actions */}
-        <div className="p-3 border-t border-slate-800 space-y-1">
+        <div className="p-3 border-t border-parchment/10 space-y-1">
+          <button
+            onClick={() => {
+              setIsPasswordModalOpen(true);
+              setPwdMsg(null);
+              setCurrentPwd('');
+              setNewPwd('');
+            }}
+            className="w-full flex items-center gap-2 px-3 py-2 rounded-[3px] text-xs text-gold-300 hover:text-gold-200 hover:bg-white/[0.05] transition-colors"
+          >
+            <SettingsIcon />
+            <span>Change My Password</span>
+          </button>
+
           <a
             href="/"
-            className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+            className="w-full flex items-center gap-2 px-3 py-2 rounded-[3px] text-xs text-parchment/65 hover:text-parchment hover:bg-white/[0.05] transition-colors"
           >
             <ArrowLeftIcon />
             <span>Back to Storefront</span>
@@ -381,7 +438,7 @@ export function AdminApp() {
 
           <button
             onClick={handleLogout}
-            className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-rose-400 hover:text-rose-300 hover:bg-slate-800 transition-colors"
+            className="w-full flex items-center gap-2 px-3 py-2 rounded-[3px] text-xs text-crimson-300 hover:text-crimson-200 hover:bg-white/[0.05] transition-colors"
           >
             <LogOutIcon />
             <span>Sign Out</span>
@@ -392,24 +449,24 @@ export function AdminApp() {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
         {/* Top Navbar */}
-        <header className="bg-white border-b border-slate-200 px-6 py-3.5 flex items-center justify-between sticky top-0 z-30 shadow-sm">
+        <header className="bg-parchment-light border-b border-parchment-line px-6 py-3.5 flex items-center justify-between sticky top-0 z-30 shadow-sm">
           <div className="flex items-center gap-2">
-            <span className="text-slate-400 text-xs capitalize">Admin /</span>
-            <h1 className="text-sm font-bold text-slate-900 capitalize tracking-tight">
+            <span className="text-clay text-xs uppercase tracking-[0.16em]">Admin /</span>
+            <h1 className="font-display text-base font-semibold text-espresso capitalize tracking-tight">
               {activeTab}
             </h1>
           </div>
 
           <div className="flex items-center gap-3">
             <div className="text-right">
-              <span className="text-xs font-bold text-slate-800 block leading-tight">
+              <span className="text-xs font-bold text-espresso block leading-tight">
                 {user.name}
               </span>
-              <span className="text-[10px] text-sky-600 font-medium block">
+              <span className="text-[10px] text-gold-700 font-medium block">
                 {user.email}
               </span>
             </div>
-            <div className="w-8 h-8 rounded-full bg-sky-100 text-sky-700 font-bold flex items-center justify-center text-xs border border-sky-200">
+            <div className="w-8 h-8 rounded-full bg-ink text-gold-200 font-display font-bold flex items-center justify-center text-xs border border-gold-500/40">
               {user.name.charAt(0)}
             </div>
           </div>
@@ -417,7 +474,7 @@ export function AdminApp() {
 
         {/* Tab View Container */}
         <main className="p-6 flex-1">
-          {activeTab === 'dashboard' && (
+          {activeTab === 'dashboard' && isAdmin && (
             <DashboardView
               products={products}
               orders={orders}
@@ -440,6 +497,7 @@ export function AdminApp() {
               onDeleteProduct={handleDeleteProduct}
               isAddModalOpen={isAddModalOpen}
               setIsAddModalOpen={setIsAddModalOpen}
+              canDelete={isAdmin}
             />
           )}
 
@@ -453,11 +511,15 @@ export function AdminApp() {
             />
           )}
 
-          {activeTab === 'customers' && (
+          {activeTab === 'customers' && isAdmin && (
             <CustomersView customers={customers} />
           )}
 
-          {activeTab === 'settings' && (
+          {activeTab === 'employees' && isAdmin && (
+            <EmployeesView currentUserId={user.id} />
+          )}
+
+          {activeTab === 'settings' && isAdmin && (
             <SettingsView
               settings={settings}
               onSaveSettings={handleSaveSettings}
@@ -466,6 +528,101 @@ export function AdminApp() {
           )}
         </main>
       </div>
+
+      {/* Change Own Password Modal (Available to both Admin & Employee) */}
+      {isPasswordModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink-deep/65 backdrop-blur-sm">
+          <div className="bg-parchment-light rounded-[4px] shadow-2xl border border-parchment-line w-full max-w-sm p-6 space-y-4">
+            <div className="flex items-center justify-between border-b border-parchment-line pb-3">
+              <div>
+                <h3 className="font-display text-lg font-semibold text-espresso">Change My Password</h3>
+                <p className="text-[11px] text-clay">{user.email}</p>
+              </div>
+              <button
+                onClick={() => setIsPasswordModalOpen(false)}
+                className="p-1 rounded-[3px] text-clay hover:text-espresso hover:bg-parchment-deep text-xs"
+              >
+                ✕
+              </button>
+            </div>
+
+            {pwdMsg && (
+              <div
+                className={`p-3 text-xs rounded-[3px] border ${
+                  pwdMsg.type === 'ok'
+                    ? 'bg-gold-50 border-gold-500/50 text-espresso'
+                    : 'bg-crimson-50 border-crimson-300 text-crimson-700'
+                }`}
+              >
+                {pwdMsg.text}
+              </div>
+            )}
+
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+                setPwdSaving(true);
+                setPwdMsg(null);
+                try {
+                  await changePasswordApi(currentPwd, newPwd);
+                  setPwdMsg({ type: 'ok', text: 'Password updated successfully!' });
+                  setCurrentPwd('');
+                  setNewPwd('');
+                } catch (err: unknown) {
+                  setPwdMsg({
+                    type: 'err',
+                    text: err instanceof Error ? err.message : 'Failed to change password',
+                  });
+                } finally {
+                  setPwdSaving(false);
+                }
+              }}
+              className="space-y-3.5 text-xs"
+            >
+              <div className="space-y-1">
+                <label className="block font-semibold text-espresso">Current Password *</label>
+                <input
+                  type="password"
+                  required
+                  minLength={6}
+                  value={currentPwd}
+                  onChange={(e) => setCurrentPwd(e.target.value)}
+                  className="w-full px-3 py-2 bg-parchment-50 border border-parchment-border rounded-[3px] text-espresso focus:outline-none focus:border-gold-600"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="block font-semibold text-espresso">New Password (Min 6 chars) *</label>
+                <input
+                  type="password"
+                  required
+                  minLength={6}
+                  value={newPwd}
+                  onChange={(e) => setNewPwd(e.target.value)}
+                  className="w-full px-3 py-2 bg-parchment-50 border border-parchment-border rounded-[3px] text-espresso focus:outline-none focus:border-gold-600"
+                />
+              </div>
+
+              <div className="flex justify-end gap-2 pt-2 border-t border-parchment-line">
+                <button
+                  type="button"
+                  onClick={() => setIsPasswordModalOpen(false)}
+                  className="px-4 py-2 text-clay hover:text-espresso rounded-[3px]"
+                >
+                  Close
+                </button>
+                <button
+                  type="submit"
+                  disabled={pwdSaving}
+                  className="px-4 py-2 bg-ink hover:bg-burgundy-dark text-parchment border border-gold-500/40 rounded-[3px] font-semibold disabled:opacity-60"
+                >
+                  {pwdSaving ? 'Updating...' : 'Update Password'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

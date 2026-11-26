@@ -71,17 +71,144 @@ export async function fetchProductBySlug(slug: string) {
   }
 }
 
+export function getStoredAuthToken(): string | null {
+  if (typeof window === 'undefined') return null;
+  return (
+    localStorage.getItem('meghpiyon_admin_token') ||
+    localStorage.getItem('meghpiyon_auth_token')
+  );
+}
+
+function getAuthHeaders(includeContentType: boolean = true): Record<string, string> {
+  const headers: Record<string, string> = {};
+  if (includeContentType) {
+    headers['Content-Type'] = 'application/json';
+  }
+  const token = getStoredAuthToken();
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+  return headers;
+}
+
+export async function loginApi(emailOrPhone: string, password: string) {
+  const url = getApiUrl('/auth/login');
+  const res = await fetch(url.toString(), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ emailOrPhone, password }),
+  });
+  const json = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    throw new Error(json?.error?.message || json?.message || `Login failed (${res.status})`);
+  }
+  return json.data;
+}
+
+export async function registerApi(payload: {
+  name: string;
+  email: string;
+  phone: string;
+  password: string;
+  confirmPassword: string;
+}) {
+  const url = getApiUrl('/auth/register');
+  const res = await fetch(url.toString(), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+  const json = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    throw new Error(json?.error?.message || json?.message || `Registration failed (${res.status})`);
+  }
+  return json.data;
+}
+
+export async function fetchStaffApi() {
+  const url = getApiUrl('/auth/staff');
+  const res = await fetch(url.toString(), {
+    headers: getAuthHeaders(false),
+  });
+  const json = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    throw new Error(json?.error?.message || json?.message || `Failed to load staff (${res.status})`);
+  }
+  return json.data || [];
+}
+
+export async function createStaffApi(payload: {
+  name: string;
+  email: string;
+  phone: string;
+  password: string;
+  role: 'employee' | 'moderator' | 'admin';
+}) {
+  const url = getApiUrl('/auth/staff');
+  const res = await fetch(url.toString(), {
+    method: 'POST',
+    headers: getAuthHeaders(true),
+    body: JSON.stringify(payload),
+  });
+  const json = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    throw new Error(json?.error?.message || json?.message || `Failed to create staff (${res.status})`);
+  }
+  return json.data;
+}
+
+export async function deleteStaffApi(id: string) {
+  const url = getApiUrl(`/auth/staff/${id}`);
+  const res = await fetch(url.toString(), {
+    method: 'DELETE',
+    headers: getAuthHeaders(false),
+  });
+  const json = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    throw new Error(json?.error?.message || json?.message || `Failed to remove staff (${res.status})`);
+  }
+  return json.data;
+}
+
+export async function changePasswordApi(currentPassword: string, newPassword: string) {
+  const url = getApiUrl('/auth/change-password');
+  const res = await fetch(url.toString(), {
+    method: 'POST',
+    headers: getAuthHeaders(true),
+    body: JSON.stringify({ currentPassword, newPassword }),
+  });
+  const json = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    throw new Error(json?.error?.message || json?.message || `Failed to change password (${res.status})`);
+  }
+  return json.data;
+}
+
+export async function resetStaffPasswordApi(id: string, newPassword: string) {
+  const url = getApiUrl(`/auth/staff/${id}/password`);
+  const res = await fetch(url.toString(), {
+    method: 'PATCH',
+    headers: getAuthHeaders(true),
+    body: JSON.stringify({ newPassword }),
+  });
+  const json = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    throw new Error(json?.error?.message || json?.message || `Failed to reset staff password (${res.status})`);
+  }
+  return json.data;
+}
+
 export async function createProductApi(productPayload: any) {
   try {
     const url = getApiUrl('/products');
     const res = await fetch(url.toString(), {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getAuthHeaders(true),
       body: JSON.stringify(productPayload),
     });
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
-      throw new Error(err.message || `Failed to create product: ${res.status}`);
+      throw new Error(err?.error?.message || err.message || `Failed to create product: ${res.status}`);
     }
     const data = await res.json();
     return data.data;
@@ -96,12 +223,12 @@ export async function updateProductApi(id: string, productPayload: any) {
     const url = getApiUrl(`/products/${id}`);
     const res = await fetch(url.toString(), {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getAuthHeaders(true),
       body: JSON.stringify(productPayload),
     });
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
-      throw new Error(err.message || `Failed to update product: ${res.status}`);
+      throw new Error(err?.error?.message || err.message || `Failed to update product: ${res.status}`);
     }
     const data = await res.json();
     return data.data;
@@ -116,10 +243,11 @@ export async function deleteProductApi(id: string) {
     const url = getApiUrl(`/products/${id}`);
     const res = await fetch(url.toString(), {
       method: 'DELETE',
+      headers: getAuthHeaders(false),
     });
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
-      throw new Error(err.message || `Failed to delete product: ${res.status}`);
+      throw new Error(err?.error?.message || err.message || `Failed to delete product: ${res.status}`);
     }
     const data = await res.json();
     return data.data;
@@ -167,7 +295,9 @@ export async function trackOrderApi(orderNumber: string) {
 export async function fetchOrdersApi() {
   try {
     const url = getApiUrl('/orders');
-    const res = await fetch(url.toString());
+    const res = await fetch(url.toString(), {
+      headers: getAuthHeaders(false),
+    });
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
     const data = await res.json();
     return data.data || [];
@@ -182,12 +312,12 @@ export async function updateOrderStatusApi(id: string, payload: { orderStatus?: 
     const url = getApiUrl(`/orders/${id}/status`);
     const res = await fetch(url.toString(), {
       method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getAuthHeaders(true),
       body: JSON.stringify(payload),
     });
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
-      throw new Error(err.message || `Failed to update order: ${res.status}`);
+      throw new Error(err?.error?.message || err.message || `Failed to update order: ${res.status}`);
     }
     const data = await res.json();
     return data.data;

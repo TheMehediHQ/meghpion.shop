@@ -51,4 +51,4 @@ export const PAYMENT_METHODS = [
     'nagad',
     'card',
 ];
-export const USER_ROLES = ['customer', 'admin', 'moderator'];
+export const USER_ROLES = ['customer', 'employee', 'admin', 'moderator'];

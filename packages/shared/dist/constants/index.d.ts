@@ -47,5 +47,5 @@ export declare const BD_DIVISIONS: readonly ["Dhaka", "Chattogram", "Rajshahi", 
 export declare const ORDER_STATUSES: readonly ["pending", "confirmed", "processing", "shipped", "out_for_delivery", "delivered", "cancelled"];
 export declare const PAYMENT_STATUSES: readonly ["pending", "paid", "failed", "refunded"];
 export declare const PAYMENT_METHODS: readonly ["cod", "bkash", "nagad", "card"];
-export declare const USER_ROLES: readonly ["customer", "admin", "moderator"];
+export declare const USER_ROLES: readonly ["customer", "employee", "admin", "moderator"];
 //# sourceMappingURL=index.d.ts.map

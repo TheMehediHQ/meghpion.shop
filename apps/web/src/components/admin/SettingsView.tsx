@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import type { StoreSettings } from './mockData';
-import { setStoredData } from './mockData';
 import { CheckCircleIcon } from './icons';
 
 interface SettingsViewProps {
@@ -23,67 +22,67 @@ export function SettingsView({ settings, onSaveSettings, onResetData }: Settings
   return (
     <div className="space-y-6 max-w-4xl">
       <div>
-        <h2 className="text-xl font-bold text-slate-900">Store Settings & Delivery Rates</h2>
-        <p className="text-xs text-slate-500">
+        <h2 className="font-display text-2xl font-semibold text-espresso">Store Settings & Delivery Rates</h2>
+        <p className="text-xs text-clay mt-0.5">
           Configure Meghpeon delivery rates, support contacts, and store policies
         </p>
       </div>
 
       {savedSuccess && (
-        <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-800 flex items-center gap-2">
+        <div className="p-3 bg-gold-50 border border-gold-500/50 rounded-[3px] text-xs text-espresso flex items-center gap-2">
           <CheckCircleIcon /> Settings saved successfully!
         </div>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-6 text-xs">
         {/* Contact Info Card */}
-        <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-4">
-          <h3 className="text-sm font-bold text-slate-900 border-b border-slate-100 pb-2">
+        <div className="bg-parchment-light border border-parchment-line rounded-[4px] p-6 shadow-sm space-y-4">
+          <h3 className="font-display text-base font-semibold text-espresso border-b border-parchment-line pb-2">
             Store Identity & Customer Support
           </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1">
-              <label className="block font-semibold text-slate-700">Store Display Name</label>
+              <label className="block font-semibold text-espresso">Store Display Name</label>
               <input
                 type="text"
                 value={formData.storeName}
                 onChange={(e) => setFormData({ ...formData, storeName: e.target.value })}
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-sky-600"
+                className="w-full px-3 py-2 bg-parchment-50 border border-parchment-border rounded-[3px] text-espresso focus:outline-none focus:border-gold-600 focus:ring-1 focus:ring-gold-500/40"
               />
             </div>
 
             <div className="space-y-1">
-              <label className="block font-semibold text-slate-700">Support Hotline Phone</label>
+              <label className="block font-semibold text-espresso">Support Hotline Phone</label>
               <input
                 type="text"
                 value={formData.supportPhone}
                 onChange={(e) => setFormData({ ...formData, supportPhone: e.target.value })}
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-sky-600"
+                className="w-full px-3 py-2 bg-parchment-50 border border-parchment-border rounded-[3px] text-espresso focus:outline-none focus:border-gold-600 focus:ring-1 focus:ring-gold-500/40"
               />
             </div>
 
             <div className="space-y-1 sm:col-span-2">
-              <label className="block font-semibold text-slate-700">Support Email</label>
+              <label className="block font-semibold text-espresso">Support Email</label>
               <input
                 type="email"
                 value={formData.supportEmail}
                 onChange={(e) => setFormData({ ...formData, supportEmail: e.target.value })}
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-sky-600"
+                className="w-full px-3 py-2 bg-parchment-50 border border-parchment-border rounded-[3px] text-espresso focus:outline-none focus:border-gold-600 focus:ring-1 focus:ring-gold-500/40"
               />
             </div>
           </div>
         </div>
 
         {/* Delivery Charges Card */}
-        <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-4">
-          <h3 className="text-sm font-bold text-slate-900 border-b border-slate-100 pb-2">
+        <div className="bg-parchment-light border border-parchment-line rounded-[4px] p-6 shadow-sm space-y-4">
+          <h3 className="font-display text-base font-semibold text-espresso border-b border-parchment-line pb-2">
             Bangladesh Shipping & Delivery Rates (BDT ৳)
           </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1">
-              <label className="block font-semibold text-slate-700">
+              <label className="block font-semibold text-espresso">
                 Inside Dhaka Delivery Fee (৳)
               </label>
               <input
@@ -93,12 +92,12 @@ export function SettingsView({ settings, onSaveSettings, onResetData }: Settings
                 onChange={(e) =>
                   setFormData({ ...formData, deliveryFeeDhaka: Number(e.target.value) })
                 }
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-sky-600"
+                className="w-full px-3 py-2 bg-parchment-50 border border-parchment-border rounded-[3px] text-espresso focus:outline-none focus:border-gold-600 focus:ring-1 focus:ring-gold-500/40"
               />
             </div>
 
             <div className="space-y-1">
-              <label className="block font-semibold text-slate-700">
+              <label className="block font-semibold text-espresso">
                 Outside Dhaka Delivery Fee (৳)
               </label>
               <input
@@ -108,12 +107,12 @@ export function SettingsView({ settings, onSaveSettings, onResetData }: Settings
                 onChange={(e) =>
                   setFormData({ ...formData, deliveryFeeOutside: Number(e.target.value) })
                 }
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-sky-600"
+                className="w-full px-3 py-2 bg-parchment-50 border border-parchment-border rounded-[3px] text-espresso focus:outline-none focus:border-gold-600 focus:ring-1 focus:ring-gold-500/40"
               />
             </div>
 
             <div className="space-y-1">
-              <label className="block font-semibold text-slate-700">
+              <label className="block font-semibold text-espresso">
                 Free Delivery Above Order Value (৳)
               </label>
               <input
@@ -123,12 +122,12 @@ export function SettingsView({ settings, onSaveSettings, onResetData }: Settings
                 onChange={(e) =>
                   setFormData({ ...formData, freeDeliveryThreshold: Number(e.target.value) })
                 }
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-sky-600"
+                className="w-full px-3 py-2 bg-parchment-50 border border-parchment-border rounded-[3px] text-espresso focus:outline-none focus:border-gold-600 focus:ring-1 focus:ring-gold-500/40"
               />
             </div>
 
             <div className="space-y-1">
-              <label className="block font-semibold text-slate-700">
+              <label className="block font-semibold text-espresso">
                 Luxury Gift Wrapping Service Fee (৳)
               </label>
               <input
@@ -138,7 +137,7 @@ export function SettingsView({ settings, onSaveSettings, onResetData }: Settings
                 onChange={(e) =>
                   setFormData({ ...formData, giftWrapFee: Number(e.target.value) })
                 }
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-sky-600"
+                className="w-full px-3 py-2 bg-parchment-50 border border-parchment-border rounded-[3px] text-espresso focus:outline-none focus:border-gold-600 focus:ring-1 focus:ring-gold-500/40"
               />
             </div>
           </div>
@@ -147,7 +146,7 @@ export function SettingsView({ settings, onSaveSettings, onResetData }: Settings
         <div className="flex justify-end">
           <button
             type="submit"
-            className="px-6 py-2.5 bg-sky-600 hover:bg-sky-700 text-white rounded-lg font-semibold shadow-sm text-xs"
+            className="px-6 py-2.5 bg-ink hover:bg-burgundy-dark text-parchment border border-gold-500/40 rounded-[3px] font-semibold shadow-sm text-xs transition-colors"
           >
             Save Store Settings
           </button>
@@ -155,9 +154,9 @@ export function SettingsView({ settings, onSaveSettings, onResetData }: Settings
       </form>
 
       {/* Danger Zone / Demo Data Reset */}
-      <div className="bg-white border border-rose-200 rounded-xl p-6 shadow-sm space-y-3">
-        <h3 className="text-sm font-bold text-rose-800">Demo Data Reset</h3>
-        <p className="text-xs text-slate-500">
+      <div className="bg-parchment-light border border-crimson-300 rounded-[4px] p-6 shadow-sm space-y-3">
+        <h3 className="font-display text-base font-semibold text-crimson-700">Demo Data Reset</h3>
+        <p className="text-xs text-clay">
           Reset all products, orders, and customer demo data back to default sample records.
         </p>
         <button
@@ -166,7 +165,7 @@ export function SettingsView({ settings, onSaveSettings, onResetData }: Settings
               onResetData();
             }
           }}
-          className="px-4 py-2 border border-rose-300 text-rose-700 hover:bg-rose-50 rounded-lg text-xs font-semibold"
+          className="px-4 py-2 border border-crimson-300 text-crimson-700 hover:bg-crimson-50 rounded-[3px] text-xs font-semibold transition-colors"
         >
           Reset Demo Database
         </button>

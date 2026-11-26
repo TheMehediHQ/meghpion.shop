@@ -9,6 +9,7 @@ interface ProductsViewProps {
   onDeleteProduct: (productId: string) => void;
   isAddModalOpen: boolean;
   setIsAddModalOpen: (open: boolean) => void;
+  canDelete?: boolean;
 }
 
 export function ProductsView({
@@ -17,6 +18,7 @@ export function ProductsView({
   onDeleteProduct,
   isAddModalOpen,
   setIsAddModalOpen,
+  canDelete = true,
 }: ProductsViewProps) {
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -136,23 +138,23 @@ export function ProductsView({
       {/* Top Header & Actions */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold text-slate-900">Product Management</h2>
-          <p className="text-xs text-slate-500">
+          <h2 className="font-display text-2xl font-semibold text-espresso">Product Management</h2>
+          <p className="text-xs text-clay mt-0.5">
             Create, update stock, and curate gift items for the Meghpeon shop
           </p>
         </div>
         <button
           onClick={openAddModal}
-          className="inline-flex items-center gap-2 px-4 py-2.5 bg-sky-600 hover:bg-sky-700 text-white rounded-lg text-xs font-semibold shadow-sm transition-colors"
+          className="inline-flex items-center gap-2 px-4 py-2.5 bg-ink hover:bg-burgundy-dark text-parchment border border-gold-500/40 rounded-[3px] text-xs font-semibold shadow-sm transition-colors"
         >
           <PlusIcon /> Add New Product
         </button>
       </div>
 
       {/* Filters Bar */}
-      <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex flex-col md:flex-row items-center gap-3">
+      <div className="bg-parchment-light border border-parchment-line rounded-[4px] p-4 shadow-sm flex flex-col md:flex-row items-center gap-3">
         <div className="relative flex-1 w-full">
-          <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+          <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-clay">
             <SearchIcon />
           </span>
           <input
@@ -160,7 +162,7 @@ export function ProductsView({
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search products by title, Bengali name, or slug..."
-            className="w-full pl-9 pr-4 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-sky-600 focus:bg-white"
+            className="w-full pl-9 pr-4 py-2 text-xs bg-parchment-50 border border-parchment-border rounded-[3px] text-espresso placeholder:text-clay-light focus:outline-none focus:border-gold-600 focus:ring-1 focus:ring-gold-500/40"
           />
         </div>
 
@@ -168,7 +170,7 @@ export function ProductsView({
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="py-2 px-3 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-sky-600"
+            className="py-2 px-3 text-xs bg-parchment-50 border border-parchment-border rounded-[3px] text-espresso focus:outline-none focus:border-gold-600"
           >
             <option value="all">All Categories</option>
             {PRODUCT_CATEGORIES.map((cat) => (
@@ -181,7 +183,7 @@ export function ProductsView({
           <select
             value={stockFilter}
             onChange={(e) => setStockFilter(e.target.value)}
-            className="py-2 px-3 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:border-sky-600"
+            className="py-2 px-3 text-xs bg-parchment-50 border border-parchment-border rounded-[3px] text-espresso focus:outline-none focus:border-gold-600"
           >
             <option value="all">All Stock Status</option>
             <option value="in">In Stock</option>
@@ -192,10 +194,10 @@ export function ProductsView({
       </div>
 
       {/* Products Table */}
-      <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+      <div className="bg-parchment-light border border-parchment-line rounded-[4px] shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-slate-50 text-slate-500 border-b border-slate-200 uppercase tracking-wider font-semibold text-[11px]">
+            <thead className="bg-parchment-deep/70 text-espresso border-b border-parchment-line uppercase tracking-wider font-semibold text-[11px]">
               <tr>
                 <th className="py-3 px-4">Product</th>
                 <th className="py-3 px-4">Category</th>
@@ -206,39 +208,39 @@ export function ProductsView({
                 <th className="py-3 px-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-parchment-line/70">
               {filteredProducts.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="py-8 text-center text-slate-400">
+                  <td colSpan={7} className="py-8 text-center text-clay">
                     No products found matching your search and filter criteria.
                   </td>
                 </tr>
               ) : (
                 filteredProducts.map((prod) => (
-                  <tr key={prod.id} className="hover:bg-slate-50/70">
+                  <tr key={prod.id} className="hover:bg-parchment-deep/30 transition-colors">
                     <td className="py-3 px-4">
                       <div className="flex items-center gap-3">
                         <img
                           src={prod.image}
                           alt={prod.name}
-                          className="w-12 h-12 rounded-lg object-cover border border-slate-200 flex-shrink-0"
+                          className="w-12 h-12 rounded-[3px] object-cover border border-parchment-line flex-shrink-0"
                         />
                         <div>
-                          <p className="font-semibold text-slate-900 text-sm">{prod.name}</p>
-                          <p className="text-xs text-slate-500 font-bengali">{prod.nameBn}</p>
-                          <span className="text-[10px] text-slate-400 font-mono">slug: {prod.slug}</span>
+                          <p className="font-semibold text-espresso text-sm">{prod.name}</p>
+                          <p className="text-xs text-clay font-bengali">{prod.nameBn}</p>
+                          <span className="text-[10px] text-clay-light font-mono">slug: {prod.slug}</span>
                         </div>
                       </div>
                     </td>
-                    <td className="py-3 px-4 text-slate-600">
-                      <span className="px-2 py-0.5 rounded bg-sky-50 text-sky-700 font-medium">
+                    <td className="py-3 px-4 text-espresso">
+                      <span className="px-2 py-0.5 rounded-[2px] bg-parchment-deep text-burgundy border border-parchment-border font-medium">
                         {prod.category}
                       </span>
                     </td>
                     <td className="py-3 px-4">
-                      <div className="font-semibold text-slate-900">৳ {prod.price}</div>
+                      <div className="font-semibold text-espresso">৳ {prod.price}</div>
                       {prod.discountPrice && (
-                        <div className="text-[10px] text-emerald-600 font-medium">
+                        <div className="text-[10px] text-emerald-700 font-medium">
                           Disc: ৳ {prod.discountPrice}
                         </div>
                       )}
@@ -247,10 +249,10 @@ export function ProductsView({
                       <span
                         className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
                           prod.stock === 0
-                            ? 'bg-rose-100 text-rose-700'
+                            ? 'bg-crimson-100 text-crimson-700'
                             : prod.stock <= 5
-                            ? 'bg-amber-100 text-amber-700'
-                            : 'bg-emerald-100 text-emerald-700'
+                            ? 'bg-gold-100 text-gold-800'
+                            : 'bg-emerald-100 text-emerald-800'
                         }`}
                       >
                         {prod.stock} units
@@ -261,10 +263,10 @@ export function ProductsView({
                         onClick={() =>
                           onSaveProduct({ ...prod, isFeatured: !prod.isFeatured })
                         }
-                        className={`px-2 py-0.5 rounded text-[10px] font-medium border ${
+                        className={`px-2 py-0.5 rounded-[2px] text-[10px] font-medium border ${
                           prod.isFeatured
-                            ? 'bg-amber-50 text-amber-700 border-amber-200'
-                            : 'bg-slate-50 text-slate-500 border-slate-200'
+                            ? 'bg-gold-100 text-gold-800 border-gold-400/50'
+                            : 'bg-parchment-50 text-clay border-parchment-border'
                         }`}
                       >
                         {prod.isFeatured ? '★ Featured' : 'Standard'}
@@ -275,10 +277,10 @@ export function ProductsView({
                         onClick={() =>
                           onSaveProduct({ ...prod, isAvailable: !prod.isAvailable })
                         }
-                        className={`px-2 py-0.5 rounded text-[10px] font-medium border ${
+                        className={`px-2 py-0.5 rounded-[2px] text-[10px] font-medium border ${
                           prod.isAvailable
                             ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-                            : 'bg-slate-100 text-slate-500 border-slate-200'
+                            : 'bg-parchment-deep text-clay border-parchment-border'
                         }`}
                       >
                         {prod.isAvailable ? 'Active' : 'Disabled'}
@@ -289,21 +291,23 @@ export function ProductsView({
                         <button
                           onClick={() => openEditModal(prod)}
                           title="Edit Product"
-                          className="p-1.5 rounded hover:bg-slate-100 text-slate-600 hover:text-sky-600"
+                          className="p-1.5 rounded-[3px] hover:bg-parchment-deep text-clay hover:text-burgundy transition-colors"
                         >
                           <EditIcon />
                         </button>
-                        <button
-                          onClick={() => {
-                            if (confirm(`Are you sure you want to delete "${prod.name}"?`)) {
-                              onDeleteProduct(prod.id);
-                            }
-                          }}
-                          title="Delete Product"
-                          className="p-1.5 rounded hover:bg-rose-50 text-slate-400 hover:text-rose-600"
-                        >
-                          <TrashIcon />
-                        </button>
+                        {canDelete && (
+                          <button
+                            onClick={() => {
+                              if (confirm(`Are you sure you want to delete "${prod.name}"?`)) {
+                                onDeleteProduct(prod.id);
+                              }
+                            }}
+                            title="Delete Product"
+                            className="p-1.5 rounded-[3px] hover:bg-crimson-50 text-clay hover:text-crimson-700 transition-colors"
+                          >
+                            <TrashIcon />
+                          </button>
+                        )}
                       </div>
                     </td>
                   </tr>
@@ -316,15 +320,15 @@ export function ProductsView({
 
       {/* Add / Edit Product Modal */}
       {isAddModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm overflow-y-auto">
-          <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-2xl my-8 p-6 space-y-5">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-              <h3 className="text-base font-bold text-slate-900">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink-deep/65 backdrop-blur-sm overflow-y-auto">
+          <div className="bg-parchment-light rounded-[4px] shadow-2xl border border-parchment-line w-full max-w-2xl my-8 p-6 space-y-5">
+            <div className="flex items-center justify-between border-b border-parchment-line pb-3">
+              <h3 className="font-display text-lg font-semibold text-espresso">
                 {editingProduct ? 'Edit Gift Item' : 'Add New Gift Product'}
               </h3>
               <button
                 onClick={closeModal}
-                className="p-1 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100"
+                className="p-1 rounded-[3px] text-clay hover:text-espresso hover:bg-parchment-deep"
               >
                 <CloseIcon />
               </button>
@@ -333,7 +337,7 @@ export function ProductsView({
             <form onSubmit={handleSubmit} className="space-y-4 text-xs">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <label className="block font-semibold text-slate-700">
+                  <label className="block font-semibold text-espresso">
                     Product Title (English) *
                   </label>
                   <input
@@ -342,12 +346,12 @@ export function ProductsView({
                     value={formData.name || ''}
                     onChange={handleNameChange}
                     placeholder="e.g. Royal Silk Scarf & Candle Box"
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-sky-600"
+                    className="w-full px-3 py-2 bg-parchment-50 border border-parchment-border rounded-[3px] text-espresso focus:outline-none focus:border-gold-600 focus:ring-1 focus:ring-gold-500/40"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="block font-semibold text-slate-700">
+                  <label className="block font-semibold text-espresso">
                     Product Title (বাংলা)
                   </label>
                   <input
@@ -355,18 +359,18 @@ export function ProductsView({
                     value={formData.nameBn || ''}
                     onChange={(e) => setFormData({ ...formData, nameBn: e.target.value })}
                     placeholder="যেমন: রয়্যাল সিল্ক স্কার্ফ ও ক্যান্ডেল বক্স"
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-sky-600"
+                    className="w-full px-3 py-2 bg-parchment-50 border border-parchment-border rounded-[3px] text-espresso focus:outline-none focus:border-gold-600 focus:ring-1 focus:ring-gold-500/40"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="space-y-1">
-                  <label className="block font-semibold text-slate-700">Category *</label>
+                  <label className="block font-semibold text-espresso">Category *</label>
                   <select
                     value={formData.category}
                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-sky-600"
+                    className="w-full px-3 py-2 bg-parchment-50 border border-parchment-border rounded-[3px] text-espresso focus:outline-none focus:border-gold-600"
                   >
                     {PRODUCT_CATEGORIES.map((cat) => (
                       <option key={cat.id} value={cat.id}>
@@ -377,19 +381,19 @@ export function ProductsView({
                 </div>
 
                 <div className="space-y-1">
-                  <label className="block font-semibold text-slate-700">Price (BDT ৳) *</label>
+                  <label className="block font-semibold text-espresso">Price (BDT ৳) *</label>
                   <input
                     type="number"
                     required
                     min="1"
                     value={formData.price || ''}
                     onChange={(e) => setFormData({ ...formData, price: Number(e.target.value) })}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-sky-600"
+                    className="w-full px-3 py-2 bg-parchment-50 border border-parchment-border rounded-[3px] text-espresso focus:outline-none focus:border-gold-600 focus:ring-1 focus:ring-gold-500/40"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="block font-semibold text-slate-700">Discount Price (BDT)</label>
+                  <label className="block font-semibold text-espresso">Discount Price (BDT)</label>
                   <input
                     type="number"
                     min="0"
@@ -401,62 +405,62 @@ export function ProductsView({
                       })
                     }
                     placeholder="Optional"
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-sky-600"
+                    className="w-full px-3 py-2 bg-parchment-50 border border-parchment-border rounded-[3px] text-espresso focus:outline-none focus:border-gold-600 focus:ring-1 focus:ring-gold-500/40"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <label className="block font-semibold text-slate-700">Inventory Stock Quantity *</label>
+                  <label className="block font-semibold text-espresso">Inventory Stock Quantity *</label>
                   <input
                     type="number"
                     required
                     min="0"
                     value={formData.stock ?? 10}
                     onChange={(e) => setFormData({ ...formData, stock: Number(e.target.value) })}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-sky-600"
+                    className="w-full px-3 py-2 bg-parchment-50 border border-parchment-border rounded-[3px] text-espresso focus:outline-none focus:border-gold-600 focus:ring-1 focus:ring-gold-500/40"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="block font-semibold text-slate-700">Slug (URL)</label>
+                  <label className="block font-semibold text-espresso">Slug (URL)</label>
                   <input
                     type="text"
                     value={formData.slug || ''}
                     onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-sky-600"
+                    className="w-full px-3 py-2 bg-parchment-50 border border-parchment-border rounded-[3px] text-espresso focus:outline-none focus:border-gold-600 focus:ring-1 focus:ring-gold-500/40"
                   />
                 </div>
               </div>
 
               <div className="space-y-1">
-                <label className="block font-semibold text-slate-700">Image URL</label>
+                <label className="block font-semibold text-espresso">Image URL</label>
                 <div className="flex gap-2">
                   <input
                     type="url"
                     value={formData.image || ''}
                     onChange={(e) => setFormData({ ...formData, image: e.target.value })}
                     placeholder="https://images.unsplash.com/..."
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-sky-600"
+                    className="w-full px-3 py-2 bg-parchment-50 border border-parchment-border rounded-[3px] text-espresso focus:outline-none focus:border-gold-600 focus:ring-1 focus:ring-gold-500/40"
                   />
                   {formData.image && (
                     <img
                       src={formData.image}
                       alt="Preview"
-                      className="w-10 h-10 object-cover rounded-lg border border-slate-200 flex-shrink-0"
+                      className="w-10 h-10 object-cover rounded-[3px] border border-parchment-line flex-shrink-0"
                     />
                   )}
                 </div>
               </div>
 
               <div className="space-y-1">
-                <label className="block font-semibold text-slate-700">Description</label>
+                <label className="block font-semibold text-espresso">Description</label>
                 <textarea
                   rows={2}
                   value={formData.description || ''}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-sky-600"
+                  className="w-full px-3 py-2 bg-parchment-50 border border-parchment-border rounded-[3px] text-espresso focus:outline-none focus:border-gold-600 focus:ring-1 focus:ring-gold-500/40"
                   placeholder="Short description of this gift item..."
                 />
               </div>
@@ -468,9 +472,9 @@ export function ProductsView({
                     type="checkbox"
                     checked={formData.isAvailable}
                     onChange={(e) => setFormData({ ...formData, isAvailable: e.target.checked })}
-                    className="rounded text-sky-600 focus:ring-sky-500"
+                    className="rounded text-burgundy focus:ring-gold-500"
                   />
-                  <span className="text-slate-700 font-medium">Available for purchase</span>
+                  <span className="text-espresso font-medium">Available for purchase</span>
                 </label>
 
                 <label className="flex items-center gap-2 cursor-pointer">
@@ -478,9 +482,9 @@ export function ProductsView({
                     type="checkbox"
                     checked={formData.isFeatured}
                     onChange={(e) => setFormData({ ...formData, isFeatured: e.target.checked })}
-                    className="rounded text-sky-600 focus:ring-sky-500"
+                    className="rounded text-burgundy focus:ring-gold-500"
                   />
-                  <span className="text-slate-700 font-medium">Feature on Homepage</span>
+                  <span className="text-espresso font-medium">Feature on Homepage</span>
                 </label>
 
                 <label className="flex items-center gap-2 cursor-pointer">
@@ -490,23 +494,23 @@ export function ProductsView({
                     onChange={(e) =>
                       setFormData({ ...formData, giftWrapAvailable: e.target.checked })
                     }
-                    className="rounded text-sky-600 focus:ring-sky-500"
+                    className="rounded text-burgundy focus:ring-gold-500"
                   />
-                  <span className="text-slate-700 font-medium">Gift Wrap Available</span>
+                  <span className="text-espresso font-medium">Gift Wrap Available</span>
                 </label>
               </div>
 
-              <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-parchment-line">
                 <button
                   type="button"
                   onClick={closeModal}
-                  className="px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-lg font-medium"
+                  className="px-4 py-2 text-clay hover:text-espresso hover:bg-parchment-deep rounded-[3px] font-medium transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 bg-sky-600 hover:bg-sky-700 text-white rounded-lg font-semibold shadow-sm"
+                  className="px-5 py-2 bg-ink hover:bg-burgundy-dark text-parchment border border-gold-500/40 rounded-[3px] font-semibold shadow-sm transition-colors"
                 >
                   {editingProduct ? 'Update Product' : 'Save Product'}
                 </button>

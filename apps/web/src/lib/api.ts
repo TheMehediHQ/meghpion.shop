@@ -269,7 +269,12 @@ export async function submitOrder(orderPayload: any) {
     });
     if (!res.ok) {
       const errData = await res.json().catch(() => ({}));
-      throw new Error(errData.message || `Order creation failed: ${res.status}`);
+      const details = errData?.error?.details;
+      const detailMsg = Array.isArray(details)
+        ? details.map((d: any) => d.message || d.field).filter(Boolean).join(', ')
+        : '';
+      const baseMsg = errData?.error?.message || errData.message || `Order creation failed: ${res.status}`;
+      throw new Error(detailMsg ? `${baseMsg} (${detailMsg})` : baseMsg);
     }
     const data = await res.json();
     return data.data;

@@ -2,64 +2,41 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Container from '../components/ui/Container.astro';
 import { BRAND } from '@meghpiyon/shared';
-
-// Demo sample cart item
-const sampleCartItem = {
-  id: 'item-1',
-  name: 'Shonar Bangla Artisan Gift Box',
-  nameBn: 'সোনার বাংলা উপহার বক্স',
-  price: 2200,
-  quantity: 1,
-  giftWrap: true,
-  image: 'https://images.unsplash.com/photo-1543257580-7269da773bf5?w=200&auto=format&fit=crop&q=80',
-};
-
-const subtotal = sampleCartItem.price * sampleCartItem.quantity;
-const giftWrapFee = sampleCartItem.giftWrap ? 100 : 0;
-const deliveryFee = 80; // Dhaka delivery standard
-const total = subtotal + giftWrapFee + deliveryFee;
 ---
 
 <BaseLayout
   title={`Shopping Cart | ${BRAND.name}`}
   description="Review your selected gift items, add personalized notes, and proceed to checkout."
 >
-  <div class="py-12 bg-parchment-light">
+  <div class="py-12 bg-parchment-light min-h-[60vh]">
     <Container size="lg">
       <h1 class="section-title mb-8">
         Your Gift Cart
       </h1>
 
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+      <!-- Empty Cart State -->
+      <div id="emptyCartState" class="hidden border border-parchment-line bg-parchment rounded-[4px] p-10 text-center space-y-4">
+        <p class="text-3xl">🎁</p>
+        <h2 class="text-xl font-bold text-espresso font-bengali">আপনার গিফট ব্যাগটি এখন খালি</h2>
+        <p class="text-sm text-clay font-bengali max-w-md mx-auto">
+          আমাদের কালেকশন থেকে পছন্দের উপহার বেছে নিন অথবা নিজেই কাস্টম হ্যাম্পার সাজান।
+        </p>
+        <div class="pt-2 flex flex-wrap justify-center gap-3">
+          <a href="/shop" class="btn-primary px-6 py-2.5 text-sm font-bengali">
+            উপহার দেখুন
+          </a>
+          <a href="/build-gift" class="btn-outline-dark px-6 py-2.5 text-sm font-bengali">
+            নিজে হ্যাম্পার সাজান
+          </a>
+        </div>
+      </div>
+
+      <!-- Populated Cart Grid -->
+      <div id="cartGrid" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-12">
         <!-- Cart Items List -->
         <div class="lg:col-span-2 space-y-6">
-          <div class="border border-parchment-line rounded-[4px] overflow-hidden divide-y divide-parchment-line">
-            <div class="p-4 sm:p-6 flex flex-col sm:flex-row gap-4 sm:items-center">
-              <img
-                src={sampleCartItem.image}
-                alt={sampleCartItem.name}
-                class="w-20 h-20 object-cover rounded-[4px] bg-parchment-deep border border-parchment-line"
-              />
-
-              <div class="flex-1 space-y-1">
-                <h2 class="text-base font-semibold text-espresso">
-                  {sampleCartItem.name}
-                </h2>
-                <p class="text-xs text-gold-700 font-bengali">
-                  {sampleCartItem.nameBn}
-                </p>
-                <p class="text-xs text-clay">
-                  Premium Satin Ribbon & Gift Packaging Included
-                </p>
-              </div>
-
-              <div class="flex sm:flex-col items-center sm:items-end justify-between gap-2">
-                <span class="text-base font-bold text-espresso">
-                  {BRAND.currencySymbol}{sampleCartItem.price}
-                </span>
-                <span class="text-xs text-clay">Qty: {sampleCartItem.quantity}</span>
-              </div>
-            </div>
+          <div id="cartItemsList" class="border border-parchment-line rounded-[4px] overflow-hidden divide-y divide-parchment-line bg-parchment/40">
+            <!-- Populated dynamically from localStorage -->
           </div>
 
           <!-- Handwritten Note Reminder -->
@@ -68,7 +45,7 @@ const total = subtotal + giftWrapFee + deliveryFee;
             <div class="text-xs text-espresso/[0.85]">
               <p class="font-semibold text-espresso">Complimentary Hand-Written Card</p>
               <p class="mt-0.5">
-                You can write your personalized message on the next step during checkout.
+                You can write or edit your personalized message on the next step during checkout.
               </p>
             </div>
           </div>
@@ -87,24 +64,25 @@ const total = subtotal + giftWrapFee + deliveryFee;
           <div class="space-y-3 text-sm">
             <div class="flex justify-between text-clay">
               <span>Subtotal</span>
-              <span class="font-medium text-espresso">{BRAND.currencySymbol}{subtotal}</span>
+              <span id="cartSubtotal" class="font-medium text-espresso">{BRAND.currencySymbol}0</span>
             </div>
             <div class="flex justify-between text-clay">
               <span>Gift Wrapping</span>
-              <span class="font-medium text-espresso">{BRAND.currencySymbol}{giftWrapFee}</span>
+              <span id="cartGiftWrapFee" class="font-medium text-espresso">{BRAND.currencySymbol}100</span>
             </div>
             <div class="flex justify-between text-clay">
               <span>Estimated Delivery (Dhaka)</span>
-              <span class="font-medium text-espresso">{BRAND.currencySymbol}{deliveryFee}</span>
+              <span class="font-medium text-espresso">{BRAND.currencySymbol}80</span>
             </div>
             <div class="pt-3 border-t border-parchment-line flex justify-between text-base font-bold text-espresso">
               <span>Total Amount</span>
-              <span class="text-gold-700">{BRAND.currencySymbol}{total}</span>
+              <span id="cartTotal" class="text-gold-700">{BRAND.currencySymbol}0</span>
             </div>
           </div>
 
           <a
             href="/checkout"
+            id="proceedCheckoutBtn"
             class="btn-primary w-full py-3 text-sm font-bengali font-medium tracking-wide justify-center shadow"
           >
             অর্ডার করতে এগিয়ে যান
@@ -119,20 +97,94 @@ const total = subtotal + giftWrapFee + deliveryFee;
     </Container>
   </div>
 
-  <script is:inline define:vars={{
-    checkoutData: {
-      value: total,
-      currency: 'BDT',
-      num_items: sampleCartItem.quantity
-    }
-  }}>
-    const checkoutBtn = document.querySelector('a[href="/checkout"]');
-    if (checkoutBtn) {
-      checkoutBtn.addEventListener('click', () => {
-        if (typeof window !== 'undefined' && typeof window.fbq === 'function') {
-          window.fbq('track', 'InitiateCheckout', checkoutData);
-        }
+  <script>
+    import { getCart, updateCartQuantity, removeFromCart } from '../lib/cart';
+
+    const DELIVERY_FEE = 80;
+    const GIFT_WRAP_FEE = 100;
+
+    function renderCart() {
+      const items = getCart();
+      const emptyState = document.getElementById('emptyCartState');
+      const cartGrid = document.getElementById('cartGrid');
+      const itemsList = document.getElementById('cartItemsList');
+      const subtotalEl = document.getElementById('cartSubtotal');
+      const giftWrapEl = document.getElementById('cartGiftWrapFee');
+      const totalEl = document.getElementById('cartTotal');
+
+      if (!emptyState || !cartGrid || !itemsList) return;
+
+      if (items.length === 0) {
+        emptyState.classList.remove('hidden');
+        cartGrid.classList.add('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      cartGrid.classList.remove('hidden');
+
+      itemsList.innerHTML = items
+        .map(
+          (item) => `
+          <div class="p-4 sm:p-6 flex flex-col sm:flex-row gap-4 sm:items-center">
+            <img
+              src="${item.image || 'https://images.unsplash.com/photo-1543257580-7269da773bf5?w=200&auto=format&fit=crop&q=80'}"
+              alt="${item.name}"
+              class="w-20 h-20 object-cover rounded-[4px] bg-parchment-deep border border-parchment-line"
+            />
+            <div class="flex-1 space-y-1">
+              <h2 class="text-base font-semibold text-espresso">${item.name}</h2>
+              ${item.nameBn ? `<p class="text-xs text-gold-700 font-bengali">${item.nameBn}</p>` : ''}
+              <p class="text-xs text-clay">Premium Satin Ribbon &amp; Gift Packaging Included</p>
+              ${item.giftMessage ? `<p class="text-[11px] text-espresso/80 italic">Note: "${item.giftMessage}"</p>` : ''}
+            </div>
+            <div class="flex sm:flex-col items-center sm:items-end justify-between gap-2">
+              <span class="text-base font-bold text-espresso">৳${(item.price * item.quantity).toLocaleString('en-US')}</span>
+              <div class="flex items-center gap-2">
+                <button type="button" data-action="dec" data-id="${item.productId}" class="w-6 h-6 border border-parchment-line rounded text-xs font-bold hover:bg-parchment-deep">-</button>
+                <span class="text-xs font-semibold text-espresso w-5 text-center">${item.quantity}</span>
+                <button type="button" data-action="inc" data-id="${item.productId}" class="w-6 h-6 border border-parchment-line rounded text-xs font-bold hover:bg-parchment-deep">+</button>
+                <button type="button" data-action="remove" data-id="${item.productId}" class="ml-2 text-[11px] text-red-600 hover:underline">Remove</button>
+              </div>
+            </div>
+          </div>
+        `
+        )
+        .join('');
+
+      const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+      const total = subtotal + GIFT_WRAP_FEE + DELIVERY_FEE;
+
+      if (subtotalEl) subtotalEl.textContent = '৳' + subtotal.toLocaleString('en-US');
+      if (giftWrapEl) giftWrapEl.textContent = '৳' + GIFT_WRAP_FEE;
+      if (totalEl) totalEl.textContent = '৳' + total.toLocaleString('en-US');
+
+      itemsList.querySelectorAll('button[data-action]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const action = btn.getAttribute('data-action');
+          const id = btn.getAttribute('data-id');
+          if (!id) return;
+          if (action === 'inc') updateCartQuantity(id, 1);
+          else if (action === 'dec') updateCartQuantity(id, -1);
+          else if (action === 'remove') removeFromCart(id);
+          renderCart();
+        });
       });
     }
+
+    renderCart();
+
+    const checkoutBtn = document.getElementById('proceedCheckoutBtn');
+    checkoutBtn?.addEventListener('click', () => {
+      const items = getCart();
+      const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+      if (typeof window !== 'undefined' && typeof (window as any).fbq === 'function') {
+        (window as any).fbq('track', 'InitiateCheckout', {
+          value: subtotal + GIFT_WRAP_FEE + DELIVERY_FEE,
+          currency: 'BDT',
+          num_items: items.reduce((sum, item) => sum + item.quantity, 0),
+        });
+      }
+    });
   </script>
 </BaseLayout>

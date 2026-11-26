@@ -145,14 +145,52 @@ import { BRAND, BD_DIVISIONS } from '@meghpiyon/shared';
               <label class="border border-parchment-line p-4 rounded-[4px] cursor-pointer flex flex-col items-start gap-1 hover:border-gold-600/50">
                 <input type="radio" name="paymentMethod" value="bkash" class="text-gold-700" />
                 <span class="text-sm font-bold text-pink-600 mt-2 font-bengali">বিকাশ (bKash)</span>
-                <span class="text-[11px] text-clay font-bengali">বিকাশ গেটওয়েতে পেমেন্ট</span>
+                <span class="text-[11px] text-clay font-bengali">ম্যানুয়াল সেন্ড মানি (TrxID)</span>
               </label>
 
               <label class="border border-parchment-line p-4 rounded-[4px] cursor-pointer flex flex-col items-start gap-1 hover:border-gold-600/50">
                 <input type="radio" name="paymentMethod" value="nagad" class="text-gold-700" />
                 <span class="text-sm font-bold text-orange-600 mt-2 font-bengali">নগদ (Nagad)</span>
-                <span class="text-[11px] text-clay font-bengali">নগদ গেটওয়েতে পেমেন্ট</span>
+                <span class="text-[11px] text-clay font-bengali">ম্যানুয়াল সেন্ড মানি (TrxID)</span>
               </label>
+            </div>
+
+            <!-- Manual bKash / Nagad Send Money Instructions -->
+            <div id="manualPaymentBox" class="hidden rounded-[4px] border border-gold-600/40 bg-parchment p-4 space-y-4">
+              <div class="text-xs text-espresso font-bengali space-y-1">
+                <p class="font-semibold">
+                  নিচের পার্সোনাল নম্বরে <span id="manualMethodLabel" class="text-gold-700">বিকাশ</span> থেকে Send Money করুন:
+                </p>
+                <p class="font-sans text-sm font-bold text-espresso tracking-wide">
+                  {BRAND.supportPhone} <span class="text-[11px] font-normal text-clay font-bengali">(Personal)</span>
+                </p>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div class="space-y-1">
+                  <label for="paymentSender" class="block text-xs font-semibold text-espresso/[0.85] font-bengali">
+                    যে নম্বর থেকে পাঠিয়েছেন *
+                  </label>
+                  <input
+                    type="tel"
+                    id="paymentSender"
+                    name="paymentSender"
+                    placeholder="01700000000"
+                    class="input-field"
+                  />
+                </div>
+                <div class="space-y-1">
+                  <label for="paymentTrxId" class="block text-xs font-semibold text-espresso/[0.85] font-bengali">
+                    Transaction ID (TrxID) *
+                  </label>
+                  <input
+                    type="text"
+                    id="paymentTrxId"
+                    name="paymentTrxId"
+                    placeholder="যেমন: 9K7A2B1C3D"
+                    class="input-field uppercase"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -163,14 +201,22 @@ import { BRAND, BD_DIVISIONS } from '@meghpiyon/shared';
             অর্ডার সামারি
           </h3>
 
-          <div class="space-y-3 text-sm font-bengali">
+          <div id="emptyCheckoutNotice" class="hidden rounded-[4px] border border-amber-300 bg-amber-50 p-4 text-xs text-espresso font-bengali space-y-2">
+            <p class="font-semibold">আপনার ব্যাগে কোনো উপহার যোগ করা নেই।</p>
+            <div class="flex gap-3">
+              <a href="/shop" class="text-gold-700 underline font-semibold">উপহার দেখুন</a>
+              <a href="/build-gift" class="text-gold-700 underline font-semibold">হ্যাম্পার সাজান</a>
+            </div>
+          </div>
+
+          <div id="summaryBreakdown" class="space-y-3 text-sm font-bengali">
             <div class="flex justify-between text-clay">
               <span id="labelItems">উপহার সামগ্রী</span>
-              <span id="priceItems" class="font-medium text-espresso font-sans">{BRAND.currencySymbol}2,200</span>
+              <span id="priceItems" class="font-medium text-espresso font-sans">{BRAND.currencySymbol}0</span>
             </div>
             <div class="flex justify-between text-clay">
               <span id="labelPackaging">লাক্সারি গিফট বক্স প্যাকেজিং</span>
-              <span id="pricePackaging" class="font-medium text-espresso font-sans">{BRAND.currencySymbol}100</span>
+              <span id="pricePackaging" class="font-medium text-espresso font-sans">{BRAND.currencySymbol}0</span>
             </div>
             <div class="flex justify-between text-clay">
               <span>ডেলিভারি চার্জ</span>
@@ -178,12 +224,13 @@ import { BRAND, BD_DIVISIONS } from '@meghpiyon/shared';
             </div>
             <div class="pt-3 border-t border-parchment-line flex justify-between text-base font-bold text-espresso">
               <span>সর্বমোট প্রদেয়</span>
-              <span id="priceTotal" class="text-gold-700 font-sans">{BRAND.currencySymbol}2,380</span>
+              <span id="priceTotal" class="text-gold-700 font-sans">{BRAND.currencySymbol}0</span>
             </div>
           </div>
 
           <button
             type="submit"
+            id="placeOrderBtn"
             class="btn-primary w-full py-3.5 text-base font-bengali font-medium tracking-wide justify-center shadow"
           >
             অর্ডার নিশ্চিত করুন
@@ -197,116 +244,170 @@ import { BRAND, BD_DIVISIONS } from '@meghpiyon/shared';
     </Container>
   </div>
 
-  <script is:inline>
-    // Check if coming from Custom Hamper Builder
-    try {
-      const hamperDataStr = localStorage.getItem('meghpeon_custom_hamper');
-      if (hamperDataStr) {
-        const hamper = JSON.parse(hamperDataStr);
-        if (hamper && hamper.type === 'custom_hamper') {
-          // Pre-populate note
-          const noteField = document.getElementById('giftNote');
-          if (noteField && hamper.giftNote) {
-            noteField.value = hamper.giftNote;
-          }
-          // Pre-populate recipient name
-          const nameField = document.getElementById('fullName');
-          if (nameField && hamper.recipientName) {
-            nameField.value = hamper.recipientName;
-          }
+  <script>
+    import { submitOrder } from '../lib/api';
+    import { getCart, clearCart } from '../lib/cart';
 
-          // Update summary items
-          const labelItems = document.getElementById('labelItems');
-          const priceItems = document.getElementById('priceItems');
-          const labelPackaging = document.getElementById('labelPackaging');
-          const pricePackaging = document.getElementById('pricePackaging');
-          const priceTotal = document.getElementById('priceTotal');
+    const DELIVERY_FEE = 80;
+    const STANDARD_GIFT_WRAP_FEE = 100;
 
-          if (labelPackaging && hamper.box) {
-            labelPackaging.textContent = hamper.box.nameBn;
-            if (pricePackaging) pricePackaging.textContent = '৳' + hamper.box.price;
-          }
+    const labelItems = document.getElementById('labelItems');
+    const priceItems = document.getElementById('priceItems');
+    const labelPackaging = document.getElementById('labelPackaging');
+    const pricePackaging = document.getElementById('pricePackaging');
+    const priceTotal = document.getElementById('priceTotal');
+    const emptyNotice = document.getElementById('emptyCheckoutNotice');
+    const placeOrderBtn = document.getElementById('placeOrderBtn') as HTMLButtonElement | null;
+    const noteField = document.getElementById('giftNote') as HTMLTextAreaElement | null;
+    const nameField = document.getElementById('fullName') as HTMLInputElement | null;
 
-          if (labelItems && hamper.items) {
-            const itemsSum = hamper.items.reduce((sum, itemEntry) => {
-              return sum + (itemEntry.item ? itemEntry.item.price * itemEntry.quantity : 0);
-            }, 0);
-            const totalCount = hamper.items.reduce((sum, itemEntry) => sum + itemEntry.quantity, 0);
-            labelItems.textContent = `উপহার সামগ্রী (${totalCount}টি আইটেম)`;
-            if (priceItems) priceItems.textContent = '৳' + itemsSum;
-          }
-
-          if (priceTotal && hamper.totalPrice) {
-            const deliveryFee = 80;
-            const finalTotal = hamper.totalPrice + deliveryFee;
-            priceTotal.textContent = '৳' + finalTotal.toLocaleString('en-US');
+    function getActiveCheckoutSource() {
+      const cartItems = getCart();
+      if (cartItems.length > 0) {
+        return { source: 'cart' as const, cartItems, hamper: null };
+      }
+      try {
+        const hamperDataStr = localStorage.getItem('meghpeon_custom_hamper');
+        if (hamperDataStr) {
+          const hamper = JSON.parse(hamperDataStr);
+          if (hamper && hamper.type === 'custom_hamper' && Array.isArray(hamper.items) && hamper.items.length > 0) {
+            return { source: 'hamper' as const, cartItems: [], hamper };
           }
         }
+      } catch (e) {
+        console.warn('Hamper loader error', e);
       }
-    } catch (e) {
-      console.warn('Hamper loader error', e);
+      return { source: 'empty' as const, cartItems: [], hamper: null };
     }
 
-    const checkoutForm = document.querySelector('form');
+    const initial = getActiveCheckoutSource();
+
+    if (initial.source === 'hamper' && initial.hamper) {
+      const hamper = initial.hamper;
+      if (noteField && hamper.giftNote) noteField.value = hamper.giftNote;
+      if (nameField && hamper.recipientName) nameField.value = hamper.recipientName;
+
+      if (labelPackaging && hamper.box) {
+        labelPackaging.textContent = hamper.box.nameBn;
+        if (pricePackaging) pricePackaging.textContent = '৳' + hamper.box.price;
+      }
+
+      const itemsSum = hamper.items.reduce((sum: number, itemEntry: any) => {
+        return sum + (itemEntry.item ? itemEntry.item.price * itemEntry.quantity : 0);
+      }, 0);
+      const totalCount = hamper.items.reduce((sum: number, itemEntry: any) => sum + itemEntry.quantity, 0);
+      if (labelItems) labelItems.textContent = `উপহার সামগ্রী (${totalCount}টি আইটেম)`;
+      if (priceItems) priceItems.textContent = '৳' + itemsSum.toLocaleString('en-US');
+
+      const finalTotal = (hamper.totalPrice || itemsSum + (hamper.box?.price || 0)) + DELIVERY_FEE;
+      if (priceTotal) priceTotal.textContent = '৳' + finalTotal.toLocaleString('en-US');
+    } else if (initial.source === 'cart') {
+      const items = initial.cartItems;
+      const totalCount = items.reduce((sum, item) => sum + item.quantity, 0);
+      const itemsSum = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+      const firstNote = items.find((i) => i.giftMessage)?.giftMessage;
+      if (noteField && firstNote && !noteField.value) {
+        noteField.value = firstNote;
+      }
+
+      if (labelItems) labelItems.textContent = `উপহার সামগ্রী (${totalCount}টি আইটেম)`;
+      if (priceItems) priceItems.textContent = '৳' + itemsSum.toLocaleString('en-US');
+      if (pricePackaging) pricePackaging.textContent = '৳' + STANDARD_GIFT_WRAP_FEE;
+      if (priceTotal) priceTotal.textContent = '৳' + (itemsSum + STANDARD_GIFT_WRAP_FEE + DELIVERY_FEE).toLocaleString('en-US');
+    } else {
+      emptyNotice?.classList.remove('hidden');
+      if (placeOrderBtn) {
+        placeOrderBtn.disabled = true;
+        placeOrderBtn.classList.add('opacity-50', 'cursor-not-allowed');
+      }
+    }
+
+    const checkoutForm = document.getElementById('checkoutForm') as HTMLFormElement | null;
+    const manualPaymentBox = document.getElementById('manualPaymentBox');
+    const manualMethodLabel = document.getElementById('manualMethodLabel');
+    const paymentSenderInput = document.getElementById('paymentSender') as HTMLInputElement | null;
+    const paymentTrxIdInput = document.getElementById('paymentTrxId') as HTMLInputElement | null;
+
+    document.querySelectorAll('input[name="paymentMethod"]').forEach((radio) => {
+      radio.addEventListener('change', (e) => {
+        const val = (e.target as HTMLInputElement).value;
+        const isManual = val === 'bkash' || val === 'nagad';
+        manualPaymentBox?.classList.toggle('hidden', !isManual);
+        if (manualMethodLabel) {
+          manualMethodLabel.textContent = val === 'bkash' ? 'বিকাশ (bKash)' : 'নগদ (Nagad)';
+        }
+        if (paymentSenderInput) paymentSenderInput.required = isManual;
+        if (paymentTrxIdInput) paymentTrxIdInput.required = isManual;
+      });
+    });
+
     if (checkoutForm) {
       checkoutForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const submitBtn = checkoutForm.querySelector('button[type="submit"]');
-        const originalText = submitBtn.innerHTML;
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<span class="inline-block animate-spin mr-2">⏳</span>অর্ডার প্রসেসিং হচ্ছে...';
+        const active = getActiveCheckoutSource();
+        if (active.source === 'empty') {
+          alert('অনুগ্রহ করে প্রথমে শপ থেকে অন্তত একটি উপহার ব্যাগে যোগ করুন।');
+          return;
+        }
+
+        if (!placeOrderBtn) return;
+        const originalText = placeOrderBtn.innerHTML;
+        placeOrderBtn.disabled = true;
+        placeOrderBtn.innerHTML = '<span class="inline-block animate-spin mr-2">⏳</span>অর্ডার প্রসেসিং হচ্ছে...';
 
         try {
-          // Read form data
           const formData = new FormData(checkoutForm);
-          const fullName = formData.get('fullName');
-          const phone = formData.get('phone');
-          const division = formData.get('division') || 'Dhaka';
-          const district = formData.get('district');
-          const addressLine = formData.get('addressLine');
-          const deliveryNotes = formData.get('deliveryNotes') || '';
-          const giftNote = formData.get('giftNote') || '';
-          const giftWrap = formData.get('giftWrap') === 'on';
-          const paymentMethod = formData.get('paymentMethod') || 'cod';
+          const fullName = String(formData.get('fullName') || '').trim();
+          const phone = String(formData.get('phone') || '').trim();
+          const division = String(formData.get('division') || 'Dhaka');
+          const district = String(formData.get('district') || '').trim();
+          const addressLine = String(formData.get('addressLine') || '').trim();
+          const rawDeliveryNotes = String(formData.get('deliveryNotes') || '').trim();
+          const giftNote = String(formData.get('giftNote') || '').trim();
+          const paymentMethod = String(formData.get('paymentMethod') || 'cod');
+          const paymentSender = String(formData.get('paymentSender') || '').trim();
+          const paymentTrxId = String(formData.get('paymentTrxId') || '').trim();
 
-          // Items payload
-          let orderItems = [];
-          const hamperDataStr = localStorage.getItem('meghpeon_custom_hamper');
-          if (hamperDataStr) {
-            const hamper = JSON.parse(hamperDataStr);
-            if (hamper && hamper.items) {
-              orderItems = hamper.items.map(itemEntry => ({
-                productId: itemEntry.item?.id || 'custom-item',
-                name: itemEntry.item?.nameBn || itemEntry.item?.name || 'কাস্টম উপহার আইটেম',
-                price: Number(itemEntry.item?.price) || 500,
-                quantity: Number(itemEntry.quantity) || 1,
-                giftWrap: true,
-                giftMessage: giftNote,
-              }));
-              if (hamper.box) {
-                orderItems.unshift({
-                  productId: hamper.box.id,
-                  name: hamper.box.nameBn,
-                  price: hamper.box.price,
-                  quantity: 1,
-                  giftWrap: true,
-                });
-              }
-            }
+          let deliveryNotes = rawDeliveryNotes;
+          if (paymentMethod === 'bkash' || paymentMethod === 'nagad') {
+            const paymentInfo = `[${paymentMethod.toUpperCase()} Sender: ${paymentSender}, TrxID: ${paymentTrxId}]`;
+            deliveryNotes = (deliveryNotes ? `${deliveryNotes} | ${paymentInfo}` : paymentInfo).slice(0, 250);
           }
 
-          // Fallback if direct checkout
-          if (orderItems.length === 0) {
-            orderItems = [
-              {
-                productId: 'shonar-bangla-artisan-gift-box',
-                name: 'সোনার বাংলা উপহার বক্স',
-                price: 2200,
+          let orderItems: any[] = [];
+          let giftWrap = false;
+
+          if (active.source === 'cart') {
+            giftWrap = true;
+            orderItems = active.cartItems.map((item) => ({
+              productId: item.productId,
+              name: item.nameBn || item.name,
+              price: Number(item.price),
+              quantity: Number(item.quantity) || 1,
+              image: item.image,
+              giftWrap: true,
+              giftMessage: giftNote || item.giftMessage || undefined,
+            }));
+          } else if (active.source === 'hamper' && active.hamper) {
+            const hamper = active.hamper;
+            giftWrap = false; // box is included as a line item
+            orderItems = hamper.items.map((itemEntry: any) => ({
+              productId: itemEntry.item?.id || 'custom-item',
+              name: itemEntry.item?.nameBn || itemEntry.item?.name || 'কাস্টম উপহার আইটেম',
+              price: Number(itemEntry.item?.price) || 500,
+              quantity: Number(itemEntry.quantity) || 1,
+              giftWrap: true,
+              giftMessage: giftNote || undefined,
+            }));
+            if (hamper.box) {
+              orderItems.unshift({
+                productId: hamper.box.id,
+                name: hamper.box.nameBn,
+                price: Number(hamper.box.price),
                 quantity: 1,
-                giftWrap: giftWrap,
-                giftMessage: giftNote,
-              }
-            ];
+                giftWrap: true,
+              });
+            }
           }
 
           const orderPayload = {
@@ -317,36 +418,27 @@ import { BRAND, BD_DIVISIONS } from '@meghpiyon/shared';
               division,
               district,
               addressLine,
-              deliveryNotes,
+              deliveryNotes: deliveryNotes || undefined,
             },
             paymentMethod,
             giftWrap,
-            giftNote,
+            giftNote: giftNote || undefined,
           };
 
-          const res = await fetch('/api/v1/orders', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(orderPayload),
-          });
-
-          if (!res.ok) {
-            const errJson = await res.json().catch(() => ({}));
-            throw new Error(errJson.message || 'অর্ডার গ্রহণ করা সম্ভব হয়নি।');
+          const order = await submitOrder(orderPayload);
+          const orderNumber = order?.orderNumber;
+          if (!orderNumber) {
+            throw new Error('অর্ডার নম্বর পাওয়া যায়নি।');
           }
 
-          const result = await res.json();
-          const orderNumber = result.data?.orderNumber;
-
-          // Clear local storage hamper
+          clearCart();
           localStorage.removeItem('meghpeon_custom_hamper');
 
-          // Redirect to live track order page
           window.location.href = `/track-order?order=${encodeURIComponent(orderNumber)}`;
-        } catch (err) {
-          alert('ত্রুটি: ' + (err.message || 'অর্ডার করতে সমস্যা হয়েছে।'));
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = originalText;
+        } catch (err: any) {
+          alert('ত্রুটি: ' + (err?.message || 'অর্ডার করতে সমস্যা হয়েছে।'));
+          placeOrderBtn.disabled = false;
+          placeOrderBtn.innerHTML = originalText;
         }
       });
     }

@@ -161,12 +161,21 @@ const queryOrder = Astro.url.searchParams.get('order') || 'MP-17403';
             <span class="text-base">☎️</span>
             <span>জরুরি ডেলিভারি বা ঠিকানা পরিবর্তনের প্রয়োজন?</span>
           </div>
-          <div class="flex items-center gap-3">
+          <div class="flex flex-wrap items-center gap-3">
             <a
-              href="tel:+8801700000000"
+              id="whatsappConfirmLink"
+              href={`https://wa.me/88${BRAND.supportPhone}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1.5 rounded-[3px] bg-emerald-600 px-3 py-1.5 font-bengali text-xs font-semibold text-white hover:bg-emerald-700 transition-colors"
+            >
+              WhatsApp-এ কনফার্ম করুন
+            </a>
+            <a
+              href={`tel:+88${BRAND.supportPhone}`}
               class="font-sans font-semibold text-espresso hover:text-gold-700 transition-colors"
             >
-              +880 1700-000000
+              +88{BRAND.supportPhone}
             </a>
             <span class="text-parchment-line">|</span>
             <a
@@ -182,45 +191,47 @@ const queryOrder = Astro.url.searchParams.get('order') || 'MP-17403';
   </section>
 
   <!-- Script for Live Dynamic Fetching from Atlas Backend -->
-  <script is:inline>
-    async function loadLiveOrder(orderNumber) {
+  <script>
+    import { trackOrderApi } from '../lib/api';
+
+    async function loadLiveOrder(orderNumber: string) {
       const loadingBox = document.getElementById('loadingBox');
       const errorCard = document.getElementById('errorCard');
       const resultCard = document.getElementById('resultCard');
 
-      if (!orderNumber) return;
+      if (!orderNumber || !loadingBox || !errorCard || !resultCard) return;
 
       loadingBox.classList.remove('hidden');
       errorCard.classList.add('hidden');
       resultCard.classList.add('hidden');
 
       try {
-        const res = await fetch(`/api/v1/orders/${encodeURIComponent(orderNumber.trim())}`);
-        if (!res.ok) {
-          throw new Error('Order not found');
-        }
-        const json = await res.json();
-        const order = json.data;
+        const order = await trackOrderApi(orderNumber.trim());
 
         if (!order) throw new Error('Order data is empty');
 
         // Populate details
-        document.getElementById('displayOrderNum').textContent = order.orderNumber;
-        document.getElementById('displayCustomer').innerHTML = `প্রাপক: <strong class="text-espresso">${order.shippingAddress?.fullName || 'সম্মানিত গ্রাহক'}</strong> · ${order.shippingAddress?.district || 'ঢাকা'}`;
+        const displayOrderNum = document.getElementById('displayOrderNum');
+        const displayCustomer = document.getElementById('displayCustomer');
+        const displayStatus = document.getElementById('displayStatus');
+        if (displayOrderNum) displayOrderNum.textContent = order.orderNumber;
+        if (displayCustomer) {
+          displayCustomer.innerHTML = `প্রাপক: <strong class="text-espresso">${order.shippingAddress?.fullName || 'সম্মানিত গ্রাহক'}</strong> · ${order.shippingAddress?.district || 'ঢাকা'}`;
+        }
 
-        const statusMap = {
+        const statusMap: Record<string, string> = {
           pending: 'অর্ডার যাচাই প্রক্রিয়াধীন',
           processing: 'উপহার প্যাকিং ও সিলমোহর সম্পন্ন',
           shipped: 'কুরিয়ার ট্রানজিটে চলমান',
           delivered: 'সফলভাবে ডেলিভারি সম্পন্ন',
           cancelled: 'অর্ডার বাতিল করা হয়েছে'
         };
-        document.getElementById('displayStatus').textContent = statusMap[order.orderStatus] || order.orderStatus;
+        if (displayStatus) displayStatus.textContent = statusMap[order.orderStatus] || order.orderStatus;
 
         // Items
         const itemsContainer = document.getElementById('displayItems');
-        if (order.items && order.items.length > 0) {
-          itemsContainer.innerHTML = order.items.map(item => `
+        if (itemsContainer && order.items && order.items.length > 0) {
+          itemsContainer.innerHTML = order.items.map((item: any) => `
             <div class="flex justify-between items-center py-1">
               <span>🎁 ${item.name} × ${item.quantity || 1}</span>
               <span class="font-sans font-semibold">৳${(item.price * (item.quantity || 1)).toLocaleString('en-US')}</span>
@@ -228,13 +239,24 @@ const queryOrder = Astro.url.searchParams.get('order') || 'MP-17403';
           `).join('');
         }
 
-        document.getElementById('displayTotal').textContent = '৳' + (order.total || 0).toLocaleString('en-US');
-        document.getElementById('displayPaymentMethod').textContent = `পেমেন্ট: ${(order.paymentMethod || 'COD').toUpperCase()} (${order.paymentStatus || 'pending'})`;
+        const displayTotal = document.getElementById('displayTotal');
+        const displayPaymentMethod = document.getElementById('displayPaymentMethod');
+        if (displayTotal) displayTotal.textContent = '৳' + (order.total || 0).toLocaleString('en-US');
+        if (displayPaymentMethod) {
+          displayPaymentMethod.textContent = `পেমেন্ট: ${(order.paymentMethod || 'COD').toUpperCase()} (${order.paymentStatus || 'pending'})`;
+        }
+
+        const whatsappLink = document.getElementById('whatsappConfirmLink') as HTMLAnchorElement | null;
+        if (whatsappLink) {
+          const msg = `হ্যালো মেঘপিয়ন! আমার অর্ডার নম্বর ${order.orderNumber} (মোট: ৳${order.total || 0}) কনফার্ম করতে চাই।`;
+          const baseHref = whatsappLink.getAttribute('href')?.split('?')[0] || 'https://wa.me/8801789335268';
+          whatsappLink.href = `${baseHref}?text=${encodeURIComponent(msg)}`;
+        }
 
         // Timeline
         const timelineContainer = document.getElementById('displayTimeline');
-        if (order.timeline && order.timeline.length > 0) {
-          timelineContainer.innerHTML = order.timeline.map((event, idx) => {
+        if (timelineContainer && order.timeline && order.timeline.length > 0) {
+          timelineContainer.innerHTML = order.timeline.map((event: any, idx: number) => {
             const isLast = idx === order.timeline.length - 1;
             const eventDate = new Date(event.timestamp);
             const timeStr = eventDate.toLocaleTimeString('bn-BD', { hour: '2-digit', minute: '2-digit' });
@@ -265,7 +287,10 @@ const queryOrder = Astro.url.searchParams.get('order') || 'MP-17403';
         resultCard.classList.remove('hidden');
       } catch (err) {
         loadingBox.classList.add('hidden');
-        document.getElementById('errorMessage').textContent = `অর্ডার নম্বর '${orderNumber}' ডাটাবেজে পাওয়া যায়নি। অনুগ্রহ করে সঠিক ট্র্যাকিং নম্বর দিয়ে চেষ্টা করুন।`;
+        const errorMessage = document.getElementById('errorMessage');
+        if (errorMessage) {
+          errorMessage.textContent = `অর্ডার নম্বর '${orderNumber}' ডাটাবেজে পাওয়া যায়নি। অনুগ্রহ করে সঠিক ট্র্যাকিং নম্বর দিয়ে চেষ্টা করুন।`;
+        }
         errorCard.classList.remove('hidden');
       }
     }
@@ -273,14 +298,15 @@ const queryOrder = Astro.url.searchParams.get('order') || 'MP-17403';
     // On Load
     const params = new URLSearchParams(window.location.search);
     const initialOrder = params.get('order') || 'MP-17403';
-    document.getElementById('orderInput').value = initialOrder;
+    const orderInput = document.getElementById('orderInput') as HTMLInputElement | null;
+    if (orderInput) orderInput.value = initialOrder;
     loadLiveOrder(initialOrder);
 
     // Form submit listener
     const form = document.getElementById('trackForm');
-    form.addEventListener('submit', (e) => {
+    form?.addEventListener('submit', (e) => {
       e.preventDefault();
-      const num = document.getElementById('orderInput').value.trim();
+      const num = orderInput?.value.trim();
       if (num) {
         history.pushState(null, '', `?order=${encodeURIComponent(num)}`);
         loadLiveOrder(num);

@@ -208,13 +208,25 @@ const { product } = Astro.props;
             </p>
           </div>
 
-          <div class="mt-7 flex flex-col gap-3 sm:flex-row">
-            <a href="/cart" class="btn-gold flex-1 font-bengali text-sm tracking-wide">
+          <div
+            class="mt-7 flex flex-col gap-3 sm:flex-row"
+            id="productActions"
+            data-product={JSON.stringify({
+              productId: product.slug,
+              slug: product.slug,
+              name: product.name,
+              nameBn: product.nameBn,
+              price: product.discountPrice || product.price,
+              category: product.category,
+              image: product.image,
+            })}
+          >
+            <button type="button" id="addToCartBtn" class="btn-gold flex-1 font-bengali text-sm tracking-wide">
               ব্যাগে যোগ করুন
-            </a>
-            <a href="/checkout" class="btn-outline-dark flex-1 font-bengali text-sm tracking-wide">
+            </button>
+            <button type="button" id="buyNowBtn" class="btn-outline-dark flex-1 font-bengali text-sm tracking-wide">
               এখনই অর্ডার করুন
-            </a>
+            </button>
           </div>
 
           <div class="mt-7 rounded-[4px] border border-parchment-line bg-parchment-light p-5">
@@ -239,26 +251,54 @@ const { product } = Astro.props;
     </Container>
   </div>
 
-  <script is:inline define:vars={{
-    pixelProduct: {
-      content_name: product.name,
-      content_category: product.category,
-      content_ids: [product.slug],
-      value: product.discountPrice || product.price,
-      currency: 'BDT'
-    }
-  }}>
-    if (typeof window !== 'undefined' && typeof window.fbq === 'function') {
-      window.fbq('track', 'ViewContent', pixelProduct);
-    }
+  <script>
+    import { addToCart } from '../../lib/cart';
 
-    const cartBtn = document.querySelector('a[href="/cart"]');
-    if (cartBtn) {
-      cartBtn.addEventListener('click', () => {
-        if (typeof window.fbq === 'function') {
-          window.fbq('track', 'AddToCart', pixelProduct);
-        }
+    const actionsEl = document.getElementById('productActions');
+    const rawProduct = actionsEl?.getAttribute('data-product');
+    const productData = rawProduct ? JSON.parse(rawProduct) : null;
+
+    if (productData && typeof window !== 'undefined' && typeof (window as any).fbq === 'function') {
+      (window as any).fbq('track', 'ViewContent', {
+        content_name: productData.name,
+        content_category: productData.category,
+        content_ids: [productData.slug],
+        value: productData.price,
+        currency: 'BDT',
       });
     }
+
+    function handleAdd(redirectUrl: string) {
+      if (!productData) return;
+      const giftInput = document.getElementById('giftMessage') as HTMLTextAreaElement | null;
+      const giftMessage = giftInput?.value.trim() || undefined;
+
+      addToCart({
+        productId: productData.productId,
+        slug: productData.slug,
+        name: productData.name,
+        nameBn: productData.nameBn,
+        price: Number(productData.price),
+        quantity: 1,
+        image: productData.image,
+        giftWrap: true,
+        giftMessage,
+      });
+
+      if (typeof window !== 'undefined' && typeof (window as any).fbq === 'function') {
+        (window as any).fbq('track', 'AddToCart', {
+          content_name: productData.name,
+          content_category: productData.category,
+          content_ids: [productData.slug],
+          value: productData.price,
+          currency: 'BDT',
+        });
+      }
+
+      window.location.href = redirectUrl;
+    }
+
+    document.getElementById('addToCartBtn')?.addEventListener('click', () => handleAdd('/cart'));
+    document.getElementById('buyNowBtn')?.addEventListener('click', () => handleAdd('/checkout'));
   </script>
 </BaseLayout>

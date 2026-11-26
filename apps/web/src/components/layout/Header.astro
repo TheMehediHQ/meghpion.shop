@@ -106,7 +106,7 @@ const navLinks = [
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M6 8h12l1 12H5L6 8zm3 0V6a3 3 0 016 0v2" />
             </svg>
             <span class="text-[11px] font-semibold uppercase tracking-[0.12em]">Bag</span>
-            <span class="grid h-[18px] min-w-[18px] place-items-center rounded-full bg-gold-400 px-1 text-[10px] font-bold text-ink-deep">0</span>
+            <span id="nav-bag-count" class="grid h-[18px] min-w-[18px] place-items-center rounded-full bg-gold-400 px-1 text-[10px] font-bold text-ink-deep">0</span>
           </a>
 
           <!-- Mobile menu -->
@@ -148,6 +148,33 @@ const navLinks = [
 </header>
 
 <script>
+  import { getCart } from '../../lib/cart';
+
+  function updateBagCount() {
+    const bagBadge = document.getElementById('nav-bag-count');
+    if (!bagBadge) return;
+    const items = getCart();
+    let count = items.reduce((sum, item) => sum + (Number(item.quantity) || 1), 0);
+    if (count === 0) {
+      try {
+        const rawHamper = localStorage.getItem('meghpeon_custom_hamper');
+        if (rawHamper) {
+          const hamper = JSON.parse(rawHamper);
+          if (hamper && hamper.type === 'custom_hamper' && Array.isArray(hamper.items) && hamper.items.length > 0) {
+            count = hamper.items.reduce((sum: number, entry: any) => sum + (Number(entry.quantity) || 1), 0);
+          }
+        }
+      } catch {
+        // ignore
+      }
+    }
+    bagBadge.textContent = String(count);
+  }
+
+  updateBagCount();
+  window.addEventListener('meghpiyon-cart-updated', updateBagCount);
+  window.addEventListener('storage', updateBagCount);
+
   try {
     const rawUser = localStorage.getItem('meghpiyon_customer_user');
     const accountLink = document.getElementById('nav-account-link');

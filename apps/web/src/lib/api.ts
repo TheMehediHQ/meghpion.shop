@@ -120,6 +120,18 @@ function getAuthHeaders(includeContentType: boolean = true): Record<string, stri
   return headers;
 }
 
+function extractApiError(json: any, fallback: string): string {
+  const details = json?.error?.details;
+  const detailMsg = Array.isArray(details)
+    ? details
+        .map((d: any) => (d.field ? `${d.field}: ${d.message}` : d.message))
+        .filter(Boolean)
+        .join(', ')
+    : '';
+  const baseMsg = json?.error?.message || json?.message || fallback;
+  return detailMsg ? `${baseMsg} (${detailMsg})` : baseMsg;
+}
+
 export async function loginApi(emailOrPhone: string, password: string) {
   const url = getApiUrl('/auth/login');
   const res = await fetch(url.toString(), {
@@ -129,7 +141,7 @@ export async function loginApi(emailOrPhone: string, password: string) {
   });
   const json = await res.json().catch(() => ({}));
   if (!res.ok) {
-    throw new Error(json?.error?.message || json?.message || `Login failed (${res.status})`);
+    throw new Error(extractApiError(json, `Login failed (${res.status})`));
   }
   return json.data;
 }
@@ -149,7 +161,7 @@ export async function registerApi(payload: {
   });
   const json = await res.json().catch(() => ({}));
   if (!res.ok) {
-    throw new Error(json?.error?.message || json?.message || `Registration failed (${res.status})`);
+    throw new Error(extractApiError(json, `Registration failed (${res.status})`));
   }
   return json.data;
 }
@@ -161,7 +173,7 @@ export async function fetchStaffApi() {
   });
   const json = await res.json().catch(() => ({}));
   if (!res.ok) {
-    throw new Error(json?.error?.message || json?.message || `Failed to load staff (${res.status})`);
+    throw new Error(extractApiError(json, `Failed to load staff (${res.status})`));
   }
   return json.data || [];
 }
@@ -181,7 +193,7 @@ export async function createStaffApi(payload: {
   });
   const json = await res.json().catch(() => ({}));
   if (!res.ok) {
-    throw new Error(json?.error?.message || json?.message || `Failed to create staff (${res.status})`);
+    throw new Error(extractApiError(json, `Failed to create staff (${res.status})`));
   }
   return json.data;
 }
@@ -194,7 +206,7 @@ export async function deleteStaffApi(id: string) {
   });
   const json = await res.json().catch(() => ({}));
   if (!res.ok) {
-    throw new Error(json?.error?.message || json?.message || `Failed to remove staff (${res.status})`);
+    throw new Error(extractApiError(json, `Failed to remove staff (${res.status})`));
   }
   return json.data;
 }
@@ -208,7 +220,7 @@ export async function changePasswordApi(currentPassword: string, newPassword: st
   });
   const json = await res.json().catch(() => ({}));
   if (!res.ok) {
-    throw new Error(json?.error?.message || json?.message || `Failed to change password (${res.status})`);
+    throw new Error(extractApiError(json, `Failed to change password (${res.status})`));
   }
   return json.data;
 }
@@ -222,7 +234,7 @@ export async function resetStaffPasswordApi(id: string, newPassword: string) {
   });
   const json = await res.json().catch(() => ({}));
   if (!res.ok) {
-    throw new Error(json?.error?.message || json?.message || `Failed to reset staff password (${res.status})`);
+    throw new Error(extractApiError(json, `Failed to reset staff password (${res.status})`));
   }
   return json.data;
 }

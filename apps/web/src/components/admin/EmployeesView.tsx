@@ -19,6 +19,7 @@ export function EmployeesView({ currentUserId }: EmployeesViewProps) {
   const [staff, setStaff] = useState<StaffMember[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [modalError, setModalError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [resetTarget, setResetTarget] = useState<StaffMember | null>(null);
@@ -51,9 +52,16 @@ export function EmployeesView({ currentUserId }: EmployeesViewProps) {
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
-    setError(null);
+    setModalError(null);
     try {
-      const created = await createStaffApi({ name, email, phone, password, role });
+      const cleanPhone = phone.replace(/[\s-]/g, '').trim();
+      const created = await createStaffApi({
+        name: name.trim(),
+        email: email.trim().toLowerCase(),
+        phone: cleanPhone,
+        password,
+        role,
+      });
       setStaff((prev) => [created, ...prev]);
       setIsModalOpen(false);
       setName('');
@@ -62,7 +70,7 @@ export function EmployeesView({ currentUserId }: EmployeesViewProps) {
       setPassword('');
       setRole('employee');
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Failed to create staff member');
+      setModalError(err instanceof Error ? err.message : 'Failed to create staff member');
     } finally {
       setSubmitting(false);
     }
@@ -88,7 +96,10 @@ export function EmployeesView({ currentUserId }: EmployeesViewProps) {
           </p>
         </div>
         <button
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => {
+            setModalError(null);
+            setIsModalOpen(true);
+          }}
           className="inline-flex items-center gap-2 px-4 py-2.5 bg-ink hover:bg-burgundy-dark text-parchment border border-gold-500/40 rounded-[3px] text-xs font-semibold shadow-sm transition-colors"
         >
           <PlusIcon /> Add Employee / Staff
@@ -271,12 +282,21 @@ export function EmployeesView({ currentUserId }: EmployeesViewProps) {
             <div className="flex items-center justify-between border-b border-parchment-line pb-3">
               <h3 className="font-display text-lg font-semibold text-espresso">Add Staff Account</h3>
               <button
-                onClick={() => setIsModalOpen(false)}
+                onClick={() => {
+                  setModalError(null);
+                  setIsModalOpen(false);
+                }}
                 className="p-1 rounded-[3px] text-clay hover:text-espresso hover:bg-parchment-deep"
               >
                 <CloseIcon />
               </button>
             </div>
+
+            {modalError && (
+              <div className="p-3 text-xs rounded-[3px] bg-crimson-50 border border-crimson-300 text-crimson-700">
+                {modalError}
+              </div>
+            )}
 
             <form onSubmit={handleCreate} className="space-y-3.5 text-xs">
               <div className="space-y-1">

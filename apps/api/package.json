@@ -6,8 +6,10 @@
   "main": "./dist/server.js",
   "scripts": {
     "dev": "bun --watch src/server.ts",
-    "build": "bun --filter @meghpiyon/shared build && tsc && bun run bundle:vercel",
-    "bundle:vercel": "bun build src/index.ts --target=node --platform=node --format=cjs --outfile=dist-vercel/index.cjs",
+    "build": "bun --filter @meghpiyon/shared build && tsc --noEmit && bun run build:clean && bun run build:server && bun run bundle:vercel",
+    "build:clean": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\"",
+    "build:server": "bun build src/server.ts --target=node --platform=node --format=esm --external=express --external=cors --external=helmet --external=mongoose --external=zod --external=dotenv --outfile=dist/server.js",
+    "bundle:vercel": "bun build src/index.ts --target=node --platform=node --format=cjs --outfile=dist/_vercel.cjs && node -e \"require('fs').writeFileSync('dist/app.cjs', 'if (false) require(\\'express\\');\\nconst mod = require(\\'./_vercel.cjs\\');\\nmodule.exports = mod.default || mod;\\n')\"",
     "seed": "bun src/scripts/seed.ts",
     "admin:create": "bun src/scripts/create-superadmin.ts",
     "start": "bun dist/server.js",

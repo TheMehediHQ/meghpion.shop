@@ -5,6 +5,7 @@ node_modules/
 
 # Production build outputs
 apps/*/dist/
+apps/api/dist-vercel/
 build/
 .astro/
 !packages/shared/dist/

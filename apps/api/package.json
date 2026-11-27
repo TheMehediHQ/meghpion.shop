@@ -6,7 +6,8 @@
   "main": "./dist/server.js",
   "scripts": {
     "dev": "bun --watch src/server.ts",
-    "build": "bun --filter @meghpiyon/shared build && tsc",
+    "build": "bun --filter @meghpiyon/shared build && tsc && bun run bundle:vercel",
+    "bundle:vercel": "bun build src/index.ts --target=node --platform=node --format=cjs --outfile=dist-vercel/index.cjs",
     "seed": "bun src/scripts/seed.ts",
     "admin:create": "bun src/scripts/create-superadmin.ts",
     "start": "bun dist/server.js",

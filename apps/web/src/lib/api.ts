@@ -3,18 +3,35 @@
  * (using Vercel service binding API_URL) and client runtimes (browser relative path or dev host).
  */
 export function getApiBaseUrl(): string {
-  // 1. Server-side runtime (SSR / Vercel Functions / prerender)
+  const stripTrailingSlash = (url: string) => url.replace(/\/+$/, '');
+
+  // 1. Server-side runtime (SSR / Vercel Functions / prerender / SSG build)
   if (typeof window === 'undefined') {
+    // Vercel "services" binding: full service URL, so append the API prefix.
     const serviceBindingUrl = typeof process !== 'undefined' ? process.env?.API_URL : undefined;
     if (serviceBindingUrl) {
-      return `${serviceBindingUrl.replace(/\/$/, '')}/api/v1`;
+      return `${stripTrailingSlash(serviceBindingUrl)}/api/v1`;
     }
-    return import.meta.env.PUBLIC_API_URL || 'http://localhost:5000/api/v1';
+    // PUBLIC_API_URL, when provided, is expected to already include the /api/v1 prefix.
+    if (import.meta.env.PUBLIC_API_URL) {
+      return stripTrailingSlash(import.meta.env.PUBLIC_API_URL);
+    }
+    // Production builds MUST NOT fall back to a local dev server (127.0.0.1:5000),
+    // otherwise Astro SSG builds on Vercel fail/hang with ECONNREFUSED. Instead,
+    // route /api/v1 through the same origin via Vercel rewrites.
+    const isProd =
+      import.meta.env.PROD === true ||
+      import.meta.env.MODE === 'production' ||
+      (typeof process !== 'undefined' && process.env.NODE_ENV === 'production');
+    if (isProd) {
+      return '/api/v1';
+    }
+    return 'http://localhost:5000/api/v1';
   }
 
   // 2. Client-side runtime (Browser)
   if (import.meta.env.PUBLIC_API_URL) {
-    return import.meta.env.PUBLIC_API_URL;
+    return stripTrailingSlash(import.meta.env.PUBLIC_API_URL);
   }
 
   // When developing locally with separate frontend/backend ports and no PUBLIC_API_URL set
@@ -38,7 +55,16 @@ export function getApiUrl(endpoint: string): URL {
   return new URL(`${base}${cleanEndpoint}`, origin);
 }
 
+function hasServerApiOrigin(): boolean {
+  if (typeof window !== 'undefined') return true;
+  const base = getApiBaseUrl();
+  return base.startsWith('http://') || base.startsWith('https://');
+}
+
 export async function fetchProducts(category?: string, showAll: boolean = false) {
+  if (!hasServerApiOrigin()) {
+    return [];
+  }
   try {
     const url = getApiUrl('/products');
     if (category && category !== 'all') {
@@ -59,6 +85,9 @@ export async function fetchProducts(category?: string, showAll: boolean = false)
 }
 
 export async function fetchProductBySlug(slug: string) {
+  if (!hasServerApiOrigin()) {
+    return null;
+  }
   try {
     const url = getApiUrl(`/products/${slug}`);
     const res = await fetch(url.toString());

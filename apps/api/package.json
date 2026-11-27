@@ -8,6 +8,7 @@
     "dev": "bun --watch src/server.ts",
     "build": "bun --filter @meghpiyon/shared build && tsc",
     "seed": "bun src/scripts/seed.ts",
+    "admin:create": "bun src/scripts/create-superadmin.ts",
     "start": "bun dist/server.js",
     "lint": "tsc --noEmit",
     "typecheck": "tsc --noEmit"

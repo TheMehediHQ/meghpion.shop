@@ -28,14 +28,18 @@ export const createApp = (): Application => {
 
   // CORS configuration
   const allowedOrigins = env.CORS_ORIGIN.split(',').map((origin) => origin.trim());
+  const defaultProductionOrigins = ['https://meghpeon.shop', 'https://www.meghpeon.shop'];
   app.use(
     cors({
       origin: (origin, callback) => {
-        // Allow requests with no origin (like mobile apps, curl, server-to-server) or Vercel preview/production deployments
+        // Allow requests with no origin (mobile apps, curl, server-to-server),
+        // configured CORS_ORIGIN, production domain, or Vercel preview/production deployments
         if (
           !origin ||
           allowedOrigins.includes('*') ||
           allowedOrigins.includes(origin) ||
+          defaultProductionOrigins.includes(origin) ||
+          origin.endsWith('.meghpeon.shop') ||
           origin.endsWith('.vercel.app')
         ) {
           callback(null, true);
